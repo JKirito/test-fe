@@ -1,0 +1,44 @@
+@import '@/styles/utils/breakpoints.scss';
+
+.search-page {
+  height: calc(100vh - var(--e-header));
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  margin-top: var(--e-header);
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  border-top: none;
+  padding: 0;
+  max-width: 1600px; /* Increased max-width to accommodate charts in a row */
+  margin-left: auto;
+  margin-right: auto;
+
+  @include m {
+    max-width: 95%;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+    padding: var(--e-sp-16);
+  }
+
+  &__search-container {
+    margin-bottom: var(--e-sp-24);
+    width: 100%;
+  }
+
+  &__charts-container {
+    flex: 1;
+    overflow: hidden;
+    min-height: 600px; /* Ensure enough height for the charts */
+    display: flex;
+    flex-direction: column;
+  }
+}

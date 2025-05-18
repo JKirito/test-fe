@@ -1,0 +1,27 @@
+// Assuming variables like $spacing-sm, $font-size-sm, $color-text-secondary are defined
+
+.howto-filter-wrapper {
+  // Add any specific wrapper styles if needed, otherwise might be minimal
+
+  &__loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px; // Keep static height for now
+    // Add background, border etc. if desired for the loading state container
+  }
+
+  &__spinner {
+    // Assuming Spinner component itself doesn't handle color/size via props/classes
+    height: var(--e-sp-24); // $spacing-lg -> --e-sp-24 (h-6)
+    width: var(--e-sp-24); // $spacing-lg -> --e-sp-24 (w-6)
+    color: var(--e-system-blue-600); // $color-primary -> --e-system-blue-600
+    // animation handled by Spinner component or add here if needed
+  }
+
+  &__loading-text {
+    margin-left: var(--e-sp-8); // $spacing-sm -> --e-sp-8 (ml-2)
+    color: var(--e-grayscale-600); // $color-text-secondary -> --e-grayscale-600
+    font-size: var(--e-body-4); // $font-size-sm -> --e-body-4 (14px)
+  }
+}

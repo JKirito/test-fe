@@ -1,0 +1,153 @@
+@forward 'typography';
+@forward '../root/_container';
+
+@use '../utils/mixins' as mixins;
+
+// -------------------------- Mixins --------------------------
+
+@mixin e-btn-size($fontSize: 16px, $pdTopBot: 10px, $pdRightLeft: 24px, $minWidth: inherit) {
+	padding: $pdTopBot $pdRightLeft;
+	font-size: $fontSize;
+	min-width: $minWidth;
+}
+
+@mixin e-btn-color($bg: none, $color: none, $borderColor: none, $fontWeight: none) {
+	background: $bg;
+	color: $color;
+	border-color: $borderColor;
+	transition: all 200ms ease-in-out;
+}
+
+// -------------------------- Styles --------------------------
+.e-btn {
+	@include mixins.e-flex(row, center, center, var(--e-sp-8));
+	cursor: pointer;
+	text-align: center;
+	border-radius: var(--e-br-32);
+	outline: none;
+	border: 1px solid;
+	touch-action: manipulation;
+	user-select: none;
+	white-space: nowrap;
+	transition: all 200ms ease-in-out;
+
+	&:disabled {
+		@extend .e-crs-not-allowed;
+	}
+}
+
+.e-hyperlink {
+	color: var(--e-primary-500);
+}
+
+.e-btn-sm {
+	@include e-btn-size(14px, 8px, 8px, 100px);
+}
+
+.e-btn-md {
+	@include e-btn-size(16px, 10px, 12px, 120px);
+}
+
+.e-btn-full-width {
+	width: 100%;
+}
+
+.e-btn-primary {
+	@include e-btn-color(var(--e-primary-500), var(--e-grayscale-white), transparent);
+
+	&:hover {
+		@include e-btn-color(var(--e-primary-400), var(--e-grayscale-white), transparent);
+	}
+
+	&:focus {
+		@include e-btn-color(var(--e-primary-500), var(--e-grayscale-white), var(--e-system-yellow-300));
+	}
+
+	&:active {
+		@include e-btn-color(var(--e-primary-300), var(--e-grayscale-white), transparent);
+	}
+
+	&:disabled {
+		@include e-btn-color(var(--e-grayscale-200), var(--e-grayscale-400), transparent);
+	}
+}
+
+.e-btn-secondary {
+	@include e-btn-color(transparent, var(--e-grayscale-800), var(--e-grayscale-800));
+
+	&:hover {
+		@include e-btn-color(transparent, var(--e-grayscale-900), var(--e-grayscale-900));
+	}
+
+	&:focus {
+		@include e-btn-color(transparent, var(--e-grayscale-900), var(--e-grayscale-900));
+	}
+
+	&:active {
+		@include e-btn-color(transparent, var(--e-grayscale-950), var(--e-grayscale-950));
+	}
+
+	&:disabled {
+		@include e-btn-color(transparent, var(--e-grayscale-400), var(--e-grayscale-300));
+	}
+}
+
+.e-btn-tonal {
+	@include e-btn-color(var(--e-grayscale-950), var(--e-grayscale-white), transparent);
+
+	&:hover {
+		@include e-btn-color(var(--e-grayscale-800), var(--e-grayscale-white), transparent);
+	}
+
+	&:focus {
+		@include e-btn-color(var(--e-grayscale-800), var(--e-grayscale-white), transparent);
+	}
+
+	&:active {
+		@include e-btn-color(var(--e-grayscale-700), var(--e-grayscale-white), transparent);
+	}
+
+	&:disabled {
+		@include e-btn-color(var(--e-grayscale-200), var(--e-grayscale-400), transparent);
+	}
+}
+
+.e-btn-ghost {
+	@include e-btn-color(transparent, var(--e-grayscale-950), transparent);
+
+	&:hover {
+		@include e-btn-color(var(--e-primary-100), var(--e-grayscale-950), transparent);
+	}
+
+	&:focus {
+		@include e-btn-color(var(--e-primary-100), var(--e-grayscale-950), transparent);
+	}
+
+	&:active {
+		@include e-btn-color(var(--e-primary-200), var(--e-grayscale-950), transparent);
+	}
+
+	&:disabled {
+		@include e-btn-color(transparent, var(--e-grayscale-200), transparent);
+	}
+}
+
+.e-btn-ghost-link {
+	@include e-btn-color(transparent, var(--e-grayscale-950), transparent);
+
+	&:hover {
+		@include e-btn-color(transparent, var(--e-primary-500), transparent);
+	}
+
+	&:focus {
+		@include e-btn-color(transparent, var(--e-primary-500), transparent);
+	}
+
+	&:active {
+		@include e-btn-color(transparent, var(--e-primary-600), transparent);
+	}
+
+	&:disabled {
+		@include e-btn-color(transparent, var(--e-grayscale-200), transparent);
+	}
+}

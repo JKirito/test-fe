@@ -1,0 +1,151 @@
+.tiptap-editor-container {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.tiptap-menu {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 8px;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #f5f5f5;
+  gap: 4px;
+}
+
+.format-menu {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.table-menu {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.menu-bar {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  background-color: #f8f8f8;
+  padding: 8px;
+
+  button {
+    @extend .menu-button;
+  }
+}
+
+.menu-button {
+  background: rgba(61, 37, 20, 0.08);
+  border-radius: 2rem;
+  border: none;
+  color: #2e2b29;
+  font-family: 'Rubik', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.15;
+  padding: 0.375rem 0.625rem;
+  transition: all 0.2s cubic-bezier(0.65, 0.05, 0.36, 1);
+}
+
+.menu-button:hover {
+  background-color: #60d2fb;
+  color: #fff;
+}
+
+.menu-button.is-active {
+  background-color: #00b7ff;
+  border-color: #91d5ff;
+  color: #fff;
+}
+
+.menu-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.tiptap-editor {
+  padding: 16px;
+  min-height: 600px;
+  max-height: 1200px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: 'Rubik', sans-serif;
+
+  & > div {
+    outline: none;
+  }
+
+  &:focus {
+    outline: none; // Keep this for the outer container just in case
+  }
+
+  /* Import and apply base typography styles */
+  @import './typography-base';
+
+  /* Specific editor overrides or additions can go here */
+  .tiptap {
+    outline: none; // Base state
+
+    &:focus,
+    &:focus-visible {
+      outline: none !important; // Explicitly remove outline on focus, force override
+    }
+  }
+}
+
+.tiptap-editor-content {
+  outline: none;
+  min-height: 200px;
+
+  /* Placeholder styling */
+  p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    float: left;
+    color: #adb5bd;
+    /* pointer-events: none; */
+    height: 0;
+  }
+}
+
+/* Context Menu Styles */
+.tiptap-context-menu {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 8px;
+  z-index: 1000;
+  min-width: 200px;
+  max-width: 300px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.context-menu-section {
+  margin-bottom: 12px;
+}
+
+.context-menu-section:last-child {
+  margin-bottom: 0;
+}
+
+.context-menu-section h3 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #666;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #eee;
+}
+
+.context-menu-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}

@@ -1,0 +1,41 @@
+.abacus-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: var(--e-sp-16); // Mapped from gap-12 (12 * 4px = 48px)
+  margin-top: var(--e-sp-48); // Mapped from mt-12 (12 * 4px = 48px)
+  font-family: 'Rubik', sans-serif;
+  line-height: 114%;
+  width: 100%;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--e-sp-8);
+  }
+
+  &__logo {
+    width: var(--e-sp-56); // Mapped from w-14 (14 * 4px = 56px)
+    place-self: start;
+  }
+
+  &__title {
+    font-size: 28px;
+    color: var(--e-grayscale-950);
+    font-weight: 600; // Mapped from font-medium
+    margin: 0;
+  }
+
+  &__subtitle {
+    font-size: 14px;
+    color: var(--e-grayscale-950);
+    font-weight: 400;
+    letter-spacing: 0.28px;
+  }
+
+  &__progress-bar {
+    margin-left: auto;
+    min-width: 200px;
+  }
+}

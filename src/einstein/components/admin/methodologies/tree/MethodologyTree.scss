@@ -1,0 +1,29 @@
+.methodology-tree {
+  padding: 16px;
+  overflow-y: auto;
+  max-height: 100%;
+
+  &__node {
+    margin-bottom: 12px;
+  }
+
+  &__children {
+    margin-top: 12px;
+    margin-left: 24px;
+    border-left: 1px dashed var(--e-grayscale-300);
+    padding-left: 12px;
+  }
+
+  &__empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    background-color: var(--e-grayscale-50);
+    border-radius: 8px;
+    color: var(--e-grayscale-600);
+    font-style: italic;
+    text-align: center;
+    padding: 24px;
+  }
+}

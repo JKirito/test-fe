@@ -1,0 +1,71 @@
+// src/abacus/components/benchmark/components/BenchmarkProgress.scss
+
+// --- Variables (Use hardcoded or replace with theme variables) ---
+$progress-bg: #e9ecef; // Example background
+$progress-active-bg: #149ef6; // Using the blue from the success button
+$progress-fade-out: fadeOut 0.4s ease-out forwards;
+$text-primary: #212529; // Example primary text
+$text-secondary: #6c757d; // Example secondary text
+$text-success: #28a745; // Example success text
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+// --- Block ---
+.benchmark-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; // Example gap
+  width: 100%;
+}
+
+// --- Elements ---
+.benchmark-progress-list {
+  display: flex;
+  gap: 0.5rem; // Example gap
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.benchmark-progress-list__item {
+  flex: 1;
+  height: 8px; // Example height
+  background-color: $progress-bg;
+  border-radius: 4px; // e.g., e-br-32 if that means border-radius
+  transition: background-color 0.4s ease-in-out; // Smooth transition for activation
+
+  // --- Modifier ---
+  &--active {
+    background-color: $progress-active-bg;
+  }
+
+  // --- Modifier for animation ---
+  &--fade-out {
+    animation: $progress-fade-out;
+  }
+}
+
+.benchmark-progress-content {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem; // Example font size
+  font-family: 'Rubik', sans-serif;
+
+  span:first-child {
+    color: $text-secondary;
+    font-weight: 500; // Example weight
+  }
+
+  span:last-child {
+    color: $text-primary;
+    font-weight: 600; // Example weight
+  }
+}

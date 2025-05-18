@@ -1,0 +1,59 @@
+@use 'src/styles/utils/mixins' as utils;
+
+.tag {
+  // From: inline-flex items-center
+  display: flex;
+  @include utils.e-flex($justify: space-between, $direction: row, $align: center);
+  gap: var(--e-sp-6);
+
+  // From: bg-blue-100 text-blue-800
+
+  font-weight: 500;
+border-radius: 9999px;
+ border: 1px solid var(--Grayscale-800, #232D33);
+ padding: 6px 10px 6px 16px;;
+}
+
+.tag__label {
+  // No specific styles needed, inherits from .tag
+  color: var(--Grayscale-800, #232d33);
+  text-align: center;
+  /* stella-sun-studio-fonts/body/body-4-regular */
+  font-family: Rubik;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 144%;
+  /* 20.16px */
+  letter-spacing: 0.28px;
+  text-transform: lowercase;
+}
+
+.tag__removeButton {
+  // Reset button defaults
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+
+  // From: text-blue-600
+  color: var(--e-system-blue-600);
+
+  // Adjust font size/line height for the '×' character for better alignment
+  font-size: 1.2em; // Slightly larger for visual balance
+  line-height: 1; // Ensure tight line height
+
+  // From: hover:text-blue-800
+  &:hover {
+    color: var(--e-system-blue-800);
+  }
+
+  // From: focus:outline-none
+  &:focus {
+    outline: none;
+    // Optional: Add a visible focus ring using design system colors if needed
+    // box-shadow: 0 0 0 2px var(--e-primary-200);
+  }
+}

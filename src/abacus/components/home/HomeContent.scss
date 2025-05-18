@@ -1,0 +1,110 @@
+.homeContent {
+  &__main {
+    background-color: #fff;
+    padding: 16px;
+    border-radius: 24px;
+    max-width: 804px;
+    margin: 0 auto;
+    margin-top: 42px;
+    margin-bottom: 100px;
+  }
+}
+
+// Styles specific to HomeFormFirst layout
+.homeFormFirst__columnsContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); // Two equal-width columns
+  column-gap: 16px; // approx gap-40
+  align-items: start; // Align content to the top within each column cell
+  margin-top: 1.5rem; // mt-6
+
+  // Target the direct children (the column divs)
+  // Remove their specific width settings if grid handles it
+  // Keep internal flex/gap for items within the column
+  > div {
+    // width: auto; // Let grid control width - already w-full, might be fine
+  }
+}
+
+.homeForm__label {
+  font-size: 12px;
+}
+
+// Add to HomeContent.scss or create new HomeFormSecond.scss
+
+.homeFormSecond__section {
+  margin-top: 24px; // Add spacing between sections
+  width: 100%;
+  font-family: 'Rubik', sans-serif;
+}
+
+.homeFormSecond__sectionTitle {
+  color: var(--e-grayscale-950);
+  font-size: 14px;
+  font-weight: 500; // font-medium
+  margin-bottom: 0;
+  letter-spacing: 0.28px;
+}
+
+.homeFormSecond__questionList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem; // gap-7 equivalent
+  width: 100%;
+  margin-top: 16px;
+}
+
+.homeFormSecond__sectionSeparator {
+  height: 1px;
+  background-color: var(--e-grayscale-300);
+  margin-top: 24px;
+}
+
+.homeFormSecond__noQuestions {
+  // text-gray-600 text-center py-4
+  color: var(--e-grayscale-600); // Use variable
+  text-align: center;
+  padding: 1rem 0; // py-4 equivalent
+  width: 100%;
+}
+
+.homeFormSecond-files {
+  &__section {
+    margin-top: 24px;
+  }
+
+  &__sectionTitle {
+    font-family: 'Rubik', sans-serif;
+    color: var(--e-grayscale-950);
+    font-style: normal;
+    font-weight: 500;
+    line-height: 144%; /* 20.16px */
+    letter-spacing: 0.28px;
+    font-size: 14px;
+  }
+
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    max-width: 200px;
+    font-family: 'Rubik', sans-serif;
+    color: var(--e-grayscale-400);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 144%; /* 20.16px */
+    letter-spacing: 0.28px;
+    border-radius: 999px;
+    border: 1.5px solid var(--e-grayscale-400);
+    padding: 4px 12px 4px 8px;
+
+    img {
+      width: 24px;
+      height: 24px;
+    }
+  }
+}
+
+// TODO: Add specific styles or error state indication for UploadField if needed
+// .uploadFieldContainer.e-error { ... }

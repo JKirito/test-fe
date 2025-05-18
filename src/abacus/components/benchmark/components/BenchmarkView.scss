@@ -1,0 +1,212 @@
+// Assuming variables are imported from @styles, e.g., @import '@styles/theme/variables';
+
+.benchmark-view {
+  // Corresponds to: w-full mx-auto p-6
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  // padding: 24px; // Assuming 1 unit = 4px, p-6 = 24px
+
+  &__loader-container,
+  &__error-container {
+    // Corresponds to: w-full mx-auto p-6 (applied again for loading/error states)
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 24px;
+  }
+
+  &__loader-wrapper {
+    // Corresponds to: flex items-center justify-center h-64
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 256px; // h-64 = 16rem = 256px
+  }
+
+  &__loader {
+    // Corresponds to: animate-spin rounded-full h-12 w-12 border-b-2 border-primaryBlue
+    display: inline-block; // To make it behave like a block but fit content
+    border-radius: 50%;
+    height: 48px; // h-12
+    width: 48px; // w-12
+    border-bottom: 2px solid var(--primary-blue, #007bff); // Using CSS var fallback or SCSS var $color-primary-blue
+    animation: spin 1s linear infinite;
+    // Ensure @keyframes spin is defined globally or within this file
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  &__error-box {
+    // Corresponds to: mt-12 bg-red-50 border border-red-200 rounded-lg p-6
+    margin-top: 48px; // mt-12
+    background-color: var(--red-50, #fef2f2); // Or SCSS var $color-red-50
+    border: 1px solid var(--red-200, #fecaca); // Or SCSS var $color-red-200
+    border-radius: 8px; // rounded-lg
+    padding: 24px; // p-6
+  }
+
+  &__error-message {
+    // Corresponds to: text-red-600 text-center
+    color: var(--red-600, #dc2626); // Or SCSS var $color-red-600
+    text-align: center;
+  }
+
+  &__missing-selection {
+    // Corresponds to: text-center py-4 text-gray-500
+    text-align: center;
+    padding-top: 16px; // py-4
+    padding-bottom: 16px; // py-4
+    color: var(--gray-500, #6b7280); // Or SCSS var $color-gray-500
+  }
+
+  &__content-wrapper {
+    // Corresponds to: mt-0 (though margin is usually on outer container)
+    margin-top: 0;
+  }
+
+  &__content {
+    // Corresponds to: bg-white rounded-lg p-6
+    // background-color: var(--white, #ffffff); // Or SCSS var $color-white
+    // border-radius: 8px; // rounded-lg
+    // padding: 24px; // p-6
+    // Add shadow if needed, e.g., box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    padding-bottom: 6rem; // Add padding to prevent content from being hidden behind the fixed footer
+  }
+
+  &__header {
+    // Corresponds to: flex justify-between items-center mb-6
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px; // mb-6
+  }
+
+  &__title {
+    // Corresponds to: text-gray-700
+    color: var(--gray-700, #374151); // Or SCSS var $color-gray-700
+    // Add font-size, weight if needed
+  }
+
+  &__actions {
+    // Corresponds to: flex gap-4
+    width: 100%;
+    display: flex;
+    gap: 16px; // gap-4
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__button {
+    // Base button styles: px-6 py-2 rounded-full flex items-center gap-2
+    display: inline-flex; // Use inline-flex for button + icon alignment
+    align-items: center;
+    justify-content: center;
+    padding: 8px 24px; // py-2 px-6
+    border-radius: 9999px; // rounded-full
+    gap: 8px; // gap-2
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 500; // Example, adjust as needed
+    transition:
+      background-color 0.2s ease-in-out,
+      opacity 0.2s ease-in-out;
+
+    &:disabled {
+      // Corresponds to: disabled:opacity-50 disabled:cursor-not-allowed
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    // Element for icon inside button
+    &__icon {
+      // Corresponds to: h-4 w-4
+      height: 16px;
+      width: 16px;
+    }
+
+    // Modifier for Export button
+    &--export {
+      // Corresponds to: bg-green-600 text-white hover:bg-green-700
+      background-color: var(--e-primary-500, #16a34a); // Or SCSS var $color-green-600
+      color: var(--white, #ffffff); // Or SCSS var $color-white
+
+      &:not(:disabled):hover {
+        // Corresponds to: hover:bg-green-700
+        background-color: var(--e-primary-600, #15803d); // Or SCSS var $color-green-700
+      }
+    }
+
+    // Modifier for Back button
+    &--back {
+      // Corresponds to: bg-gray-100 text-gray-700 hover:bg-gray-200
+      background-color: var(--gray-100, #f3f4f6); // Or SCSS var $color-gray-100
+      color: var(--gray-700, #374151); // Or SCSS var $color-gray-700
+
+      &:not(:disabled):hover {
+        // Corresponds to: hover:bg-gray-200
+        background-color: var(--gray-200, #e5e7eb); // Or SCSS var $color-gray-200
+      }
+    }
+
+    // Modifier for Active button (used for toggle buttons)
+    &--active {
+      background-color: var(--e-primary-500, #149ef6); // Primary blue color
+      color: var(--white, #ffffff);
+
+      &:not(:disabled):hover {
+        background-color: var(--e-primary-600, #0e8ad8); // Darker blue on hover
+      }
+    }
+  }
+
+  &__table-container {
+    // No specific classes were applied, add padding/margin if needed
+  }
+
+  &__no-data {
+    // Corresponds to: text-center py-4 text-gray-500
+    text-align: center;
+    padding-top: 16px; // py-4
+    padding-bottom: 16px; // py-4
+    color: var(--gray-500, #6b7280); // Or SCSS var $color-gray-500
+  }
+
+  &__footer {
+    margin-top: 24px;
+    padding: 16px 0;
+    border-top: 1px solid var(--e-grayscale-200);
+  }
+
+  // Toggle container styles
+  &__toggle-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 16px;
+    background-color: var(--gray-100, #f3f4f6);
+    border-radius: 9999px;
+  }
+
+  &__toggle-label {
+    font-size: 14px;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+    white-space: nowrap;
+    color: var(--e-grayscale-950, #374151);
+  }
+
+  &__actions {
+    &--footer {
+      justify-content: flex-end;
+    }
+  }
+}

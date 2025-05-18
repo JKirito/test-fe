@@ -1,0 +1,159 @@
+// @use '@/styles/utils/mixins' as mx;
+
+$maskLogoSize: 400px;
+$maskEntryDelay: 0.6s;
+
+@keyframes maskMorphing {
+	0% {
+		border-top-right-radius: 100%;
+		border-bottom-right-radius: 100%;
+	}
+
+	100% {
+		border-top-right-radius: var(--e-br-48);
+		border-bottom-right-radius: var(--e-br-48);
+	}
+}
+
+@keyframes maskPrimaryDarkBgFade {
+	0% {
+		opacity: 0;
+		width: 0;
+		height: 0;
+		background-color: var(--e-primary-400);
+	}
+
+	100% {
+		opacity: 1;
+		width: $maskLogoSize;
+		height: $maskLogoSize;
+		background-color: var(--e-primary-700);
+	}
+}
+
+@keyframes maskLogoFadeBounce {
+	0% {
+		opacity: 0.5;
+		transform: translateY(64px);
+	}
+
+	30% {
+		opacity: 0.7;
+		transform: translateY(0);
+	}
+
+	60% {
+		opacity: 1;
+		transform: translateY(-48px);
+	}
+
+	100% {
+		transform: translateY(-24px);
+	}
+}
+
+@keyframes maskLogoScale {
+	0% {
+		opacity: 0;
+		width: 0;
+		height: 0;
+	}
+
+	100% {
+		opacity: 1;
+		width: calc($maskLogoSize / 1.5);
+		height: calc($maskLogoSize / 1.5);
+	}
+}
+
+@keyframes maskShapeFade {
+	0% {
+		opacity: 0;
+		transform: scale(0.5) rotate(0deg);
+	}
+
+	50% {
+		opacity: 0.4;
+		transform: scale(0.7) rotate(180deg);
+	}
+
+	100% {
+		opacity: 1;
+		transform: scale(1) rotate(360deg);
+	}
+}
+
+@keyframes gradient-animation {
+	0% {
+		background-position: 0% 50%;
+	}
+
+	50% {
+		background-position: 100% 50%;
+	}
+
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+.sign-in-mask {
+	position: relative;
+	z-index: 1000;
+	opacity: 0;
+	background: linear-gradient(90deg, var(--e-primary-200) 0%, var(--e-primary-400) 100%);
+	background-size: 400% 400%;
+	animation:
+		eFade calc($maskEntryDelay / 3) $maskEntryDelay ease-in-out forwards,
+		maskMorphing 0.8s ease-in-out forwards,
+		gradient-animation 6s infinite linear;
+
+	&-glass {
+		position: fixed;
+		height: 100%;
+		width: 50%;
+		opacity: 0;
+		animation:
+			eFade calc($maskEntryDelay * 2) $maskEntryDelay ease-in-out forwards,
+			maskMorphing 1s ease-in-out forwards;
+	}
+
+	&-shape {
+		position: fixed;
+		opacity: 0;
+		animation: maskShapeFade calc($maskEntryDelay * 2) $maskEntryDelay ease-in-out forwards;
+	}
+
+	&-logo {
+		@include mx.e-flex(column, center, center);
+		border-radius: var(--e-br-100);
+		background-color: var(--e-primary-700);
+		animation: maskPrimaryDarkBgFade calc($maskEntryDelay / 2) $maskEntryDelay ease-in-out forwards;
+
+		&__svg {
+			position: relative;
+			top: 50px;
+			animation:
+				maskLogoScale $maskEntryDelay $maskEntryDelay ease-in-out forwards,
+				maskLogoFadeBounce 3s ease-in-out forwards;
+		}
+
+		&__star,
+		&__bigstar {
+			position: relative;
+			opacity: 0;
+			transform: rotate(180deg);
+			animation: maskShapeFade 800ms calc($maskEntryDelay * 3) ease-in-out forwards;
+		}
+
+		&__star {
+			left: -50%;
+		}
+
+		&__bigstar {
+			width: 120px;
+			height: 120px;
+			right: -50%;
+		}
+	}
+}

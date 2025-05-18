@@ -1,0 +1,118 @@
+// -------------------------- Mixins --------------------------
+
+@mixin e-title($fontWeight: 400, $fontSize: 16px) {
+	font-weight: $fontWeight;
+	font-size: $fontSize;
+	line-height: 1.4;
+}
+
+// -------------------------- Headings --------------------------
+$headingSizes: (
+	1: var(--e-heading-1),
+	2: var(--e-heading-2),
+	3: var(--e-heading-3),
+	4: var(--e-heading-4),
+	5: var(--e-heading-5),
+	6: var(--e-heading-6)
+);
+
+@each $level, $size in $headingSizes {
+	h#{$level},
+	.e-heading-#{$level} {
+		@include e-title(400, $size);
+	}
+
+	.e-heading-b-#{$level} {
+		@include e-title(700, $size);
+	}
+}
+
+// -------------------------- Body Text --------------------------
+$bodyTextSizes: (
+	1: var(--e-body-1),
+	2: var(--e-body-2),
+	3: var(--e-body-3),
+	4: var(--e-body-4),
+	5: var(--e-body-5)
+);
+
+@each $level, $size in $bodyTextSizes {
+	.e-body-#{$level} {
+		@include e-title(400, $size);
+	}
+
+	.e-body-b-#{$level} {
+		@include e-title(700, $size);
+	}
+}
+
+p,
+li,
+span {
+	@include e-title(400, var(--e-body-4));
+}
+
+// -------------------------- Font Weight --------------------------
+
+@for $i from 100 through 900 {
+	.e-#{$i} {
+		font-weight: $i;
+	}
+}
+
+// -------------------------- Text Transforms --------------------------
+$transforms: uppercase, lowercase, capitalize;
+
+@each $transform in $transforms {
+	.e-#{$transform} {
+		text-transform: $transform;
+	}
+}
+
+// -------------------------- Font Styles --------------------------
+$styles: normal, italic, oblique;
+
+@each $style in $styles {
+	.e-#{$style} {
+		font-style: $style;
+	}
+}
+
+// -------------------------- Text Align --------------------------
+$aligns: left, center, right;
+
+@each $align in $aligns {
+	.e-#{$align} {
+		text-align: $align;
+	}
+}
+
+// -------------------------- Text Decoration --------------------------
+$decorations: underline, line-through;
+
+@each $decoration in $decorations {
+	.e-#{$decoration} {
+		text-decoration: $decoration;
+	}
+}
+
+.e-ellipsis {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.e-brand-title {
+	background: linear-gradient(90deg, var(--e-primary-500) 0%, var(--e-primary-400) 100%);
+	background-clip: text;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.e-no-selection {
+	user-select: none;
+}
+
+.e-grayscale-500 {
+	color: var(--e-grayscale-500);
+}

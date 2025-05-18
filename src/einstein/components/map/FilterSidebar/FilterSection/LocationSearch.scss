@@ -1,0 +1,110 @@
+// Block: location-search
+.location-search {
+  position: relative;
+  margin-bottom: var(--e-sp-8);
+
+  // Element: Input Wrapper
+  &__input-wrapper {
+    width: 100%;
+  }
+
+  // Element: Search Container (icon + input)
+  &__search-container {
+    display: flex;
+    align-items: center;
+    gap: var(--e-sp-6);
+    height: 35px;
+    padding: var(--spacing-6, 6px) var(--spacing-12, 12px);
+    border-radius: 9999px;
+    border: 1px solid var(--Grayscale-300, #d1d7db);
+  }
+
+  // Element: Search Icon
+  &__search-icon {
+    width: var(--e-sp-20);
+    height: var(--e-sp-20);
+    color: var(--e-grayscale-300);
+    flex-shrink: 0; // Prevent icon from shrinking
+  }
+
+  // Element: Input
+  &__input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Rubik', sans-serif;
+    font-size: var(--e-body-4);
+    color: var(--e-grayscale-950);
+    font-weight: 400;
+    width: 100%;
+
+    &::placeholder {
+      color: var(--e-grayscale-400);
+    }
+  }
+
+  // Element: Dropdown List
+  &__dropdown {
+    position: absolute;
+    z-index: 10;
+    background-color: var(--e-grayscale-white);
+    border: 1px solid var(--e-grayscale-200);
+    width: 100%;
+    border-radius: var(--e-br-24);
+    box-shadow: var(--e-shadow-base);
+    max-height: 250px;
+    padding: 0;
+    padding-top: var(--e-sp-8);
+    padding-bottom: var(--e-sp-8);
+    overflow-y: auto;
+    margin-top: var(--e-sp-4);
+  }
+
+  // Element: Dropdown Item
+  &__dropdown-item {
+    padding: var(--e-sp-8) var(--e-sp-16);
+    cursor: pointer;
+    font-family: 'Rubik', sans-serif;
+
+    &:hover {
+      background-color: var(--e-grayscale-100);
+    }
+
+    // Modifier: Loading state
+    &--loading {
+      color: var(--e-grayscale-500);
+      cursor: default;
+      &:hover {
+        background-color: transparent;
+      }
+    }
+  }
+
+  // Element: Dropdown Item Text
+  &__dropdown-item-text {
+    font-size: var(--e-fs-14);
+    color: var(--e-grayscale-900);
+  }
+
+  // Element: Clear button
+  &__clear-button {
+    background: none;
+    border: none;
+    color: var(--e-grayscale-500);
+    font-size: var(--e-fs-18);
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--e-sp-24);
+    height: var(--e-sp-24);
+    border-radius: 50%;
+
+    &:hover {
+      background-color: var(--e-grayscale-200);
+      color: var(--e-grayscale-900);
+    }
+  }
+}

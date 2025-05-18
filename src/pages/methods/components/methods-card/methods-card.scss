@@ -1,0 +1,135 @@
+@keyframes methodCardActive {
+	0% {
+		background-color: var(--e-grayscale-white);
+	}
+
+	50% {
+		background-color: var(--e-primary-100);
+	}
+
+	100% {
+		background-color: var(--e-grayscale-white);
+	}
+}
+
+.methods-card {
+	width: 100%;
+	position: relative;
+	box-shadow: var(--e-shadow-sm);
+	opacity: 0;
+	transform-origin: top center;
+	animation: eRotateX 300ms 600ms ease-in-out forwards;
+
+	&-content {
+		display: flex;
+		width: 100%;
+		justify-content: space-between;
+		align-items: center;
+		min-height: 32px; /* Ensure minimum height for content */
+	}
+
+	&-text {
+		flex: 1;
+		padding-right: 16px;
+		overflow-wrap: break-word;
+		max-width: calc(100% - 50px);
+		display: flex;
+		align-items: center; /* Vertically center the text */
+	}
+
+	&-actions {
+		display: flex;
+		align-items: center;
+		flex-shrink: 0;
+		min-width: 40px;
+		align-self: center;
+	}
+
+	&-container {
+		position: relative;
+		min-height: 64px;
+		height: 64px; /* Fixed height for all cards */
+		width: 100%;
+		min-width: initial;
+		border-radius: var(--e-br-16);
+		transition: all 300ms ease-in-out;
+		background-color: var(--e-grayscale-white);
+		padding: var(--e-sp-16) var(--e-sp-24);
+		display: flex;
+		align-items: center; /* Center content vertically */
+
+		/* Add styles for the paragraph to ensure proper text wrapping */
+		p.e-body-4 {
+			margin: 0;
+			white-space: normal; /* Allow text to wrap */
+			overflow: hidden; /* Hide overflow if needed */
+			display: -webkit-box;
+			-webkit-line-clamp: 2; /* Limit to 2 lines */
+			line-clamp: 2; /* Standard property for compatibility */
+			-webkit-box-orient: vertical;
+			word-wrap: break-word; /* Break long words if needed */
+			line-height: 1.4; /* Improve line spacing for readability */
+		}
+
+		&--sm {
+			height: 56px; /* Fixed height for small cards */
+			min-height: 56px;
+		}
+
+		&--active {
+			background-color: var(--e-grayscale-200);
+			animation: methodCardActive 6s infinite linear;
+		}
+
+		&:hover {
+			transition: all 300ms ease-in-out;
+			background-color: var(--e-primary-100);
+		}
+
+		&__overlay {
+			@include mx.e-flex(row, center, center); /* Center content both horizontally and vertically */
+			position: absolute;
+			left: 0;
+			top: 0;
+			bottom: 0; /* Make the overlay stretch to the bottom of the container */
+			z-index: -1;
+			height: 100%; /* Make overlay height match the container height */
+			width: 48px;
+			padding: 0; /* Remove padding to allow true centering */
+			background-color: var(--e-primary-200);
+			transition: all 300ms ease-in-out;
+			
+			/* Center the number vertically and horizontally */
+			span {
+				position: relative;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				text-align: center;
+			}
+
+			&--sm {
+				height: 100%; /* Make overlay height match the container height for small size */
+			}
+
+			&--supressed {
+				width: 0;
+				padding-left: 0;
+			}
+
+			&--active {
+				width: 100%;
+				background-color: var(--e-primary-400);
+				
+				/* When active, align the content to the left */
+				@include mx.e-flex(row, flex-start, center);
+				padding-left: 18px;
+				
+				span {
+					justify-content: flex-start;
+					text-align: left;
+				}
+			}
+		}
+	}
+}

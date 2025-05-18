@@ -1,0 +1,37 @@
+@import '@/styles/utils/breakpoints.scss';
+
+.benchmark-page {
+  height: calc(100vh - var(--e-header));
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  margin-top: var(--e-header);
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  border-top: none;
+  padding: 0;
+  max-width: 90%;
+  margin-top: calc(var(--e-header));
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: var(--e-sp-24);
+
+  // Header styles moved to GalileoHeader.scss
+
+  &__content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+  }
+
+  &__main {
+    flex: 1;
+    overflow: auto;
+    transition: margin-left 0.3s ease-in-out;
+    margin-top: var(--e-sp-24);
+  }
+}

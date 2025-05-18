@@ -1,0 +1,141 @@
+.custom-select {
+  &__container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  &__label {
+    margin-bottom: 0.25rem;
+    font-family: 'Rubik', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 24px;
+    color: #0f1214;
+  }
+
+  &__wrapper {
+    position: relative;
+  }
+
+  &__control {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 9999px;
+    border: 1px solid #d1d7db;
+
+    &:focus {
+      outline: none;
+      ring: 2px;
+      ring-color: #3b82f6;
+      border-color: #3b82f6;
+    }
+
+    &--disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      background-color: #f3f4f6;
+    }
+
+    &--size {
+      &-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+      }
+
+      &-md {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.875rem;
+      }
+
+      &-lg {
+        padding: 0.625rem 1rem;
+        font-size: 1rem;
+      }
+    }
+  }
+
+  &__value {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: 'Rubik', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #0f1214;
+    user-select: none;
+  }
+
+  &__icon {
+    margin-left: 0.5rem;
+    color: #6b7280;
+    transition: transform 0.2s ease;
+
+    &--open {
+      transform: rotate(180deg);
+    }
+
+    &--size {
+      &-sm {
+        width: 14px;
+        height: 14px;
+      }
+
+      &-md {
+        width: 16px;
+        height: 16px;
+      }
+
+      &-lg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+
+  &__dropdown {
+    position: absolute;
+    z-index: 50;
+    margin-top: 0.25rem;
+    width: 100%;
+    background-color: white;
+    border: 1px solid #e5e7eb;
+    max-height: 15rem;
+    overflow: auto;
+    border-radius: 16px;
+    background: #fff;
+    /* Shadow/shadow-md */
+    box-shadow:
+      0px 2px 20px -1px rgba(0, 0, 0, 0.08),
+      0px 2px 20px -2px rgba(0, 0, 0, 0.06);
+  }
+
+  &__option {
+    padding: 0.5rem 1rem;
+    font-family: 'Rubik', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #0f1214;
+    user-select: none;
+    cursor: pointer;
+
+    &:hover:not(&--disabled) {
+      background: var(--e-primary-50);
+    }
+
+    &--selected {
+      background-color: #ebf5ff;
+      color: #4f84f7;
+      font-weight: 500;
+    }
+
+    &--disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      color: #9ca3af;
+      background-color: #f9fafb;
+    }
+  }
+}

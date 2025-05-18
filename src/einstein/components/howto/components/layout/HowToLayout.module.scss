@@ -1,0 +1,49 @@
+.howtoLayout {
+  display: flex;
+  flex-direction: row; // Default: row for larger screens
+  gap: var(--e-sp-24);
+  margin-top: var(--e-sp-16);
+
+  .sidebar {
+    max-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--e-sp-16);
+    background-color: #fff;
+    border-radius: var(--e-br-24);
+    padding: var(--e-sp-16);
+    max-height: 0;
+    opacity: 0;
+    min-width: 300px;
+    // overflow: hidden;
+    animation-name: heightIn;
+    animation-duration: 1s;
+    animation-timing-function: ease-in;
+    animation-delay: 600ms;
+    animation-fill-mode: forwards;
+    position: sticky;
+    top: 120px;
+  }
+
+  .content {
+    flex: 1;
+    min-width: 0; // Prevents content overflow issues in flexbox
+    opacity: 0;
+    animation-duration: 600ms;
+    animation-timing-function: ease-in;
+    animation-delay: 900ms;
+    animation-fill-mode: forwards;
+  }
+}
+
+@keyframes heightIn {
+  from {
+    max-height: 0;
+    opacity: 0;
+  }
+  to {
+    max-height: 10000px;
+    height: 100%;
+    opacity: 1;
+  }
+}

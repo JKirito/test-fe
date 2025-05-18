@@ -1,0 +1,108 @@
+// src/abacus/components/home/components/fileUpload/SingleFileUpload.scss
+
+// --- Variables (Replace with actual project values or import) ---
+$border-color: #d1d7db;
+$button-bg: #0f1214;
+$button-text: #ffffff;
+$text-primary: #232d33;
+$text-secondary: #77868f;
+$base-bg: #ffffff;
+
+// --- Block ---
+.single-file-upload {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: 'Inter', sans-serif;
+  font-size: var(--e-body-3);
+  font-weight: 400;
+}
+
+// --- Elements ---
+.single-file-upload__container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border: 1px solid $border-color;
+  border-radius: 9999px; // rounded-full
+  overflow: hidden; // overflow-hidden
+  background-color: $base-bg;
+
+  // Modifier for disabled state
+  &--disabled {
+    background-color: #f0f0f0; // Example disabled background
+    cursor: not-allowed;
+  }
+}
+
+.single-file-upload__button {
+  background-color: $button-bg;
+  color: $button-text;
+  font-weight: 500; // font-medium
+  padding: 8px 16px 8px 16px;
+  border-radius: 9999px; // rounded-full (applied again for specificity if needed, could be inherited)
+  transition: background-color 0.2s ease-in-out; // transition-colors
+  border: none;
+  cursor: pointer;
+  white-space: nowrap; // Prevent button text wrapping
+
+  &:hover {
+    // Adjust hover effect - bg-opacity-90 is tricky without knowing the original color.
+    // Using a slightly lighter/different shade is common.
+    // Or use rgba if the button color is solid:
+    background-color: rgba($button-bg, 0.9); // Example: Simulates bg-opacity-90
+    // Alternatively, define a specific hover color: background-color: lighten($button-bg, 5%);
+  }
+}
+
+.single-file-upload__file-name {
+  padding: 8px 16px 8px 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-grow: 1; // Allow filename to take up remaining space
+  color: $text-secondary; // Default text color when no file selected
+
+  &--selected {
+    color: $text-primary; // Different color when file is selected
+  }
+}
+
+.single-file-upload__input {
+  display: none; // hidden
+}
+
+.single-file-upload__info {
+  margin-top: 1rem; // mt-4
+  padding: 1rem; // p-4
+  border: 1px solid $border-color;
+  border-radius: 0.5rem; // rounded-lg
+}
+
+.single-file-upload__info-name {
+  color: $text-primary;
+}
+
+.single-file-upload__info-size {
+  color: $text-secondary;
+  font-size: 0.875rem; // text-sm
+  line-height: 1.25rem;
+}
+
+.single-file-upload__remove-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem; // Adjust padding as needed
+  margin-left: 0.5rem; // Space it from the filename
+  border: none;
+  background-color: transparent;
+  color: $text-secondary;
+  cursor: pointer;
+  border-radius: 50%;
+
+  &:hover {
+    color: $text-primary;
+    background-color: rgba($text-secondary, 0.1);
+  }
+}

@@ -1,0 +1,340 @@
+$headerEntryDelay: 600ms;
+$headerLogoSize: 20px;
+$headerAvatarSize: 32px;
+
+// Define keyframes within the module
+@keyframes headerSlide {
+  0% {
+    transform: translateY(-64px) scale(0.9);
+  }
+  50% {
+    transform: translateX(0) scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes headerSearch {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 280px;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rotateX {
+  0% {
+    opacity: 0;
+    transform: rotateX(-90deg);
+  }
+  50% {
+    transform: rotateX(-20deg);
+  }
+  100% {
+    opacity: 1;
+    transform: rotateX(0deg);
+  }
+}
+
+.header {
+  @include mx.e-flex(row, initial, center);
+  height: var(--e-header);
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  opacity: 0;
+  transform: translateY(-64px);
+  background-color: var(--e-grayscale-white);
+  animation:
+    fadeIn calc($headerEntryDelay * 2) $headerEntryDelay ease-out forwards,
+    headerSlide $headerEntryDelay $headerEntryDelay cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+
+.headerContainer {
+  @include mx.e-flex(row, space-between, center);
+  max-width: var(--e-max-width);
+  padding: 0 var(--e-sp-40);
+  width: 100%;
+}
+
+.nav {
+  @include mx.e-flex(row, initial, center, var(--e-sp-24));
+}
+
+.logo {
+  @include mx.e-flex(row, initial, center, var(--e-sp-8));
+  transition: all 200ms ease-in-out;
+
+  &:hover {
+    transform: translateX(6px);
+  }
+
+  .img {
+    width: $headerLogoSize;
+    height: $headerLogoSize;
+    background-color: var(--e-primary-600);
+    // Note: Ensure e-br-100 e-pd-6 are applied in TSX if they are global utilities
+  }
+  // Note: Ensure e-body-2 e-600 e-crs-pointer are applied in TSX
+}
+
+.delimiter {
+  height: 16px;
+  width: 1px;
+  background-color: var(--e-grayscale-200);
+}
+
+.navList {
+  display: none;
+  margin-left: -8px;
+  font-family: 'Rubik', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+
+  @include bp.m {
+    @include mx.e-flex(row, initial, center, var(--e-sp-8));
+  }
+}
+
+.navButton {
+  // Apply global e-btn e-btn-sm e-btn-ghost in TSX
+  min-width: initial;
+  transition: all 200ms ease-in-out;
+  font-family: 'Rubik', sans-serif;
+  font-weight: 500;
+  font-size: 14px !important;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+button.navButtonActive {
+  // Base styles are applied via clsx in the component
+  background-color: var(--e-primary-100);
+}
+
+.actions {
+  @include mx.e-flex(row, initial, center, var(--e-sp-8));
+}
+
+.searchBar {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  .icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .input {
+    // Apply global e-input in TSX
+    padding-left: 40px !important;
+    padding-right: var(--e-sp-12);
+    padding-top: var(--e-sp-6);
+    padding-bottom: var(--e-sp-6);
+    width: 0;
+    font-size: var(--e-body-4);
+    font-family: 'Rubik', sans-serif;
+    animation: headerSearch 400ms cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+  }
+}
+
+.avatarWrapper {
+  position: relative;
+  @include mx.e-flex(row, center, center);
+  cursor: pointer;
+  border-radius: 50%;
+  &:focus-visible {
+    outline: 2px solid var(--e-primary-300);
+    outline-offset: 2px;
+  }
+}
+
+.avatar {
+  // Apply global e-br-100 e-crs-pointer in TSX
+  @include mx.e-flex(row, center, center);
+  width: $headerAvatarSize;
+  height: $headerAvatarSize;
+  border: 2px solid var(--e-primary-500);
+  border-radius: 50%;
+  transition: all 200ms ease-in-out;
+  &:hover {
+    background-color: var(--e-primary-500);
+    .avatarTitle {
+      // Target nested class
+      color: var(--e-grayscale-white);
+    }
+  }
+}
+
+.avatarTitle {
+  // Apply global e-body-5 in TSX
+  position: relative;
+  top: 1px;
+  color: var(--e-primary-700);
+  font-weight: 600;
+  user-select: none;
+  transition: all 200ms ease-in-out;
+}
+
+.avatarMenu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 150px;
+  background-color: var(--e-grayscale-white);
+  border: 1px solid var(--e-grayscale-200);
+  border-radius: var(--e-br-8);
+  box-shadow: var(--e-shadow-sm);
+  padding: var(--e-sp-8);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-sp-4);
+  opacity: 0;
+  transform: translateY(-10px);
+  animation: fadeIn 200ms ease-out forwards;
+}
+
+.avatarMenuItem {
+  text-align: left;
+  justify-content: flex-start;
+  padding: var(--e-sp-8) var(--e-sp-12);
+  width: 100%;
+  min-width: initial;
+  color: var(--e-grayscale-700);
+  font-family: 'Rubik', sans-serif;
+  font-size: var(--e-body-4);
+  font-weight: 400;
+  background: none; // Ensure button background is clean
+  border: none; // Ensure button border is clean
+  border-radius: var(--e-br-4); // Match hover style
+
+  &:hover,
+  &:focus-visible {
+    background-color: var(--e-grayscale-50);
+    color: var(--e-grayscale-900);
+    outline: none;
+  }
+}
+
+.avatarMenuItemLogout {
+  @extend .avatarMenuItem; // Inherit base styles
+  background-color: var(--e-grayscale-50);
+  color: var(--e-system-red-500);
+
+  &:hover,
+  &:focus-visible {
+    background-color: var(--e-grayscale-100); // Slightly darker hover for logout
+    color: var(--e-system-red-600);
+  }
+}
+
+.divider {
+  // Apply global divider class in TSX if it exists, or style here
+  height: 1px;
+  background-color: var(--e-grayscale-200);
+  margin: var(--e-sp-4) 0;
+}
+
+.burger {
+  // Apply global e-mg-l-16 e-crs-pointer in TSX
+  @include mx.e-flex(column, space-between);
+  height: 16px;
+  border-radius: var(--e-br-4);
+  padding: var(--e-sp-4);
+  margin-left: calc(var(--e-sp-16) - var(--e-sp-4));
+  background: none;
+  border: none;
+  &:focus-visible {
+    outline: 2px solid var(--e-primary-300);
+    outline-offset: 1px;
+  }
+
+  @include bp.m {
+    display: none;
+  }
+}
+
+.burgerMenu {
+  width: 20px;
+  height: 2px;
+  background-color: var(--e-grayscale-950);
+  transition: all 200ms ease-in-out;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.burgerMenuShow {
+  // This state class will be applied conditionally in TSX
+  &:first-child {
+    transform: rotate(-45deg) translate(-7px, 3px);
+  }
+
+  &:nth-of-type(2) {
+    opacity: 0;
+  }
+
+  &:last-child {
+    transform: rotate(45deg) translate(-7px, -3px);
+  }
+}
+
+.headerMobile {
+  position: fixed;
+  z-index: 1100;
+  top: var(--e-header);
+  height: calc(100dvh - var(--e-header));
+  width: 100%;
+  background-color: var(--e-grayscale-white);
+}
+
+.mobileNav {
+  @include mx.e-flex(column, initial, initial, var(--e-sp-16));
+  padding: var(--e-sp-24) var(--e-sp-40) var(--e-sp-40) var(--e-sp-40);
+}
+
+.mobileNavButton {
+  // Apply global e-btn e-btn-md e-btn-ghost-link in TSX
+  min-width: initial;
+  width: max-content;
+  padding: 0;
+  opacity: 0;
+  transform-origin: top center;
+  animation: rotateX 300ms ease-in-out forwards;
+
+  // Apply staggered delay using inline styles or JS in the component
+  // The SCSS @for loop won't work with dynamic mapping in React
+  // Example inline style: style={{ animationDelay: `${200 + index * 90}ms` }}
+
+  &:focus-visible {
+    outline: 2px solid var(--e-primary-300);
+    outline-offset: 2px;
+    background-color: var(--e-grayscale-50);
+  }
+}

@@ -1,0 +1,151 @@
+/* 
+  Animation Keyframes
+  These keyframes are defined globally within the scope of this module.
+  You generally won't refer to the keyframe names directly in components,
+  but rather use the exported classes below that apply these animations.
+*/
+@keyframes rotateX {
+  0% {
+    opacity: 0;
+    transform: rotateX(-90deg);
+  }
+  50% {
+    transform: rotateX(-20deg);
+  }
+  100% {
+    opacity: 1;
+    transform: rotateX(0deg);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeBlur {
+  0% {
+    opacity: 0.4;
+    filter: blur(100px);
+  }
+  50% {
+    opacity: 0.8;
+    filter: blur(20px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@keyframes accentTitle {
+  0% {
+    transform: translateY(-50px);
+    opacity: 0;
+    clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 80%);
+  }
+  50% {
+    transform: translateY(50px);
+    opacity: 0;
+    clip-path: polygon(100% 0, 100% -0%, 0 100%, 0 100%);
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+    clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 15%);
+  }
+}
+
+@keyframes heartbeat {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.2);
+  }
+  50% {
+    transform: scale(1);
+  }
+  75% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes headingSlideZoom {
+  0% {
+    transform: translateY(-50%) scale(0.9);
+  }
+  50% {
+    transform: translateY(0) scale(0.9);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* 
+  Exportable Animation Classes 
+  Import this module and use these class names to apply animations.
+  Example: import animationStyles from '@/styles/theme/animations.module.scss';
+           <div className={animationStyles.fadeBlur}>...</div>
+*/
+
+/* Simple fade in */
+.fade {
+  animation-name: fade;
+  /* Define default duration/timing or expect overrides */
+  /* Example default: animation-duration: 0.5s; animation-timing-function: ease; */
+}
+
+/* Simple fade out */
+.fadeOut {
+  animation-name: fadeOut;
+}
+
+/* Fade in with blur effect */
+.fadeBlur {
+  animation: fadeBlur 1.5s 500ms ease forwards; /* Added forwards */
+}
+
+/* Specific animation for accent titles */
+.accentTitle {
+  opacity: 0; /* Start transparent for animation */
+  clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 80%); /* Initial state matching keyframe 0% */
+  animation: accentTitle 2s 300ms ease forwards; /* Added forwards */
+}
+
+/* Specific animation for heading titles */
+.headingSlideZoom {
+  opacity: 0;
+  animation:
+    fade 1.6s 800ms ease-out forwards,
+    headingSlideZoom 800ms 800ms cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+
+/* Basic rotateX animation */
+.rotateX {
+  animation-name: rotateX;
+}
+
+/* Basic heartbeat animation */
+.heartbeat {
+  animation-name: heartbeat;
+}

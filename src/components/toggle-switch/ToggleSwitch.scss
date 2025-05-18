@@ -1,0 +1,78 @@
+.toggle-switch-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px; // Space between label and switch
+  cursor: default; // Use default cursor for the container
+}
+
+.toggle-switch-label {
+  cursor: pointer; // Pointer cursor for the label
+  user-select: none; // Prevent text selection on label click
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 40px; // Width of the toggle switch
+  height: 20px; // Height of the toggle switch
+  background-color: #ccc; // Default background (off state)
+  border: none;
+  border-radius: 20px; // Rounded corners
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  padding: 0; // Remove default button padding
+  box-sizing: border-box;
+  flex-shrink: 0; // Prevent shrinking in flex layouts
+
+  &:focus-visible {
+    outline: 2px solid blue; // Basic focus indicator
+    outline-offset: 2px;
+  }
+
+  &__track {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+  }
+
+  &__knob {
+    position: absolute;
+    top: 2px; // Position knob inside the track
+    left: 2px; // Starting position (off state)
+    width: 16px; // Knob diameter
+    height: 16px; // Knob diameter
+    background-color: white;
+    border-radius: 50%; // Make it circular
+    transition: transform 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); // Subtle shadow
+  }
+
+  /* On State */
+  &--on {
+    background-color: var(--e-primary-500, #2196f3); // Active background color (e.g., blue)
+
+    .toggle-switch__knob {
+      transform: translateX(20px); // Slide knob to the right
+    }
+  }
+
+  /* Disabled State */
+  &--disabled {
+    background-color: #e0e0e0; // Lighter grey for disabled
+    cursor: not-allowed;
+
+    .toggle-switch__knob {
+      background-color: #bdbdbd;
+    }
+  }
+}
+
+// Optional: Add hover effects if desired
+// .toggleSwitch:not(.disabled):hover {
+//   // Slightly change background or add shadow on hover
+// }

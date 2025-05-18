@@ -1,0 +1,39 @@
+@import '@/styles/_init.scss'; // Or import specific needed files
+// Note: Global styles like tiptap might need separate handling or global import
+@import '@/einstein/components/common/tiptapEditor/TipTapContent.module.scss';
+
+.contentSection {
+  font-family: 'Rubik', sans-serif;
+  line-height: 158%;
+  letter-spacing: 0.18px;
+  // margin-bottom: var(--e-sp-32);
+
+  ul {
+    list-style-type: disc;
+  }
+
+  .title {
+    font-size: var(
+      --e-heading-6
+    ); // Example: 24px -> Let's assume this should be body-2 as per original conflicting styles
+    font-weight: 600; // Semibold
+    color: var(--e-grayscale-950);
+    font-size: var(--e-body-2); // Keeping the last defined font-size
+    margin: 0;
+  }
+
+  .description {
+    margin-top: var(--e-sp-8);
+    font-size: var(--e-body-4);
+    color: var(--e-grayscale-950);
+    line-height: 1.6;
+
+    // Styles for HTML content within description
+    // These will apply to tags inside the dangerouslySetInnerHTML block
+    // If TipTapContent.scss handles these, these might be redundant or overrides
+    p {
+      margin-bottom: var(--e-sp-12);
+    }
+    // Add more styles as needed (e.g., ul, ol, strong, etc.)
+  }
+}

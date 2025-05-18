@@ -1,0 +1,24 @@
+.sidebarCard {
+  background: #fff;
+  border-radius: var(--e-br-24);
+  padding: var(--e-sp-16);
+}
+.sidebarCardContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-sp-8);
+  font-family: 'Rubik', sans-serif;
+}
+
+.sidebarCardTitle {
+  margin-top: 8px !important;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.sidebarCardDescription {
+  font-family: inherit;
+  font-size: 14px;
+  color: #667085;
+}

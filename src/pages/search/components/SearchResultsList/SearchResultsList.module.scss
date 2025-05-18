@@ -1,0 +1,54 @@
+// Styles specific to the SearchResultsList component
+
+.searchResultsInfo {
+  color: var(--e-color-text-secondary, #70757a);
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.searchResultsList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; // Gap between SearchResultItem components
+}
+
+// Common styles for feedback messages (loading, error, no results)
+.searchFeedback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--e-color-text-secondary, #70757a);
+  min-height: 200px; // Ensure it takes some space
+
+  span {
+    margin-top: 16px;
+    font-size: 16px;
+  }
+
+  h2 {
+    color: var(--e-color-text, #333);
+    margin-bottom: 8px;
+  }
+
+  p {
+    font-size: 14px;
+  }
+}
+
+.searchLoading {
+  // Specific styles for loading if needed, inherits from searchFeedback
+}
+
+.searchError {
+  // Specific styles for error if needed, inherits from searchFeedback
+  span {
+    color: var(--e-color-error, #d32f2f); // Ensure error text color is noticeable
+  }
+}
+
+.noResults {
+  // Specific styles for no results if needed, inherits from searchFeedback
+}

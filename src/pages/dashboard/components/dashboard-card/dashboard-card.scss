@@ -1,0 +1,57 @@
+// @use '@/styles/utils/mixins' as mx;
+// @use '@/styles/utils/breakpoints' as bp;
+
+$dashboardCardIconSize: 80px;
+
+.dashboard-card {
+	@include mx.e-flex(column, initial, flex-start, var(--e-sp-16));
+	width: 100%;
+	height: 248px;
+	opacity: 0;
+	transform-origin: top center;
+	transition: all 200ms ease-in-out;
+	animation: eRotateX 600ms ease-in-out forwards;
+	box-shadow: var(--e-shadow-base);
+	background-color: var(--e-grayscale-white);
+
+	@include bp.s {
+		width: calc(50% - var(--e-sp-12));
+	}
+
+	@include bp.l {
+		width: calc(33% - var(--e-sp-12));
+	}
+
+	@for $i from 1 through 10 {
+		&:nth-child(#{$i}) {
+			animation-delay: #{1000ms + $i * 90ms};
+		}
+	}
+
+	&:hover {
+		color: var(--e-grayscale-white);
+		background-color: var(--e-primary-500);
+		transition: all 200ms ease-in-out;
+
+		.dashboard-card-subtitle {
+			color: var(--e-grayscale-white);
+			transition: all 200ms ease-in-out;
+		}
+	}
+
+	&-icon {
+		@include mx.e-flex(column, center, center);
+		width: $dashboardCardIconSize;
+		height: $dashboardCardIconSize;
+		transition: all 200ms ease-in-out;
+	}
+
+	&-subtitle {
+		letter-spacing: 0.32px;
+		line-height: 150%;
+
+		@include bp.l {
+			font-size: var(--e-body-3);
+		}
+	}
+}

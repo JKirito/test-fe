@@ -1,0 +1,29 @@
+.how-to-page-content {
+  // height: calc(100vh - var(--e-header) - 16px); // Adjust height to account for header and padding
+  display: flex;
+  flex-direction: column;
+  margin-top: calc(var(--e-header)); // Add margin to push down from header
+  position: relative; // Add positioning context
+  top: 0; // Position at the top
+  left: 0; // Position at the left
+  right: 0; // Position at the right
+  border-top: none; // Remove any top border
+  padding: 0; // Remove any padding
+  // background-color: var(--e-grayscale-50);
+  margin-left: 80px;
+  margin-right: 80px;
+  margin-bottom: 80px;
+
+  &-header-and-filters {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    margin: 24px auto;
+    align-items: left;
+  }
+}
+.divider {
+  height: 1px;
+  background-color: var(--e-grayscale-300);
+  width: 100%;
+}

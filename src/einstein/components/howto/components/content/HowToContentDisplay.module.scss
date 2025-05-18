@@ -1,0 +1,92 @@
+.howtoContentDisplay {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-sp-16);
+  overflow-y: auto;
+  padding: var(--e-sp-16);
+  font-family: 'Rubik', sans-serif;
+
+  // Modifier/state classes for different scenarios
+  // These will be applied dynamically in the component
+  // e.g., className={`${styles.howtoContentDisplay} ${styles.message}`}
+  &.message,
+  &.loading,
+  &.prompt,
+  &.noContent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--e-sp-32);
+    min-height: 500px; // Ensure minimum height for message areas
+  }
+
+  &.loading {
+    height: 400px;
+  }
+
+  &.prompt,
+  &.noContent {
+    background-color: #fff;
+    border-radius: var(--e-br-24);
+    text-align: center;
+  }
+
+  // --- Specific element styles within states ---
+
+  .messageText,
+  .promptText,
+  .noContentText,
+  .placeholder {
+    color: var(--e-grayscale-600);
+  }
+
+  .spinner {
+    height: var(--e-sp-32);
+    width: var(--e-sp-32);
+    color: var(--e-system-blue-600);
+    margin-right: var(--e-sp-12);
+  }
+
+  .promptTitle,
+  .noContentTitle {
+    font-size: var(--e-body-1);
+    font-weight: 500;
+    color: var(--e-primary-900);
+    margin-bottom: var(--e-sp-8);
+  }
+
+  .promptContent {
+    // Container for prompt text
+  }
+
+  .missingFilters {
+    background-color: var(--e-system-yellow-50);
+    border: 1px solid var(--e-system-yellow-200);
+    padding: var(--e-sp-12);
+    border-radius: var(--e-br-8);
+    margin-top: var(--e-sp-16);
+  }
+
+  .missingTitle {
+    color: var(--e-system-yellow-800);
+    text-align: left;
+    font-weight: 500;
+  }
+
+  .missingList {
+    list-style: disc;
+    list-style-position: inside;
+    color: var(--e-system-yellow-700);
+    display: flex;
+    text-align: left;
+    flex-direction: column;
+    gap: var(--e-sp-4);
+    margin: 0;
+    margin-top: var(--e-sp-4);
+    padding: 0;
+  }
+
+  .noContentInner {
+    // Wrapper if needed
+  }
+}

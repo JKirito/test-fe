@@ -1,0 +1,10 @@
+// Styles for the cluster label text inside the marker
+.cluster-label {
+  font-weight: bold;
+  font-size: 14px !important; // Use !important cautiously, check if needed
+  position: relative;
+  top: -2px; // Adjust vertical alignment as needed
+  // Consider text-shadow for readability if background colors vary widely
+  // text-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
+  user-select: none;
+} 

@@ -1,0 +1,17 @@
+.chart-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__tools {
+    display: flex;
+    align-items: center;
+    gap: var(--e-sp-16);
+  }
+
+  &__cta {
+    display: flex;
+    align-items: center;
+    gap: var(--e-sp-16);
+  }
+}

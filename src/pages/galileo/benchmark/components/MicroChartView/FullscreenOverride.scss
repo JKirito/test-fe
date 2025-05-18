@@ -1,0 +1,28 @@
+/* Override z-index values for the fullscreen component */
+.micro-chart-view {
+  .fullscreen {
+    &--active {
+      z-index: 2001 !important; /* Higher than filter sidebar (1000) */
+      width: 95% !important; /* Take up more width */
+      height: calc(100% - var(--e-header) - var(--e-sp-24)) !important; /* Take up more height */
+      margin-top: calc(
+        var(--e-header) + var(--e-sp-12)
+      ) !important; /* Position closer to the top */
+    }
+
+    &__backdrop {
+      .fullscreen--active & {
+        z-index: 2000 !important; /* Lower than the container but higher than other elements */
+      }
+    }
+
+    &__content {
+      z-index: 2002 !important; /* Higher than both container and backdrop */
+      padding: var(--e-sp-24) !important; /* Increase padding for better spacing */
+    }
+
+    &__toggle {
+      z-index: 2003 !important; /* Highest z-index to stay on top */
+    }
+  }
+}

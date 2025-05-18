@@ -1,0 +1,47 @@
+// @use '@/styles/utils/mixins' as mx;
+
+$signInFormWidth: 448px;
+$formEntryDelay: 1s;
+
+@keyframes formSlideZoom {
+  0% {
+    transform: translateX(-100%) scale(0.9);
+  }
+
+  50% {
+    transform: translateX(0) scale(0.9);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.sign-in-form {
+  opacity: 0;
+  transform: scale(0.5);
+  transform: translateX(100%);
+  animation:
+    eFade calc($formEntryDelay * 2) $formEntryDelay ease-out forwards,
+    formSlideZoom $formEntryDelay $formEntryDelay cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+
+  &__container {
+    @include mx.e-flex(column, initial, center, var(--e-sp-8));
+    max-width: $signInFormWidth;
+
+    &-btn {
+      width: 240px;
+    }
+  }
+
+  &__powered {
+    @include mx.e-flex(row, initial, center, var(--e-sp-8));
+		position: absolute;
+		bottom: var(--e-sp-24);
+
+    &-img {
+      width: 113px;
+      height: 31px;
+    }
+  }
+}

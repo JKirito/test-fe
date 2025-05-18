@@ -1,0 +1,66 @@
+.howToHeader {
+  display: flex;
+  align-items: center; // Align items vertically for better layout
+  margin-top: var(--e-sp-40); // Use variable if available, otherwise 40px
+  gap: var(--e-sp-16); // Use variable if available, otherwise 16px
+
+  /* Animation properties applied when animationStyles.fade is also used */
+  opacity: 0; /* Start hidden for fade-in */
+  animation-duration: 1s; /* Example duration */
+  animation-delay: 600ms; /* The requested delay */
+  animation-fill-mode: forwards; /* Keep state after animation */
+
+  .iconContainer {
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+    display: flex; // Center image within container
+    justify-content: center;
+    align-items: center;
+
+    img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--e-sp-8); // Use variable if available, otherwise 8px
+  }
+
+  .title {
+    font-family: 'Rubik', sans-serif;
+    font-size: var(--e-heading-5); // Assuming 28px maps to heading-4 or similar
+    font-weight: 600;
+    line-height: 1.2; // Adjust line-height for better spacing
+    color: var(--e-grayscale-950); // Use variable
+    margin: 0;
+  }
+
+  .firstName {
+    font-family: 'Rubik', sans-serif;
+    color: var(--e-primary-500);
+    font-size: var(--e-heading-5);
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .description {
+    color: var(--e-grayscale-950); // Use variable
+    font-family: 'Rubik', sans-serif;
+    font-size: var(--e-body-4); // Assuming 14px maps to body-4 or similar
+    line-height: 1.5; // Adjust line-height
+    letter-spacing: 0.28px;
+    margin: 0; // Ensure no default margin
+  }
+
+  // Example if actions were used
+  // .actions {
+  //   display: flex;
+  //   align-items: center;
+  //   margin-left: auto;
+  // }
+}

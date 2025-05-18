@@ -1,0 +1,15 @@
+// SearchPage.scss
+// Using BEM notation for the search page components
+
+@use '../../../styles/utils/mixins.scss' as mixins;
+
+.abacus-search-page {
+  @include mixins.e-flex(column);
+  height: 100%;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: var(--e-sp-32); // 32px (px-8 in Tailwind)
+  min-width: 100%;
+  background-color: var(--e-grayscale-100);
+}

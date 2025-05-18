@@ -1,0 +1,222 @@
+// BenchmarkTable.scss
+// Using BEM notation for the table components
+
+@use '../utils/mixins.scss' as mixins;
+
+// Z-index variables
+$z-index-pinned: 10;
+$z-index-header: 20;
+$z-index-cell: 5;
+
+// No shadows for pinned columns to avoid visual artifacts
+
+// Table Container
+.benchmark-table {
+  position: relative;
+  border: 1px solid var(--e-grayscale-200);
+  border-radius: var(--e-br-24);
+  // height: 75vh;
+  height: 100%;
+  max-height: 75vh;
+  overflow: auto;
+
+  &__table {
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: separate; // Important for proper sticky positioning
+  }
+
+  // Table Header
+  &__thead {
+    position: sticky;
+    top: 0;
+    z-index: $z-index-header;
+  }
+
+  &__tr {
+    display: flex;
+    width: 100%;
+  }
+
+  &__th {
+    padding: var(--e-sp-8) var(--e-sp-16); // 8px 16px
+    text-align: right; // Default right alignment for subheaders
+    font-size: var(--e-body-5); // 12px
+    font-weight: 500; // semibold
+    color: var(--e-grayscale-950);
+    overflow: visible; // Changed from hidden to visible to allow for wrapping
+    white-space: normal; // Changed from nowrap to normal to allow for wrapping
+    word-wrap: break-word; // Added to handle long words
+    min-height: var(--e-sp-40); // Added minimum height to accommodate wrapped text
+    border-bottom: 1px solid var(--e-grayscale-200);
+    border-right: 1px solid var(--e-grayscale-200);
+    background-color: var(--e-grayscale-white);
+
+    // Project main headers should be left-aligned
+    &--project-main {
+      text-align: left;
+    }
+
+    &--pinned {
+      position: sticky;
+      background-color: var(--e-grayscale-200); // E5E9EB - Different background for pinned headers
+      z-index: $z-index-pinned;
+    }
+
+    &--right-pinned {
+      border-left: 1px solid var(--e-grayscale-300);
+    }
+
+    // Project header specific styling
+    &--project {
+      // Base styles for the project header
+
+      // Style all text elements inside project headers
+      span,
+      div,
+      button {
+        color: var(--e-grayscale-950, #9ca8af);
+        font-family: var(--Font-family, Rubik);
+        font-size: var(--e-body-5, 12px); // 12px
+        font-style: normal;
+        font-weight: 500;
+        line-height: 136%; // 16.32px
+        letter-spacing: 0.24px;
+      }
+    }
+  }
+
+  &__th-content {
+    overflow: visible; // Changed from hidden to visible
+    word-wrap: break-word; // Added to handle long words
+    display: flex; // Added to better control content layout
+    align-items: center; // Vertically center content
+    min-height: var(--e-sp-24); // Minimum height for content
+    width: 100%; // Ensure content takes full width
+    flex-direction: column; // Stack content vertically if needed
+    justify-content: center; // Center content vertically
+
+    // Ensure all content inside inherits styles from parent
+    & > div {
+      width: 100%;
+    }
+  }
+
+  // Project header specific classes
+  &__project-header {
+    width: 100%;
+  }
+
+  // Checkbox column should be center-aligned
+  &__checkbox-cell {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    // Custom styling for checkboxes
+    input[type='checkbox'] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border: 1px solid var(--e-grayscale-300);
+      border-radius: 4px;
+      outline: none;
+      cursor: pointer;
+      position: relative;
+      background-color: var(--e-grayscale-white);
+
+      &:checked {
+        background-color: var(--e-primary-500); // Use primary blue color
+        border-color: var(--e-primary-500);
+
+        &::after {
+          content: '';
+          position: absolute;
+          left: 5px;
+          top: 2px;
+          width: 5px;
+          height: 9px;
+          border: solid white;
+          border-width: 0 2px 2px 0;
+          transform: rotate(45deg);
+        }
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  // Rate header with space-between layout
+  &__rate-header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+
+    span {
+      text-transform: uppercase;
+      margin-right: var(--e-sp-12);
+    }
+  }
+
+  &__project-text {
+    color: var(--e-grayscale-950, #9ca8af);
+    font-family: var(--Font-family, Rubik);
+    font-size: var(--e-body-5, 12px); // 12px
+    font-style: normal;
+    font-weight: 500;
+    line-height: 136%; // 16.32px
+    letter-spacing: 0.24px;
+  }
+
+  // Description styling
+  &__description-cell {
+    text-align: left;
+    text-transform: capitalize;
+  }
+
+  &__description-header {
+    text-align: left;
+    width: 100%;
+  }
+
+  // Table Body
+  &__tbody {
+    background-color: var(--e-grayscale-white);
+  }
+
+  &__td {
+    padding: var(--e-sp-12) var(--e-sp-16); // 12px 16px
+    font-size: var(--e-body-4); // 14px
+    color: var(--e-grayscale-900);
+    border-bottom: 1px solid var(--e-grayscale-200);
+    border-right: 1px solid var(--e-grayscale-200);
+    text-align: right; // Right align all table cells by default
+
+    &--pinned {
+      position: sticky;
+      z-index: $z-index-cell;
+    }
+
+    &--right-pinned {
+      border-left: 1px solid var(--e-grayscale-300);
+    }
+
+    // Use the same background color for all rows regardless of depth
+    background-color: var(--e-grayscale-white);
+
+    &--pinned {
+      background-color: var(--e-grayscale-white); // Same white background for pinned cells
+    }
+
+    // Description column should be left-aligned
+    &--description {
+      text-align: left;
+    }
+  }
+}

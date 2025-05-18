@@ -1,0 +1,109 @@
+// Assuming variables like $spacing-md, $spacing-sm, $font-size-sm, $font-weight-semibold, $color-text-primary, $color-link, $color-link-hover, $color-background-secondary, $border-color are defined
+
+.howto-quick-links {
+  margin-top: var(--e-sp-16); // $spacing-md -> --e-sp-16 (mt-4)
+  font-family: 'Rubik', sans-serif;
+  line-height: 150%;
+  letter-spacing: 0.32px;
+  max-height: 500px;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--e-grayscale-300);
+    border-radius: 24px;
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    width: 6px;
+    background-color: var(--e-grayscale-100);
+  }
+
+  &__title {
+    font-size: var(--e-body-3); // $font-size-sm -> --e-body-4 (14px)
+    font-weight: 500; // $font-weight-semibold -> 600
+    color: var(--e-grayscale-950); // $color-text-primary -> --e-grayscale-700
+    margin-bottom: var(--e-sp-12); // $spacing-sm -> --e-sp-8 (mb-2)
+  }
+
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--e-sp-4); // $spacing-xs -> --e-sp-4 (space-y-1)
+
+    // Style for nested lists
+    &--nested {
+      // Add some visual distinction for nesting if desired
+      margin-top: var(--e-sp-4); // Space below parent item
+      // padding-left: var(--e-sp-16); // Or rely on item padding
+    }
+  }
+
+  &__item {
+    // The padding is now set inline based on depth
+    // Add any other general item styles here
+
+    &--overview {
+      list-style: none;
+      padding: 0; // Remove padding for overview item itself
+      margin: 0;
+    }
+  }
+
+  // Renamed from __overview-content for more general use
+  &__item-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  &__link {
+    display: block; // Match block
+    font-size: var(--e-body-4); // $font-size-sm -> --e-body-4 (14px)
+    color: var(--e-grayscale-950); // $color-link -> --e-system-blue-600
+    text-decoration: none; // Base style
+    transition:
+      color 0.2s ease,
+      font-weight 0.2s ease;
+    flex-grow: 1; // Allow link text to take available space
+    padding: var(--e-sp-4) 0; // Add some padding for better touch targets
+    border-left: 3px solid transparent; // Prepare for active state indicator
+
+    &:hover,
+    &:focus {
+      color: var(--e-primary-600); // $color-link-hover -> --e-system-blue-700
+    }
+
+    // Active state styling
+    &--active {
+      color: var(--e-primary-600); // Use primary color for active state
+      font-weight: 500; // Make active item bold
+      border-left-color: var(--e-primary-600); // Left border indicator
+      padding-left: var(--e-sp-4); // Add padding to offset the border
+      background-color: rgba(
+        var(--e-primary-500-rgb),
+        0.05
+      ); // Light background highlight using primary-500-rgb
+    }
+  }
+
+  &__toggle-button {
+    background: none;
+    border: none;
+    padding: var(--e-sp-4); // Small padding for click area
+    margin: 0;
+    margin-left: var(--e-sp-8); // Space between text and icon
+    cursor: pointer;
+    color: var(--e-grayscale-600); // Icon color (adjust as needed)
+    line-height: 0; // Prevent extra space from button line height
+    flex-shrink: 0; // Prevent icon from shrinking
+
+    &:hover {
+      color: var(--e-grayscale-950);
+    }
+  }
+}

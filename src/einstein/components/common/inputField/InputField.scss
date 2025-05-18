@@ -1,0 +1,133 @@
+@use 'src/styles/utils/mixins' as utils;
+
+.inputField {
+  // Root container
+  position: relative; // Needed for absolute positioning of suggestions
+
+  // Style label and border when error class is present
+  &.e-error {
+    .inputField__label {
+      color: var(--e-system-red-500);
+    }
+    .inputField__wrapper {
+      border-color: var(--e-system-red-500);
+      // Optional: Remove focus ring on error state?
+      // &:focus-within {
+      //     box-shadow: none;
+      // }
+    }
+  }
+}
+
+.inputField__label {
+  display: block;
+  font-size: var(--e-body-3); // 12px from Select.scss
+  font-weight: 500;
+  color: var(--e-grayscale-950);
+  margin-bottom: var(--e-sp-6); // 6px
+  text-transform: capitalize;
+  font-family: 'Rubik', sans-serif;
+  line-height: 136%;
+  letter-spacing: 0.24px;
+  user-select: none;
+}
+
+.inputField__wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border-radius: 9999px; // Pill shape like Select
+  border: 1px solid var(--e-grayscale-300);
+  background-color: var(--e-grayscale-white);
+  transition:
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+
+  &:focus-within {
+    outline: none;
+    border-color: var(--e-primary-500);
+    box-shadow: 0 0 0 3px var(--e-primary-200); // Same focus as Select
+  }
+}
+
+.inputField__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: var(--e-sp-12); // 12px
+  color: var(--e-grayscale-500); // Same as Select icon color
+  height: 1.25rem; // Match select icon height
+  width: 1.25rem; // Match select icon width
+}
+
+.inputField__input {
+  flex-grow: 1;
+  width: 100%; // Ensure it takes available space
+  padding: var(--e-sp-8) var(--e-sp-12); // 8px 12px, same as Select trigger
+  border: none;
+  background-color: transparent;
+  font-size: var(--e-body-4); // 14px from Select
+  color: var(--e-grayscale-800); // Same as Select text
+  border-radius: inherit; // Inherit pill shape
+
+  &:focus {
+    outline: none; // Remove default focus, handled by wrapper
+  }
+
+  &::placeholder {
+    color: var(--e-grayscale-500);
+    text-transform: capitalize;
+  }
+}
+
+// Adjust padding when icon is present
+.inputField__wrapper--with-icon {
+  .inputField__input {
+    padding-left: var(--e-sp-8); // Reduce left padding to make space for icon
+  }
+}
+
+// --- Suggestions Dropdown Styles ---
+.inputField__suggestions {
+  position: absolute;
+  top: 100%; // Position below the input wrapper
+  left: 0;
+  right: 0;
+  background-color: var(--e-grayscale-white);
+  border: 1px solid var(--e-grayscale-300);
+  border-radius: var(--e-br-16); // Match select dropdown bottom radius
+  z-index: 20; // Ensure it overlaps content below
+  max-height: 10rem; // Limit height
+  overflow-y: auto;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 2px; // Overlap border slightly if border-top: none is used
+}
+
+.inputField__suggestionItem {
+  padding: var(--e-sp-8) var(--e-sp-12); // Match input padding
+  font-size: var(--e-body-4);
+  color: var(--e-grayscale-800);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--e-grayscale-50);
+  }
+}
+
+.inputField__suggestionItem--loading {
+  padding: var(--e-sp-8) var(--e-sp-12);
+  font-size: var(--e-body-4);
+  color: var(--e-grayscale-500); // Dim loading text
+  font-style: italic;
+}
+// --- End Suggestions ---
+
+// Optional error message styling
+.inputField__errorMessage {
+  display: block;
+  font-size: var(--e-caption-1); // Example size
+  color: var(--e-system-red-500);
+  margin-top: var(--e-sp-4);
+  padding-left: var(--e-sp-12); // Align with input text start
+}

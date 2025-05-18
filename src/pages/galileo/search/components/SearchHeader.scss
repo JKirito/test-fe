@@ -1,0 +1,60 @@
+.project-search-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--e-sp-16);
+  margin: 0;
+  padding: var(--e-sp-16);
+  margin-top: var(--e-sp-10);
+  font-family: 'Rubik', sans-serif;
+  border-bottom: 0 !important;
+  line-height: 114%;
+  width: 100%;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--e-sp-8);
+  }
+
+  &__logo {
+    width: var(--e-sp-56);
+    height: var(--e-sp-56);
+    object-fit: contain;
+  }
+
+  &__title {
+    font-size: 28px;
+    color: var(--e-grayscale-950);
+    font-weight: 600;
+    margin: 0;
+  }
+
+  &__subtitle {
+    font-size: 14px;
+    color: var(--e-grayscale-600);
+    font-weight: 400;
+    letter-spacing: 0.28px;
+    margin: 0;
+  }
+
+  // Button group is now handled by e-btn-group class
+  .e-btn-group {
+    margin-left: auto;
+    min-width: 300px; /* Increased space for buttons */
+    display: flex;
+    gap: var(--e-sp-8);
+  }
+
+  &__copy-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--e-sp-8);
+  }
+
+  &__icon {
+    margin-right: var(--e-sp-4);
+  }
+}

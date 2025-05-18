@@ -1,0 +1,21 @@
+.chart-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: var(--e-grayscale-950);
+  line-height: 158%; /* 28.44px */
+  letter-spacing: 0.18px;
+
+  &__title {
+    font-size: var(--e-body-2);
+    font-weight: 500;
+    margin: 0;
+    margin-bottom: var(--e-sp-8);
+    max-width: 90%;
+  }
+
+  &__description {
+    font-size: var(--e-body-4);
+    font-weight: 400;
+  }
+}

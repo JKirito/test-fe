@@ -1,0 +1,153 @@
+// Button Variants - Additional button styles for the design system
+// These styles complement the existing button styles in _button.scss
+
+@use '../utils/mixins' as mixins;
+
+// Common button base styles
+.e-btn-base {
+  padding: var(--e-sp-8) var(--e-sp-16);
+  font-size: var(--e-body-4);
+  font-weight: 500;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 9999px; // Pill shape
+  transition:
+    background-color 150ms ease-in-out,
+    color 150ms ease-in-out,
+    border-color 150ms ease-in-out;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+// Apply button - Primary action button with blue background
+.e-btn-apply {
+  @extend .e-btn-base;
+  flex: 1 1 0%;
+  border: none;
+  background: var(--e-primary-500);
+  color: var(--e-grayscale-white);
+
+  &:hover:not(:disabled) {
+    background-color: var(--e-primary-600);
+  }
+
+  &:focus:not(:disabled) {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(var(--e-primary-500-rgb), 0.3);
+  }
+
+  &:disabled {
+    background: var(--e-grayscale-400);
+  }
+}
+
+// Reset button - Secondary action button with light gray background
+.e-btn-reset {
+  @extend .e-btn-base;
+  flex: 1 1 0%;
+  background-color: var(--e-grayscale-100);
+  color: var(--e-grayscale-700);
+  border: none;
+
+  &:hover:not(:disabled) {
+    background-color: var(--e-grayscale-200);
+  }
+
+  &:focus:not(:disabled) {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(var(--e-grayscale-400-rgb), 0.3);
+  }
+}
+
+// Outline button - Button with border and transparent background
+.e-btn-outline {
+  @extend .e-btn-base;
+  background-color: transparent;
+  color: var(--e-grayscale-800);
+  border: 1.5px solid var(--e-grayscale-800);
+
+  &:hover:not(:disabled) {
+    background-color: var(--e-grayscale-100);
+  }
+
+  &:focus:not(:disabled) {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(var(--e-grayscale-400-rgb), 0.3);
+  }
+
+  &:disabled {
+    border-color: var(--e-grayscale-400);
+    color: var(--e-grayscale-400);
+  }
+}
+
+// Export button - Button for exporting data
+.e-btn-export {
+  @extend .e-btn-base;
+  background-color: var(--e-primary-500);
+  color: var(--e-grayscale-white);
+  border: none;
+
+  &:hover:not(:disabled) {
+    background-color: var(--e-primary-600);
+  }
+
+  &:focus:not(:disabled) {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(var(--e-primary-500-rgb), 0.3);
+  }
+}
+
+// Button sizes
+.e-btn-sm {
+  padding: var(--e-sp-4) var(--e-sp-12);
+  font-size: var(--e-body-5);
+}
+
+.e-btn-md {
+  padding: var(--e-sp-8) var(--e-sp-16);
+  font-size: var(--e-body-4);
+}
+
+.e-btn-lg {
+  padding: var(--e-sp-12) var(--e-sp-24);
+  font-size: var(--e-body-3);
+}
+
+// Full width button
+.e-btn-full-width {
+  width: 100%;
+}
+
+// Button with icon
+.e-btn-with-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--e-sp-8);
+
+  .e-btn-icon {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+// Button group - For grouping buttons with equal width
+.e-btn-group {
+  display: flex;
+  gap: var(--e-sp-16);
+
+  // When buttons should have equal width
+  &--equal {
+    > .e-btn-apply,
+    > .e-btn-reset,
+    > .e-btn-outline,
+    > .e-btn-export,
+    > .e-btn-base {
+      flex: 1 1 0%;
+    }
+  }
+}

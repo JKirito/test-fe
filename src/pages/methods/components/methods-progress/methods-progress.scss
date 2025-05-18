@@ -1,0 +1,115 @@
+$signInFormWidth: 448px;
+$formEntryDelay: 0.8s;
+$blobInitialSize: 18px;
+
+@keyframes methodBlobPump {
+	0% {
+		background-color: var(--e-primary-500);
+		transform: translateY(0);
+		width: $blobInitialSize;
+		height: 24px;
+		border-radius: 47% 47% 53% 53%;
+	}
+
+	30% {
+		transform: translateY(-30px);
+		width: $blobInitialSize;
+		height: $blobInitialSize;
+		border-radius: 50%;
+	}
+
+	60% {
+		transform: translateY(-6px);
+		width: $blobInitialSize;
+		height: 24px;
+		border-radius: 70% 70% 45% 45%;
+	}
+
+	80% {
+		transform: translateY(0);
+		width: $blobInitialSize;
+		height: $blobInitialSize;
+	}
+
+	100% {
+		transform: translateY(0);
+		width: 64px;
+		height: $blobInitialSize;
+		border-radius: var(--e-br-12);
+		opacity: 0.8;
+	}
+}
+
+@keyframes methodBlobPumpOut {
+	0% {
+		background-color: var(--e-grayscale-200);
+		transform: translateY(0);
+		width: $blobInitialSize;
+		height: $blobInitialSize;
+		opacity: 0.8;
+		border-radius: 100%;
+	}
+
+	100% {
+		transform: translateY(0);
+		width: 64px;
+		height: $blobInitialSize;
+		border-radius: var(--e-br-32);
+	}
+}
+
+.methods-progress {
+	@include mx.e-flex(column, initial, initial, var(--e-sp-8));
+	opacity: 0;
+	animation: eFade calc($formEntryDelay * 2) $formEntryDelay ease-out forwards;
+
+	&-content {
+		@include mx.e-flex(row, space-between, center, var(--e-sp-12));
+	}
+
+	&-list {
+		@include mx.e-flex(row, initial, center, var(--e-sp-12));
+
+		&__item {
+			width: 62px;
+			height: $blobInitialSize;
+			background-color: var(--e-grayscale-200);
+
+			&--active {
+				&:before {
+					content: '';
+					display: block;
+					margin: 0 auto;
+					border-radius: var(--e-br-32);
+					width: $blobInitialSize;
+					height: $blobInitialSize;
+					background-color: var(--e-primary-500);
+					animation: methodBlobPump 1000ms ease-out forwards;
+				}
+			}
+
+			&--fade-out {
+				&:before {
+					width: 60px;
+					height: $blobInitialSize;
+					background-color: var(--e-primary-400);
+					animation: eFadeOut 400ms 1000ms ease-out forwards;
+				}
+
+				&:after {
+					content: '';
+					position: relative;
+					top: -18px;
+					display: flex;
+					align-items: center;
+					margin-left: auto;
+					border-radius: var(--e-br-32);
+					width: $blobInitialSize;
+					height: $blobInitialSize;
+					background-color: var(--e-grayscale-200);
+					animation: methodBlobPumpOut 400ms ease-out forwards;
+				}
+			}
+		}
+	}
+}

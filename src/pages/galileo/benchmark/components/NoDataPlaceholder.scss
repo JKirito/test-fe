@@ -1,0 +1,35 @@
+.no-data-placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  background-color: var(--e-grayscale-50);
+  border-radius: var(--e-br-8);
+  margin: var(--e-sp-16);
+  
+  &__content {
+    text-align: center;
+    padding: var(--e-sp-24);
+    max-width: 500px;
+  }
+  
+  &__icon {
+    width: 64px;
+    height: 64px;
+    margin-bottom: var(--e-sp-16);
+    opacity: 0.6;
+  }
+  
+  &__title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--e-grayscale-800);
+    margin-bottom: var(--e-sp-8);
+  }
+  
+  &__message {
+    font-size: 16px;
+    color: var(--e-grayscale-600);
+    line-height: 1.5;
+  }
+}

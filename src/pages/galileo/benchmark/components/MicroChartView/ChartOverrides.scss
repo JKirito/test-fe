@@ -1,0 +1,67 @@
+/* Override styles for all chart types to ensure they expand properly in fullscreen mode */
+
+/* Common styles for all chart types */
+.micro-chart-view {
+  .micro-chart-view__chart-wrapper {
+    /* Ensure the wrapper takes full width and height */
+    width: 100%;
+    height: 100%;
+
+    /* Override styles for fullscreen mode */
+    .fullscreen--active & {
+      /* Ensure the chart takes full space in fullscreen mode */
+      > div {
+        width: 100%;
+        height: 100%;
+
+        /* Target the chart component */
+        > div {
+          width: 100% !important;
+          height: 100% !important;
+          min-height: 100% !important;
+          max-height: none !important;
+          padding: 0 !important;
+          transform: scale(1) !important;
+
+          /* Target the SVG element */
+          svg {
+            width: 100% !important;
+            height: 100% !important;
+            max-width: none !important;
+            max-height: none !important;
+          }
+        }
+      }
+    }
+  }
+
+  /* Specific overrides for ScatterplotChart */
+  .micro-chart-view__chart-wrapper--scatter {
+    .fullscreen--active & {
+      > div > div {
+        /* Ensure points are visible */
+        circle {
+          r: 8 !important;
+        }
+      }
+    }
+  }
+
+  /* Specific overrides for BarChart */
+  .micro-chart-view__chart-wrapper--bar {
+    .fullscreen--active & {
+      > div > div {
+        /* Additional styles for BarChart if needed */
+      }
+    }
+  }
+
+  /* Specific overrides for GanttChart */
+  .micro-chart-view__chart-wrapper--gantt {
+    .fullscreen--active & {
+      > div > div {
+        /* Additional styles for GanttChart if needed */
+      }
+    }
+  }
+}

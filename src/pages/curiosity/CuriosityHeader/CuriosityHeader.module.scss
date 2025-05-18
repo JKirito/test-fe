@@ -1,0 +1,45 @@
+.curiosityHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  width: 90%;
+  margin: 0 auto;
+  padding: var(--e-sp-24) var(--e-sp-40);
+
+  .curiosityHeaderIcon {
+    width: 64px;
+    height: 64px;
+  }
+
+  .curiosityHeaderTextContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    justify-content: space-between;
+    height: 100%;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 600;
+    font-size: 28px;
+
+    .curiosityHeaderText {
+      font-weight: 600;
+      font-size: 28px;
+
+      span {
+        color: var(--e-primary-600);
+        font-size: inherit;
+        font-weight: inherit;
+      }
+    }
+
+    .curiosityHeaderSubText {
+      font-weight: 400;
+      font-size: 16px;
+    }
+  }
+
+  .userName {
+    color: var(--e-primary-600);
+  }
+}

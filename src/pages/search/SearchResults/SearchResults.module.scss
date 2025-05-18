@@ -1,0 +1,100 @@
+// Animation keyframes
+@keyframes resultsFade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes resultsSlideUp {
+  0% {
+    transform: translateY(30px) scale(0.98);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes loaderSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+// Animation variables
+$searchEntryDelay: 600ms;
+
+.searchResultsPage {
+  width: 90%;
+  max-width: 1800px;
+  margin: 0 auto;
+  margin-bottom: 40px;
+  // padding: 20px;
+  // height: calc(100vh - var(--e-header, 64px));
+  margin-top: var(--e-header, 64px);
+  position: relative;
+  top: 0;
+  padding-top: 0;
+  opacity: 0;
+  animation: resultsFade calc($searchEntryDelay * 2) ease-out forwards;
+  font-family: 'Rubik', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.searchHeader {
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--e-color-border, #e0e0e0);
+  margin-bottom: 20px;
+  opacity: 0;
+  animation:
+    resultsFade calc($searchEntryDelay * 2) $searchEntryDelay ease-out forwards,
+    resultsSlideUp $searchEntryDelay $searchEntryDelay cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+  flex-shrink: 0;
+  padding-top: 20px;
+}
+
+.searchResultsContainer {
+  padding: 20px 0;
+  animation:
+    resultsFade calc($searchEntryDelay * 2) calc($searchEntryDelay * 2) ease-out forwards,
+    resultsSlideUp $searchEntryDelay calc($searchEntryDelay * 2) cubic-bezier(0.165, 0.84, 0.44, 1)
+      forwards;
+  opacity: 0;
+  flex-grow: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.contentArea {
+  display: flex;
+  gap: 1rem; /* Space between filter and results */
+  margin-top: 1rem;
+}
+
+.filterPanel {
+  flex: 0 0 250px; /* Fixed width for filter panel, adjust as needed */
+  /* Or use flex-basis: 250px; */
+}
+
+.resultsPanel {
+  flex: 1; /* Takes up remaining space */
+  min-width: 0; /* Prevents content overflow issues in flex item */
+}
+
+/* Optional: Adjust for smaller screens */
+@media (max-width: 768px) {
+  .contentArea {
+    flex-direction: column;
+  }
+
+  .filterPanel {
+    flex: 1; /* Allow filter panel to take full width */
+  }
+}

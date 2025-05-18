@@ -1,0 +1,158 @@
+// Assuming @styles alias points to the styles root and provides variables/mixins
+// Example: @use '@styles/theme/variables' as *;
+//          @use '@styles/utils/mixins' as *;
+
+// Use mixins from the design system
+// @use '@/styles/utils/mixins' as mx;
+// @use '@/styles/utils/breakpoints' as bp;
+// @use '@/styles/theme/variables' as *;
+@use '../../../../styles/theme/typography' as typ;
+// @use '@/styles/utils/scroll' as scroll;
+
+// Placeholder variables removed - relying on :root CSS variables
+
+.multiSelectTag {
+  // Container for the whole component - might not be needed if used within a form structure
+}
+
+.multiSelectTag__label {
+  display: block;
+  font-size: var(--e-body-3); // Was base (16px)
+  font-weight: 500; // Was medium
+  color: var(--e-grayscale-950);
+  margin-bottom: var(--e-sp-6); // Was spacing-1
+  text-transform: capitalize;
+  font-family: 'Rubik', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 136%;
+  letter-spacing: 0.24px;
+  user-select: none;
+}
+
+.multiSelectTag__dropdownWrapper {
+  position: relative;
+}
+
+.multiSelectTag__dropdownTrigger {
+  width: 100%;
+  padding: var(--e-sp-8) var(--e-sp-12); // Was spacing-2 spacing-3
+  border-radius: 9999px;
+  border: 1px solid var(--e-grayscale-300);
+  background-color: var(--e-grayscale-white); // Was color-background
+  cursor: pointer;
+  @include mx.e-flex($justify: space-between, $align: center);
+  font-size: var(--e-body-4); // Was sm (14px), applied to summary text inside
+  color: var(--e-grayscale-800); // Was color-text-primary
+
+  &:focus {
+    outline: none;
+    border-color: var(--e-primary-500); // Was color-primary
+    // Using simpler focus ring with existing variable
+    box-shadow: 0 0 0 3px var(--e-primary-200);
+  }
+}
+
+.multiSelectTag__dropdownSummary {
+  text-transform: capitalize;
+  font-family: 'Rubik', sans-serif;
+  font-weight: 400;
+  // Inherits font-size from trigger
+}
+
+.multiSelectTag__dropdownIcon {
+  height: 1.25rem; // Keep fixed size for icon
+  width: 1.25rem;
+  color: var(--e-grayscale-500); // Was color-text-secondary
+}
+
+.multiSelectTag__dropdownContent {
+  position: absolute;
+  z-index: 10; // Keep literal z-index
+  margin-top: var(--e-sp-4);
+  width: 100%;
+  background-color: var(--e-grayscale-white); // Was color-background
+  border: 1px solid var(--e-grayscale-300); // Was color-border
+  border-radius: var(--e-br-16); // Was border-radius-md
+  box-shadow:
+    0px var(--value-2, 2px) var(--value-20, 20px) -1px rgba(0, 0, 0, 0.08),
+    0px var(--value-2, 2px) var(--value-20, 20px) -2px rgba(0, 0, 0, 0.06);
+  max-height: 12rem; // Keep literal max-height
+  font-size: var(--e-body-4); // Was sm (14px)
+  font-family: 'Rubik', sans-serif;
+  font-weight: 400;
+
+  overflow-y: auto;
+  // @include scroll.custom-scrollbar; // Correct namespace: scroll
+}
+
+.multiSelectTag__option {
+  padding: var(--e-sp-8) var(--e-sp-12); // Keep padding
+  cursor: pointer;
+  border-radius: var(--e-br-4);
+  // Use flex to align checkbox and label
+  @include mx.e-flex($align: center, $gap: var(--e-sp-8));
+  // Keep text-transform on the label instead
+  // text-transform: capitalize;
+
+  &:hover {
+    background-color: var(--e-grayscale-50);
+  }
+
+  &--selected {
+    // Keep background for the whole selected row
+    background-color: var(--e-primary-50);
+
+    // Style the checkbox specifically when selected
+    .multiSelectTag__optionCheckbox {
+      background-color: var(--e-primary-500); // Selected background
+      border-color: var(--e-primary-500); // Selected border
+    }
+
+    // Style the checkmark icon
+    .multiSelectTag__optionCheckmark {
+      color: var(--e-grayscale-white); // White checkmark on primary background
+    }
+  }
+}
+
+// New styles for the checkbox visual element
+.multiSelectTag__optionCheckbox {
+  width: 16px; // Checkbox size
+  height: 16px;
+  border: 1.5px solid var(--e-grayscale-800);
+  border-radius: var(--e-br-4); // Slightly rounded corners
+  background-color: var(--e-grayscale-white); // Default background
+  // Center the checkmark icon if present
+  @include mx.e-flex($justify: center, $align: center);
+  transition:
+    background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out;
+}
+
+// New styles for the checkmark icon itself
+.multiSelectTag__optionCheckmark {
+  // Color is set via the selected state above
+  // Size is set inline in the component (size={14})
+  display: block; // Ensure icon displays correctly
+}
+
+// New styles for the option label text
+.multiSelectTag__optionLabel {
+  text-transform: capitalize; // Apply transform here
+  flex-grow: 1; // Allow label to take remaining space
+  user-select: none;
+}
+
+.multiSelectTag__tagsContainer {
+  margin-top: var(--e-sp-8);
+  @include mx.e-flex($wrap: wrap, $gap: var(--e-sp-8));
+}
+
+.tag-list {
+  &.scrollable {
+    overflow-y: auto;
+    max-height: 150px;
+    // @include scroll.custom-scrollbar; // Correct namespace: scroll
+  }
+}

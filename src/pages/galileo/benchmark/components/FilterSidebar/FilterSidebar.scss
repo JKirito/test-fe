@@ -1,0 +1,294 @@
+// Block
+.filter-sidebar {
+  background-color: var(--e-grayscale-white);
+  padding: var(--e-sp-16);
+  transition: width 300ms ease-in-out;
+  display: flex;
+  flex-direction: column;
+  width: 320px;
+  height: calc(100% - 48px);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  margin-left: var(--e-sp-24);
+  margin-top: var(--e-sp-24);
+  margin-bottom: var(--e-sp-24);
+  border-radius: var(--e-br-24);
+  gap: var(--e-sp-16);
+  box-shadow: 0px var(--value-4, 4px) var(--value-20, 20px) 0px rgba(0, 0, 0, 0.08);
+
+  // Hamburger Menu (visible only when collapsed)
+  &__hamburger-menu {
+    display: none; // Hidden by default (when expanded)
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    position: relative; // Needed for absolute positioning of the pseudo-element
+    margin: 0 auto; // Center in collapsed state
+
+    img {
+      // Style the image within the hamburger button if needed
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    // Modifier for when filters are active
+    &--has-filters {
+      // Style the notification dot using a pseudo-element
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 8px; // Size of the dot
+        height: 8px;
+        background-color: var(--e-system-red-500); // Red color for notification
+        border-radius: 50%; // Make it a circle
+        transform: translate(25%, -25%); // Move slightly up and right
+      }
+    }
+  }
+
+  // Modifier
+  &--is-collapsed {
+    width: calc(var(--e-sp-16) * 2 + 24px);
+    height: 53px;
+    border-radius: var(--e-br-16);
+    margin-left: var(--e-sp-24);
+    margin-top: var(--e-sp-24);
+
+    // Show hamburger menu when collapsed
+    .filter-sidebar__hamburger-menu {
+      display: block;
+    }
+
+    // Hide the regular toggle button (X) when collapsed
+    .filter-sidebar__toggle-button {
+      display: none;
+    }
+
+    .filter-sidebar__header,
+    .filter-sidebar__content {
+      opacity: 0;
+      visibility: hidden;
+      max-height: 0;
+      overflow: hidden;
+      transition:
+        opacity 150ms ease-in-out,
+        visibility 0s linear 150ms,
+        max-height 300ms ease-in-out;
+    }
+  }
+
+  // Element: Header
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    opacity: 1;
+    visibility: visible;
+    max-height: 100px;
+    overflow: visible;
+    transition:
+      opacity 150ms ease-in-out 150ms,
+      visibility 0s linear 0s,
+      max-height 300ms ease-in-out;
+  }
+
+  // Element: Title (within Header)
+  &__title {
+    font-size: var(--e-sp-16);
+    font-family: 'Rubik', sans-serif;
+    margin: 0;
+    color: var(--e-grayscale-950);
+    font-size: var(--Font-size-16, 16px);
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%;
+    letter-spacing: 0.32px;
+    display: block;
+
+    .filter-sidebar--is-collapsed & {
+      display: none;
+    }
+  }
+
+  // Element: Toggle Button ('X', visible only when expanded)
+  &__toggle-button {
+    display: block; // Ensure it's visible by default (when expanded)
+    color: var(--e-grayscale-600);
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+
+    &:hover {
+      color: var(--e-primary-900);
+    }
+  }
+
+  // Element: Menu Icon (within Toggle Button)
+  &__menu-icon {
+    width: var(--e-sp-24);
+    height: var(--e-sp-24);
+    display: block; // Often needed for SVG sizing
+  }
+
+  // Element: Content Area
+  &__content {
+    flex: 1 1 0%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    opacity: 1;
+    visibility: visible;
+    max-height: 100vh;
+    transition:
+      opacity 300ms ease-in-out 150ms,
+      visibility 0s linear 0s,
+      max-height 300ms ease-in-out;
+  }
+
+  // Filter tag styles kept for potential future use
+  &__filter-tag {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background-color: var(--e-grayscale-100);
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 12px;
+    color: var(--e-grayscale-700);
+
+    &-remove {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background-color: var(--e-grayscale-300);
+      color: var(--e-grayscale-700);
+
+      &:hover {
+        background-color: var(--e-grayscale-400);
+      }
+    }
+  }
+
+  // Element: Scrollable List (within Content)
+  &__scrollable-list {
+    overflow-y: auto;
+    height: 100%;
+    max-height: calc(100vh - 300px);
+    mask-image:
+      linear-gradient(to top, transparent, var(--e-grayscale-black)),
+      linear-gradient(to left, transparent 6px, var(--e-grayscale-black) 6px);
+    mask-size: 100% 20000px;
+    mask-position: left bottom;
+    transition:
+      mask-position 0.3s,
+      -webkit-mask-position 0.3s;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+      background-color: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--e-grayscale-300);
+      border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: transparent;
+      border-radius: 10px;
+    }
+
+    &:hover {
+      mask-position: left top;
+    }
+  }
+
+  // Element: Footer (within Content)
+  &__footer {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--e-sp-16);
+  }
+
+  // Element: Button Group (within Footer)
+  &__button-group {
+    display: flex;
+    gap: var(--e-sp-16);
+  }
+
+  // Element: Base Button Style
+  &__button {
+    font-size: 14px;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.28px;
+    padding: var(--e-sp-8) var(--e-sp-16);
+    border-radius: var(--e-br-6);
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 9999px;
+    border: 1.5px solid var(--e-grayscale-800, #232d33);
+    transition:
+      background-color 150ms ease-in-out,
+      color 150ms ease-in-out;
+
+    // Modifier: Apply Button
+    &--apply {
+      flex: 1 1 0%;
+      border: none;
+      background: var(--e-primary-500);
+      color: var(--e-grayscale-white);
+    }
+
+    // Modifier: Apply Button Disabled
+    &--apply-disabled {
+      flex: 1 1 0%;
+      border: none;
+      background: var(--e-grayscale-400); // Lighter gray color when disabled
+      color: var(--e-grayscale-white);
+      cursor: not-allowed;
+    }
+
+    // Modifier: Reset Button
+    &--reset {
+      flex: 1 1 0%;
+      background-color: var(--e-grayscale-100);
+      color: var(--e-grayscale-700);
+
+      &:hover {
+        background-color: var(--e-grayscale-200);
+      }
+    }
+
+    // Modifier: Download Button
+    &--download {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--e-sp-8);
+      border: none;
+      color: var(--e-grayscale-800);
+
+      img {
+        height: 24px;
+        width: 24px;
+      }
+    }
+  }
+}

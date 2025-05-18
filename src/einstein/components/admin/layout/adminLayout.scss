@@ -1,0 +1,13 @@
+.admin-layout {
+  width: 100%;
+  min-height: calc(100vh - var(--e-header));
+  display: flex;
+  flex-direction: column;
+  background-color: var(--e-grayscale-50);
+
+  .admin-layout-container {
+    position: relative;
+    display: flex;
+    margin-top: var(--e-header);
+  }
+} 

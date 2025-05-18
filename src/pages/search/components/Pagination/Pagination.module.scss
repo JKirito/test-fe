@@ -1,0 +1,44 @@
+// Styles specific to the Pagination component
+
+.searchPagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 32px;
+  gap: 8px;
+}
+
+.paginationBtn {
+  padding: var(--e-sp-6) var(--e-sp-12);
+  border: 1px solid var(--e-color-border, #d1d5db);
+  background-color: #fff;
+  color: var(--e-color-text, #374151);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
+  font-weight: 500;
+
+  &:not(:disabled):hover {
+    background-color: var(--e-color-background-hover, #f3f4f6);
+    border-color: var(--e-color-border-hover, #9ca3af);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  // Active state for the current page button
+  &.active {
+    background-color: var(--e-color-primary, #1a73e8);
+    color: #fff;
+    border-color: var(--e-color-primary, #1a73e8);
+    font-weight: 600;
+  }
+}
+
+.paginationEllipsis {
+  padding: 8px 4px;
+  color: var(--e-color-text-secondary, #6b7280);
+}

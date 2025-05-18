@@ -1,0 +1,124 @@
+// @use '../../../../../styles/theme/variables.scss' as *; // REMOVE - Variables are CSS Custom Properties
+@use '../../../../../styles/theme/typography' as typ; // Correct relative path, no underscore
+
+// Styles moved from map.scss
+.cluster-overlay {
+  position: fixed;
+  background-color: var(--e-grayscale-white);
+  border-radius: var(--e-br-8);
+  box-shadow: var(--e-shadow-base);
+  // Removed initial transform - DraggableOverlay handles position
+  min-width: 300px;
+  max-width: 400px;
+  z-index: 1001;
+  overflow: hidden;
+  animation: eFade 0.3s ease-out forwards;
+  border-radius: var(--rounded-24, 24px);
+  user-select: none;
+
+  .map-cluster-container {
+    padding: var(--e-sp-10) var(--e-sp-16);
+    background-color: var(--e-grayscale-50);
+    border-bottom: 1px solid var(--e-grayscale-200);
+    @include mx.e-flex($justify: space-between, $align: center);
+    cursor: grab; // Keep cursor hint on the handle
+
+    &:active {
+      cursor: grabbing;
+    }
+
+    .cluster-title {
+      font-size: var(--e-body-4);
+      font-weight: 600;
+      color: var(--e-grayscale-950);
+      user-select: none;
+    }
+
+    .close-button {
+      color: var(--e-grayscale-600);
+      background: none;
+      border: none;
+      padding: var(--e-sp-4);
+      cursor: pointer;
+      line-height: 0;
+
+      &:hover {
+        color: var(--e-grayscale-900);
+      }
+
+      img {
+        width: var(--e-sp-16);
+        height: var(--e-sp-16);
+        display: block;
+      }
+    }
+  }
+
+  &__body {
+    max-height: 384px;
+    overflow-y: auto;
+    // @include scroll.custom-scrollbar;
+  }
+
+  &__pin-item {
+    @include mx.e-flex($align: center);
+    padding: var(--e-sp-12);
+    border-bottom: 1px solid var(--e-grayscale-200);
+    cursor: pointer;
+    transition: background-color 150ms ease-in-out;
+    font-family: 'Rubik', sans-serif;
+
+    &:hover {
+      background-color: var(--e-grayscale-50);
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__pin-dot {
+    width: var(--e-sp-12);
+    height: var(--e-sp-12);
+    border-radius: var(--e-br-100);
+    margin-right: var(--e-sp-12);
+    flex-shrink: 0;
+  }
+
+  &__pin-info {
+    flex-grow: 1;
+    min-width: 0;
+  }
+
+  &__pin-name {
+    font-size: var(--e-body-4);
+    font-weight: 500;
+    @extend .e-ellipsis;
+    color: var(--e-grayscale-900);
+  }
+
+  &__pin-details {
+    @include mx.e-flex($direction: column);
+    margin-top: var(--e-sp-4);
+  }
+
+  &__pin-detail {
+    font-size: var(--e-body-5);
+    color: var(--e-grayscale-500);
+    font-weight: 400;
+    @extend .e-ellipsis;
+    line-height: 1.3;
+  }
+
+  &__pin-detail-label {
+    font-weight: 500;
+    margin-right: var(--e-sp-4);
+  }
+
+  &__pin-id {
+    font-size: var(--e-body-5);
+    color: var(--e-grayscale-400);
+    margin-left: var(--e-sp-8);
+    flex-shrink: 0;
+  }
+}

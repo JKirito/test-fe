@@ -1,0 +1,73 @@
+// @use '@/styles/utils/mixins' as mx;
+// @use '@/styles/utils/breakpoints' as bp;
+// @use '../../../../../styles/theme/variables.scss' as *;
+@use '../../../../../styles/theme/typography' as typ;
+
+// Block: map-legend
+.map-legend {
+  // From: absolute top-2 right-14
+  position: absolute;
+  top: 0; // top-2
+  right: 0; // right-14
+
+  margin-right: var(--e-sp-24);
+  margin-top: var(--e-sp-24);
+  margin-bottom: var(--e-sp-24);
+  border-radius: var(--e-br-24);
+  background-color: var(--e-grayscale-white);
+  padding: var(--e-sp-16);
+  border-radius: var(--e-br-24);
+
+  max-height: calc(100% - 48px);
+
+  overflow-y: auto;
+  //   @extend .e-scroll;
+  // @include scroll.custom-scrollbar;
+
+  z-index: 40;
+}
+
+// Element: title
+.map-legend__title {
+  // From: text-sm font-semibold mb-2 text-gray-700
+  font-family: 'Rubik', sans-serif;
+  font-size: var(--e-body-3); // text-sm (14px)
+  font-weight: 500; // font-semibold
+  margin-bottom: var(--e-sp-8); // mb-2
+  color: var(--e-grayscale-950);
+}
+
+// Element: list (handles spacing between items)
+.map-legend__list {
+  // From: space-y-2 (applied via child selector)
+  > *:not(:last-child) {
+    margin-bottom: var(--e-sp-8);
+  }
+}
+
+// Element: item (each row in the legend)
+.map-legend__item {
+  // From: flex items-center gap-2
+  @include mx.e-flex($align: center, $gap: var(--e-sp-8));
+}
+
+// Element: colorSwatch
+.map-legend__colorSwatch {
+  // From: w-4 h-4 rounded-full
+  width: var(--e-sp-12); // w-4
+  height: var(--e-sp-12); // h-4
+  border-radius: var(--e-br-100); // rounded-full
+  // background-color is set via inline style in the component
+}
+
+// Element: label
+.map-legend__label {
+  // From: text-sm text-gray-600
+  font-family: 'Rubik', sans-serif;
+  font-size: var(--e-body-4); // text-sm (14px)
+  color: var(--e-grayscale-950);
+  font-style: normal;
+  font-weight: 400;
+  line-height: 144%;
+  letter-spacing: 0.28px;
+}

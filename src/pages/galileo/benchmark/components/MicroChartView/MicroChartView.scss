@@ -1,0 +1,349 @@
+.micro-chart-view {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--e-sp-24);
+    padding-bottom: var(--e-sp-16);
+    border-bottom: 1px solid var(--e-grayscale-200);
+  }
+
+  &__title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--e-grayscale-800);
+    margin: 0;
+  }
+
+  &__info {
+    display: flex;
+    align-items: center;
+    gap: var(--e-sp-16);
+
+    span {
+      font-size: 14px;
+      color: var(--e-grayscale-600);
+    }
+  }
+
+  &__loading,
+  &__error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 400px;
+    background-color: var(--e-grayscale-50);
+    border-radius: var(--e-br-8);
+
+    p {
+      font-size: 16px;
+      color: var(--e-grayscale-600);
+    }
+  }
+
+  &__error p {
+    color: var(--e-error-500);
+  }
+
+  &__charts {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--e-sp-24);
+    width: 100%;
+    // padding: var(--e-sp-16);
+
+    @media (min-width: 1200px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  &__chart {
+    // margin-bottom: var(--e-sp-24);
+    background-color: white;
+    border-radius: var(--e-br-24);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    overflow: hidden; // Ensure the fullscreen toggle stays within bounds
+    min-height: 350px; // Minimum height for consistent chart display
+    height: 100%; // Take full height
+    width: 100%; // Take full width of container
+    display: flex; // Use flexbox for child elements
+    flex-direction: column; // Stack children vertically
+  }
+
+  &__chart-content {
+    padding: var(--e-sp-16);
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1; // Take up all available space
+    min-height: 0; // Allow flex item to shrink below content size if needed
+    position: relative; // Create stacking context
+    overflow: hidden; // Prevent overflow issues
+
+    // Ensure direct children take full height
+    > div {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+    }
+
+    // Adjust padding in fullscreen mode
+    .fullscreen--active & {
+      padding: var(--e-sp-24);
+    }
+
+    h2 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--e-grayscale-800);
+      margin: 0 0 var(--e-sp-8) 0;
+    }
+
+    p {
+      font-size: 14px;
+      color: var(--e-grayscale-600);
+      margin: 0 0 var(--e-sp-16) 0;
+    }
+
+    pre {
+      background-color: var(--e-grayscale-50);
+      padding: var(--e-sp-12);
+      border-radius: var(--e-br-4);
+      overflow: auto;
+      font-size: 12px;
+      max-height: 300px;
+      flex: 1;
+    }
+  }
+
+  &__legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--e-sp-8) var(--e-sp-16);
+    // background-color: var(--e-grayscale-50);
+    border-radius: var(--e-br-4);
+    font-size: 14px;
+    color: var(--e-grayscale-700);
+    margin-top: var(--e-sp-16);
+    gap: var(--e-sp-16);
+  }
+
+  &__legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--e-sp-8);
+  }
+
+  &__legend-color {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 99px;
+  }
+
+  &__legend-line {
+    display: inline-block;
+    width: 24px;
+    height: 0;
+    border-radius: 0;
+  }
+
+  &__toolbar {
+    display: flex;
+    gap: var(--e-sp-8);
+    padding: var(--e-sp-8) 0;
+  }
+
+  &__toolbar-button {
+    padding: var(--e-sp-4) var(--e-sp-8);
+    background-color: var(--e-grayscale-50);
+    border: 1px solid var(--e-grayscale-200);
+    border-radius: var(--e-br-4);
+    font-size: 12px;
+    color: var(--e-grayscale-700);
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: var(--e-grayscale-100);
+    }
+
+    &:active {
+      background-color: var(--e-grayscale-200);
+    }
+  }
+
+  &__chart-layout {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    position: relative;
+  }
+
+  &__chart-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    /* Ensure chart components take full space */
+    > div {
+      width: 100%;
+      height: 100%;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Common styles for all chart wrappers */
+    &--bar,
+    &--scatter,
+    &--gantt {
+      height: 350px;
+      min-height: 350px;
+      max-height: 350px;
+
+      /* Override height for fullscreen mode */
+      .fullscreen--active & {
+        height: 100%;
+        min-height: 80vh;
+        max-height: none;
+        flex: 1;
+        padding: 0;
+      }
+
+      /* Ensure charts take full height in fullscreen mode */
+      .fullscreen--active & > div {
+        height: 100%;
+        min-height: 80vh; /* Use viewport height for better fullscreen experience */
+        max-height: none;
+        transform: scale(1); /* Reset any scaling */
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+
+  /* Fullscreen chart styles */
+  .fullscreen-chart {
+    height: 100%;
+    min-height: 80vh;
+    max-height: none;
+    flex: 1;
+  }
+
+  /* Fullscreen wrapper styles */
+  .fullscreen-wrapper {
+    height: 100%;
+    min-height: 80vh;
+    max-height: none;
+    flex: 1;
+
+    > div {
+      height: 100%;
+      min-height: 80vh;
+      max-height: none;
+      flex: 1;
+    }
+  }
+
+  /* Fullscreen inner styles */
+  .fullscreen-inner {
+    height: 100%;
+    min-height: 80vh;
+    max-height: none;
+    flex: 1;
+  }
+
+  /* Fullscreen provider styles */
+  .fullscreen--active-provider {
+    .micro-chart-view__chart-wrapper--scatter {
+      height: 100%;
+      min-height: 80vh;
+      max-height: none;
+      flex: 1;
+
+      > div {
+        height: 100%;
+        min-height: 80vh;
+        max-height: none;
+        flex: 1;
+      }
+    }
+  }
+
+  /* Scatter chart tooltip styles */
+  .scatter-chart-tooltip {
+    position: absolute;
+    z-index: 999999 !important;
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 16px;
+    border-radius: 24px;
+    font-size: 14px;
+    pointer-events: none;
+    min-width: 250px;
+    max-width: 300px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: var(--e-font-family-rubik);
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    display: block; /* Ensure it's always in the DOM */
+  }
+
+  /* Bar chart tooltip styles */
+  .bar-chart-tooltip {
+    position: absolute;
+    z-index: 999999 !important;
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 16px;
+    border-radius: 24px;
+    font-size: 14px;
+    pointer-events: none;
+    min-width: 250px;
+    max-width: 300px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: var(--e-font-family-rubik);
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    display: block; /* Ensure it's always in the DOM */
+  }
+
+  /* Gantt chart tooltip styles */
+  .gantt-chart-tooltip {
+    position: absolute;
+    z-index: 999999 !important;
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 16px;
+    border-radius: 24px;
+    font-size: 14px;
+    pointer-events: none;
+    min-width: 250px;
+    max-width: 300px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: var(--e-font-family-rubik);
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    display: block; /* Ensure it's always in the DOM */
+  }
+}

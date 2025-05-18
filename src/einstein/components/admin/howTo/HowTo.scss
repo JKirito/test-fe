@@ -1,0 +1,47 @@
+// HowTo Admin Page Styles
+.how-to-admin {
+  font-family: 'Rubik', sans-serif;
+
+  // Apply to all headings
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Rubik', sans-serif;
+  }
+
+  // Apply to all text elements
+  p, span, div, button, input, textarea, a, label {
+    font-family: 'Rubik', sans-serif;
+  }
+
+  // Apply to specific components
+  .how-to-header {
+    &-title {
+      font-family: 'Rubik', sans-serif;
+      font-weight: 500;
+    }
+  }
+
+  // Apply to content sections
+  .tiptap-content {
+    font-family: 'Rubik', sans-serif;
+  }
+
+  // Apply to tree nodes
+  .tree-node {
+    font-family: 'Rubik', sans-serif;
+  }
+
+  // Apply to modal content
+  .modal-content {
+    font-family: 'Rubik', sans-serif;
+  }
+
+  // Apply to buttons
+  .e-btn-apply, .e-btn-reset, .e-btn-outline, .e-btn-export {
+    font-family: 'Rubik', sans-serif;
+  }
+
+  // Apply to form elements
+  .form-control, .form-label {
+    font-family: 'Rubik', sans-serif;
+  }
+}

@@ -1,0 +1,68 @@
+.textArea {
+  // Root container
+
+  // Style label and border when error class is present
+  &.e-error {
+    .textArea__label {
+      color: var(--e-system-red-500);
+    }
+    .textArea__input {
+      border-color: var(--e-system-red-500);
+    }
+  }
+
+  &:disabled {
+    background-color: var(--e-grayscale-200);
+    color: var(--e-grayscale-500);
+    cursor: not-allowed;
+  }
+}
+
+.textArea__label {
+  display: block;
+  font-size: var(--e-body-3); // 12px
+  font-weight: 500;
+  color: var(--e-grayscale-950);
+  margin-bottom: var(--e-sp-6); // 6px
+  text-transform: capitalize;
+  font-family: 'Rubik', sans-serif;
+  line-height: 136%;
+  letter-spacing: 0.24px;
+  user-select: none;
+}
+
+.textArea__input {
+  width: 100%;
+  padding: var(--e-sp-8) var(--e-sp-12); // 8px 12px
+  border: 1px solid var(--e-grayscale-300);
+  border-radius: var(--e-br-16); // Use standard radius, not pill shape
+  background-color: var(--e-grayscale-white);
+  font-size: var(--e-body-4); // 14px
+  color: var(--e-grayscale-800);
+  line-height: 1.5; // Standard line height for text area
+  resize: vertical; // Allow vertical resizing
+  min-height: 80px; // Sensible minimum height
+  transition:
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+  // @include scroll.custom-scrollbar; // Apply custom scrollbar styles
+
+  &:focus {
+    outline: none;
+    border-color: var(--e-primary-500);
+    box-shadow: 0 0 0 3px var(--e-primary-200); // Same focus as Select/Input
+  }
+
+  &::placeholder {
+    color: var(--e-grayscale-500);
+  }
+}
+
+// Optional error message styling
+.textArea__errorMessage {
+  display: block;
+  font-size: var(--e-caption-1); // Example size
+  color: var(--e-system-red-500);
+  margin-top: var(--e-sp-4);
+  padding-left: var(--e-sp-12); // Align with input text start
+}

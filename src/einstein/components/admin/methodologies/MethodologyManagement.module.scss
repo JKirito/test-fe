@@ -1,0 +1,30 @@
+.methodologyManagement {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 24px;
+  background-color: var(--e-grayscale-50);
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--e-grayscale-200);
+  }
+
+  &__title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--e-grayscale-900);
+  }
+
+  &__content {
+    flex: 1;
+    overflow: hidden;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+}

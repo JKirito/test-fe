@@ -1,0 +1,170 @@
+@use 'sass:map';
+
+// -------------------------- Cursors --------------------------
+$cursors: pointer, not-allowed, wait, inherit, col-resize, help, text, move, zoom-in, zoom-out;
+
+@each $cursor in $cursors {
+	.e-crs-#{$cursor} {
+		cursor: $cursor;
+	}
+}
+
+// Define the border radius values in a map
+$border-radius-values: (
+	0: var(--e-br-0),
+	2: var(--e-br-2),
+	4: var(--e-br-4),
+	6: var(--e-br-6),
+	8: var(--e-br-8),
+	12: var(--e-br-12),
+	16: var(--e-br-16),
+	24: var(--e-br-24),
+	32: var(--e-br-32),
+	40: var(--e-br-40),
+	48: var(--e-br-48),
+	80: var(--e-br-80)
+);
+
+$border-radius-no-px: map.keys($border-radius-values);
+
+// Define the border positions in a map
+$border-positions: (
+	full: '',
+	tl: top-left,
+	tr: top-right,
+	bl: bottom-left,
+	br: bottom-right
+);
+
+@each $radius-value in $border-radius-no-px {
+	@each $position-key, $position-value in $border-positions {
+		@if $position-key== 'full' {
+			$class-name: 'e-br-#{$radius-value}';
+
+			.#{$class-name} {
+				border-radius: $radius-value * 1px;
+			}
+		} @else {
+			$class-name: 'e-br-#{$position-key}-#{$radius-value}';
+
+			.#{$class-name} {
+				border-#{$position-value}-radius: $radius-value * 1px;
+			}
+		}
+	}
+}
+
+.e-br-100 {
+	border-radius: 100%;
+}
+
+$spacings: (
+	0: var(--e-sp-0),
+	1: var(--e-sp-1),
+	2: var(--e-sp-2),
+	4: var(--e-sp-4),
+	6: var(--e-sp-6),
+	8: var(--e-sp-8),
+	10: var(--e-sp-10),
+	12: var(--e-sp-12),
+	14: var(--e-sp-14),
+	16: var(--e-sp-16),
+	20: var(--e-sp-20),
+	24: var(--e-sp-24),
+	28: var(--e-sp-28),
+	32: var(--e-sp-32),
+	36: var(--e-sp-36),
+	40: var(--e-sp-40),
+	48: var(--e-sp-48),
+	56: var(--e-sp-56),
+	64: var(--e-sp-64),
+	80: var(--e-sp-80),
+	96: var(--e-sp-96),
+	112: var(--e-sp-112),
+	120: var(--e-sp-120),
+	128: var(--e-sp-128),
+	144: var(--e-sp-144),
+	160: var(--e-sp-160),
+	176: var(--e-sp-176),
+	192: var(--e-sp-192),
+	200: var(--e-sp-200),
+	208: var(--e-sp-208),
+	224: var(--e-sp-224),
+	240: var(--e-sp-240),
+	256: var(--e-sp-256),
+	288: var(--e-sp-288),
+	320: var(--e-sp-320),
+	384: var(--e-sp-384)
+);
+
+$spacing-directions: (
+	def: '',
+	l: left,
+	r: right,
+	t: top,
+	b: bottom,
+	tb: tb,
+	rl: rl
+);
+
+$spacings-no-px: map.keys($spacings);
+
+@each $spacing-value in $spacings-no-px {
+	@each $direction-key, $direction-value in $spacing-directions {
+		$value-with-px: ($spacing-value * 1px);
+
+		@if $direction-key== 'def' {
+			$class-name-pd: 'e-pd-#{$spacing-value}';
+			$class-name-mg: 'e-mg-#{$spacing-value}';
+
+			.#{$class-name-pd} {
+				padding: $value-with-px;
+			}
+
+			.#{$class-name-mg} {
+				margin: $value-with-px;
+			}
+		} @else if $direction-key== 'tb' {
+			$class-name-pd: 'e-pd-#{$direction-key}-#{$spacing-value}';
+			$class-name-mg: 'e-mg-#{$direction-key}-#{$spacing-value}';
+
+			.#{$class-name-pd} {
+				padding-top: $value-with-px;
+				padding-bottom: $value-with-px;
+			}
+
+			.#{$class-name-mg} {
+				margin-top: $value-with-px;
+				margin-bottom: $value-with-px;
+			}
+		} @else if $direction-key== 'rl' {
+			$class-name-pd: 'e-pd-#{$direction-key}-#{$spacing-value}';
+			$class-name-mg: 'e-mg-#{$direction-key}-#{$spacing-value}';
+
+			.#{$class-name-pd} {
+				padding-right: $value-with-px;
+				padding-left: $value-with-px;
+			}
+
+			.#{$class-name-mg} {
+				margin-right: $value-with-px;
+				margin-left: $value-with-px;
+			}
+		} @else {
+			$class-name-pd: 'e-pd-#{$direction-key}-#{$spacing-value}';
+			$class-name-mg: 'e-mg-#{$direction-key}-#{$spacing-value}';
+
+			.#{$class-name-pd} {
+				padding-#{$direction-value}: $value-with-px;
+			}
+
+			.#{$class-name-mg} {
+				margin-#{$direction-value}: $value-with-px;
+			}
+		}
+	}
+}
+
+.e-margin-centered {
+	margin: 0 auto;
+}

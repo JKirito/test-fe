@@ -1,0 +1,14 @@
+@mixin e-flex($direction: row, $justify: initial, $align: initial, $gap: initial, $wrap: initial) {
+	display: flex;
+	flex-direction: $direction;
+	flex-wrap: $wrap;
+	justify-content: $justify;
+	align-items: $align;
+	gap: $gap;
+}
+
+@mixin e-anim-rotate-x($duartion: 300ms, $delay: 30ms) {
+	opacity: 0;
+	transform-origin: top center;
+	animation: eRotateX $duartion $delay ease-in-out forwards;
+}

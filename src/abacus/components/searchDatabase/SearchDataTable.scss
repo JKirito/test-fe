@@ -1,0 +1,202 @@
+// SearchDataTable.scss
+// Using BEM notation for the search data table component
+
+@use '../../../styles/utils/mixins.scss' as mixins;
+
+.abacus-search-data-table {
+  width: 100%;
+
+  &__wrapper {
+    overflow-x: auto;
+    border: 1px solid var(--e-grayscale-200);
+    background-color: var(--e-grayscale-white);
+    border-radius: var(--e-br-8);
+
+    @include bp.xs {
+      border-radius: var(--e-br-12);
+    }
+
+    @include bp.m {
+      border-radius: var(--e-br-16);
+    }
+  }
+
+  &__table {
+    width: 100%;
+    min-width: 1200px; // Smaller width on mobile
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed; // Use fixed layout for better resizing behavior
+
+    @include bp.s {
+      min-width: 1500px;
+    }
+
+    @include bp.m {
+      min-width: 1800px;
+    }
+  }
+
+  // Table Header
+  &__thead {
+    background-color: var(--e-grayscale-50); // bg-gray-50 in Tailwind
+    position: sticky;
+    top: 0;
+    z-index: 5; // Lower z-index to prevent overlapping with dropdowns
+  }
+
+  &__th {
+    position: sticky;
+    top: 0;
+    padding: var(--e-sp-8) var(--e-sp-12); // Smaller padding on mobile
+    text-align: left;
+    font-size: var(--e-body-5); // 12px on mobile
+    font-weight: 500;
+    color: var(--e-grayscale-900);
+    background-color: var(--e-grayscale-50); // Ensure background color is set
+    z-index: 5; // Lower z-index to prevent overlapping with dropdowns
+
+    @include bp.s {
+      padding: var(--e-sp-10) var(--e-sp-14);
+      font-size: var(--e-body-4); // 14px on tablet
+    }
+
+    @include bp.m {
+      padding: var(--e-sp-12) var(--e-sp-16);
+    }
+
+    &--resizable {
+      position: relative;
+      user-select: none;
+      padding-right: var(--e-sp-20); // Add extra padding on the right for the resize handle
+    }
+
+    &__content {
+      @include mixins.e-flex(row, space-between, center);
+      color: var(--e-grayscale-600);
+      text-transform: uppercase;
+      font-size: var(--e-body-5);
+    }
+
+    &__resize-handle {
+      position: absolute;
+      right: -0px; // Extend slightly beyond the cell for easier grabbing
+      top: 0;
+      height: 100%;
+      width: 1px; // Wider handle for easier grabbing
+      cursor: col-resize;
+      user-select: none;
+      touch-action: none;
+      background-color: var(--e-grayscale-400); // Darker color for better visibility
+      opacity: 0.3; // Slightly visible by default
+      transition: opacity 0.2s;
+      z-index: 6; // Just above the header but below dropdowns
+
+      &:hover {
+        opacity: 1;
+        width: 4px; // Maintain width on hover
+      }
+
+      &--resizing {
+        background-color: var(--e-primary-950); // Use design system color
+        opacity: 1;
+        width: 4px; // Maintain width when resizing
+      }
+    }
+  }
+
+  // Table Body
+  &__tbody {
+    & > tr {
+      border-top: 1px solid var(--e-grayscale-200); // divide-y divide-gray-200 in Tailwind
+    }
+  }
+
+  &__tr {
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: var(--e-grayscale-50); // hover:bg-gray-50 in Tailwind
+    }
+  }
+
+  &__td {
+    padding: var(--e-sp-8) var(--e-sp-12); // Smaller padding on mobile
+    font-size: var(--e-body-5); // 12px on mobile
+    color: var(--e-grayscale-900);
+    vertical-align: top; // Align to top for multi-line content
+    white-space: normal; // Allow text wrapping by default
+    word-break: break-word; // Break words to prevent overflow
+
+    @include bp.s {
+      padding: var(--e-sp-10) var(--e-sp-14);
+      font-size: var(--e-body-4); // 14px on tablet
+    }
+
+    @include bp.m {
+      padding: var(--e-sp-12) var(--e-sp-16);
+    }
+
+    // Special styling for description column cells
+    &--description {
+      white-space: normal;
+      padding-top: var(--e-sp-10);
+      padding-bottom: var(--e-sp-10);
+      overflow: visible;
+      word-break: break-word; // Break words to prevent overflow
+
+      @include bp.s {
+        padding-top: var(--e-sp-12);
+        padding-bottom: var(--e-sp-12);
+      }
+
+      @include bp.m {
+        padding-top: var(--e-sp-14);
+        padding-bottom: var(--e-sp-14);
+      }
+    }
+  }
+
+  &__cell-content {
+    // Base styles for all cell content
+    max-width: 100%; // Use 100% width of the cell
+    line-height: 1.4;
+    overflow: visible; // Allow content to be visible
+
+    // Truncated style for when we specifically want to truncate
+    &--truncated {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    // Description style (can be applied to other columns too)
+    &--description {
+      white-space: normal;
+      word-wrap: break-word;
+    }
+
+    // Style for wrapping text in all columns
+    &--wrap {
+      white-space: normal;
+      word-wrap: break-word;
+    }
+  }
+
+  &__empty-message {
+    padding: var(--e-sp-32) 0; // Smaller padding on mobile
+    width: 100%;
+    text-align: center;
+    color: var(--e-grayscale-500);
+    font-size: var(--e-body-5); // 12px on mobile
+
+    @include bp.s {
+      padding: var(--e-sp-40) 0;
+      font-size: var(--e-body-4); // 14px on tablet
+    }
+
+    @include bp.m {
+      padding: var(--e-sp-48) 0;
+    }
+  }
+}

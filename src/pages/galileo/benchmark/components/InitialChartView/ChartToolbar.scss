@@ -1,0 +1,19 @@
+.chart-toolbar {
+  display: flex;
+  justify-content: flex-start; // Left-align content
+  align-items: center;
+  // padding: var(--e-sp-8) 0; // Remove horizontal padding
+  // margin-bottom: var(--e-sp-16);
+  // margin-top: var(--e-sp-20);
+
+  &__content {
+    display: flex;
+    align-items: center;
+    width: 100%; // Take full width
+  }
+
+  &__segmented-menu {
+    width: 100%; // Take full width
+    max-width: 300px; // Limit maximum width
+  }
+}

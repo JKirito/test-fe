@@ -1,0 +1,51 @@
+.galileoHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--e-sp-16);
+  margin: 0;
+  padding: var(--e-sp-16);
+  font-family: 'Rubik', sans-serif;
+  line-height: 1.2; // Adjusted from 114%
+  width: 100%;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--e-sp-8);
+  }
+
+  .logo {
+    width: var(--e-sp-56);
+    height: var(--e-sp-56);
+    object-fit: contain;
+    flex-shrink: 0; // Prevent logo from shrinking
+  }
+
+  .title {
+    font-size: var(--e-heading-5); // Map 28px to design system heading size
+    color: var(--e-grayscale-950);
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.2; // Ensure consistency
+  }
+
+  .subtitle {
+    font-size: var(--e-body-4); // Map 14px to design system body size
+    color: var(--e-grayscale-950);
+    font-weight: 400;
+    letter-spacing: 0.28px;
+    margin: 0;
+    line-height: 1.5; // Improve readability
+  }
+
+  // Note: Global classes like .e-btn-group are applied directly
+  // in the TSX and don't need to be nested here unless you
+  // want to specifically override them ONLY within this component.
+  // Keeping the margin override for the button group:
+  :global(.e-btn-group) {
+    margin-left: auto;
+    min-width: 400px; /* Provide enough space for buttons */
+  }
+}

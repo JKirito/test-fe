@@ -1,0 +1,71 @@
+.methods-expanded {
+  width: 100%;
+  position: relative;
+  top: -14px;
+  overflow: hidden;
+  box-shadow: var(--e-shadow-sm);
+  border-bottom-left-radius: var(--e-br-16);
+  border-bottom-right-radius: var(--e-br-16);
+  background-color: var(--e-grayscale-white);
+
+  &-content {
+    padding: var(--e-sp-32) var(--e-sp-16) var(--e-sp-16) var(--e-sp-16);
+    max-height: 300px; /* Add max height of 300px */
+    overflow-y: auto; /* Add vertical scrollbar when content exceeds max-height */
+    scrollbar-width: thin; /* For Firefox */
+
+    /* Webkit scrollbar styling */
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: var(--e-grayscale-100);
+      border-radius: 3px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--e-grayscale-400);
+      border-radius: 3px;
+    }
+
+    &__list {
+      @include mx.e-flex(column, initial, initial, var(--e-sp-8));
+
+      &-title {
+        color: var(--e-grayscale-500);
+      }
+    }
+
+    &__list-item--file {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2px 0; // Minimal vertical padding, adjust if needed
+    }
+
+    &__list-text {
+      margin: 0; // Remove default paragraph margin
+      flex-grow: 1; // Allow text to take available space
+      padding-right: 8px; // Space between text and button
+    }
+
+    &__copy-button {
+      background: none;
+      border: none;
+      padding: 4px;
+      cursor: pointer;
+      color: var(--e-grayscale-600); // Adjust color as needed
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      flex-shrink: 0; // Prevent button from shrinking
+
+      &:hover {
+        color: var(--e-grayscale-950);
+        background-color: var(--e-grayscale-100);
+      }
+    }
+  }
+}

@@ -1,0 +1,179 @@
+// Animation keyframes needed for the item animation
+@keyframes resultsFade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes resultsSlideUp {
+  0% {
+    transform: translateY(30px) scale(0.98);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+// Animation variables (optional, but good practice if used)
+$searchEntryDelay: 600ms; // Assuming this is the intended delay variable
+
+.searchResultItem {
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--e-color-border, #f0f0f0);
+  padding: 16px;
+  border-radius: var(--e-br-24);
+  margin-bottom: 16px; // Note: This controls spacing *between* items, might belong in SearchResultsList
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transform: translateY(20px);
+  font-family: 'Rubik', sans-serif;
+  // Animation applied here, using the keyframes defined above
+  animation:
+    resultsFade calc($searchEntryDelay * 1) forwards,
+    resultsSlideUp calc($searchEntryDelay * 0.7) cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+
+.resultHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 4px;
+}
+
+.resultTitleContainer {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  flex: 1;
+}
+
+.sourceIcon {
+  margin-top: 3px;
+  flex-shrink: 0;
+
+  // Use direct class names since they are in the same module
+  &.sharepointIcon {
+    color: #0078d4;
+  }
+
+  &.driveIcon {
+    color: #4caf50;
+  }
+}
+// Define specific classes for icons if preferred over chaining
+.sharepointIcon {
+  color: #0078d4;
+}
+.driveIcon {
+  color: #4caf50;
+}
+
+.resultTitle {
+  margin: 0;
+  font-size: 18px;
+  flex: 1;
+  word-break: break-all;
+
+  a {
+    color: var(--e-color-primary, #1a73e8);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &.driveUrl {
+      color: var(--e-color-text, #4d5156);
+      cursor: default;
+      pointer-events: none;
+    }
+  }
+}
+// Specific class for the drive URL style within the title link
+.driveUrl {
+  color: var(
+    --e-color-text,
+    #4d5156
+  ) !important; // Use !important if needed to override base link color
+  cursor: default !important;
+  pointer-events: none !important;
+}
+
+.resultActions {
+  display: flex;
+  gap: 8px;
+  margin-left: 16px;
+}
+
+.actionButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--e-color-text-secondary, #70757a);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 4px;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: var(--e-color-background-hover, #f1f3f4);
+    color: var(--e-color-primary, #1a73e8);
+  }
+}
+
+// .resultUrl, .resultDescription, .resultMetadata, .resultMetaItem are not used in the TSX, but keep if needed
+.resultUrl {
+  color: var(--e-color-success, #0d652d);
+  font-size: 14px;
+  margin: 0 0 4px;
+}
+
+.resultDescription {
+  color: var(--e-color-text, #4d5156);
+  font-size: 14px;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.resultMetadata {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 4px 0;
+  font-size: 12px;
+  color: var(--e-color-text-secondary, #70757a);
+}
+
+.resultMetaItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  svg {
+    color: var(--e-color-text-secondary, #70757a);
+  }
+}
+
+.resultHighlights {
+  margin-top: 8px;
+  font-size: 0.9em;
+  color: #555;
+}
+
+.resultHighlight {
+  margin-bottom: 4px;
+}
+
+.pathDescription {
+  font-size: 0.8em;
+  color: #777;
+  margin-top: 2px; /* Small space below title */
+  margin-bottom: 8px; /* Space above highlights */
+  word-break: break-all; /* Prevent long paths from overflowing */
+}

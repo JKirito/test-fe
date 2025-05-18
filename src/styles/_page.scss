@@ -1,0 +1,19 @@
+@use 'utils/mixins' as mx;
+
+.page-heading {
+	@include mx.e-flex(row, space-between, center, var(--e-sp-24), wrap);
+
+	&__container {
+		@include mx.e-flex(row, initial, center, var(--e-sp-24), wrap);
+
+		&-icon {
+			width: 56px;
+			height: 56px;
+			object-fit: cover;
+		}
+
+		&-title {
+			@include mx.e-flex(column, initial, initial, var(--e-sp-8));
+		}
+	}
+}

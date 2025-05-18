@@ -1,0 +1,24 @@
+$header-menu-height: 64px;
+$curiosity-header-height: 126px;
+
+.curiosityHome {
+  margin-top: $header-menu-height;
+  height: calc(100vh - $header-menu-height - $curiosity-header-height);
+
+  .curiosityHomeContent {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0 auto;
+    padding: var(--e-sp-24) var(--e-sp-40);
+    width: 90%;
+    height: 100%;
+    gap: var(--e-sp-24);
+  }
+}
+
+.curiosityChatContainer {
+  width: 100%;
+  height: 100%;
+  // padding: var(--e-sp-16);
+}

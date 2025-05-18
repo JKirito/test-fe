@@ -1,0 +1,30 @@
+@forward 'styles/_init';
+
+@forward 'styles/root/_container';
+@forward 'styles/root/_default';
+
+@forward 'styles/theme/_select';
+@forward 'styles/theme/_button';
+@forward 'styles/theme/_button-variants';
+@forward 'styles/theme/_input';
+@forward 'styles/theme/_keyframes';
+@forward 'styles/theme/_typography';
+
+@forward 'styles/_page';
+
+// Component styles
+@forward 'styles/components/BenchmarkTable';
+@forward 'styles/components/ProjectSelectionTable';
+
+@use './styles/utils/mixins.scss' as mixins;
+@use '~bootstrap/scss/bootstrap';
+
+.app {
+  @include mixins.e-flex(column);
+  // min-height: 100vh;
+
+  &-main {
+    flex: 1;
+    height: 100%;
+  }
+}

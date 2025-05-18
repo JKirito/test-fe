@@ -1,0 +1,46 @@
+.methods-users {
+	position: absolute;
+	top: var(--e-sp-8);
+	right: var(--e-sp-16);
+
+	&-avatar {
+		@include mx.e-flex(row, center, center);
+		width: 32px;
+		height: 32px;
+		position: absolute;
+		top: 0;
+		border: 2px solid var(--e-primary-300);
+		background-color: var(--e-primary-50);
+
+		@for $i from 1 through 100 {
+			&:nth-child(#{$i}) {
+				right: calc(var(--e-sp-28) * #{$i});
+				z-index: 100 - $i;
+			}
+		}
+
+		&__title {
+			position: relative;
+			top: 1px;
+		}
+	}
+
+	&-tooltip {
+		@include mx.e-flex(column, initial, initial, var(--e-sp-8));
+		position: absolute;
+		z-index: 999999 !important;
+		transform: translate(-65px, 0) !important;
+		min-width: 180px;
+		width: max-content;
+		box-shadow: var(--e-shadow-base);
+		background-color: var(--e-grayscale-white);
+
+		&__item {
+			@include mx.e-flex(row, initial, center, var(--e-sp-8));
+
+			&-avatar {
+				position: static;
+			}
+		}
+	}
+}

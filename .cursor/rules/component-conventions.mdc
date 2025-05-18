@@ -1,0 +1,35 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# General Component Conventions
+
+This document outlines the primary coding conventions and structure used across the frontend application.
+
+## Directory Structure & Organization
+
+- **Feature-Based Modules:** Organize code into feature-based modules or directories where appropriate (e.g., a directory for user authentication, a directory for a specific feature like `curiosity`).
+- **Component Colocation:** Within a feature or component directory, each component should ideally have its own subdirectory containing:
+    - The component's TSX file (e.g., `[ComponentName].tsx`).
+    - The component's CSS Module file (e.g., `[ComponentName].module.scss`).
+    - An optional `index.tsx` for simplified barrel exports. Example: [`CuriosityHeader/index.tsx`](mdc:src/pages/curiosity/CuriosityHeader/index.tsx).
+    - Any child components tightly coupled to this parent component.
+
+## Component Implementation
+
+- **Functional Components:** Use functional components with React Hooks (`useState`, `useEffect`, `useContext`, etc.).
+- **Naming:** Use PascalCase for component names and their corresponding TSX filenames (e.g., `UserProfile`, `UserProfile.tsx`). CSS Module files should match the component name (e.g., `UserProfile.module.scss`).
+- **Styling:** Use CSS Modules (`.module.scss`) for component-scoped styling. Import styles as `styles` (e.g., `import styles from './UserProfile.module.scss';`).
+- **TypeScript:** Employ TypeScript for robust type safety. Define interfaces or types for props, state, and complex data structures. Example: [`IMessage` interface in `CuriosityChat.tsx`](mdc:src/pages/curiosity/CuriosityChat/CuriosityChat.tsx).
+- **State Management:** Use `useState` for local component state. For shared or global state, utilize the established state management library (e.g., Redux, Context API). Access shared state via appropriate hooks (e.g., `useSelector`, `useDispatch` for Redux).
+- **Imports:** Prefer absolute path aliases (`@/`) for imports outside the current feature module (e.g., importing utils, store, shared components). Use relative paths (`./` or `../`) for imports *within* the same feature module (e.g., importing local styles or child components).
+- **Component Size:** Aim to keep components focused and reasonably sized (ideally under 300 lines) to enhance readability and maintainability. Break down complex components into smaller, reusable sub-components.
+
+## Example Structures (Illustrative)
+
+- **Feature Component:** [`CuriosityHome.tsx`](mdc:src/pages/curiosity/CuriosityHome.tsx) shows orchestration of several sub-components within a feature.
+- **Sub-Component:** [`CuriosityChat.tsx`](mdc:src/pages/curiosity/CuriosityChat/CuriosityChat.tsx) demonstrates a self-contained part of a feature using CSS Modules and state.
+- **Nested/Child Component:** [`SidebarCard.tsx`](mdc:src/pages/curiosity/CuriositySidebar/SidebarCard/SidebarCard.tsx) illustrates a smaller, reusable component within a larger one.
+
+

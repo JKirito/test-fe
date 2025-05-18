@@ -1,0 +1,20 @@
+$page-loading-duration: 600ms;
+
+.abacus-home {
+  height: calc(100vh - var(--e-header) - 16px); // Adjust height to account for header and padding
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  margin-top: calc(var(--e-header)); // Add margin to push down from header
+  position: relative; // Add positioning context
+  top: 0; // Position at the top
+  left: 0; // Position at the left
+  right: 0; // Position at the right
+  border-top: none; // Remove any top border
+  opacity: 0;
+  background-color: var(--e-grayscale-100) !important; // Match background with header
+  animation-delay: $page-loading-duration;
+  animation-fill-mode: forwards;
+  animation-duration: 350ms;
+  animation-name: eFade;
+}

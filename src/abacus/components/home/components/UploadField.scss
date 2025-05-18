@@ -1,0 +1,86 @@
+// src/abacus/components/home/components/UploadField.module.scss
+
+// --- Base Variables (Consider defining these globally if used elsewhere) ---
+$primary-blue: #007bff; // Example blue - replace with your actual primaryBlue variable/value
+$title-primary-blue: #0056b3; // Example darker blue - replace
+$text-red: #dc3545; // Example red
+
+// --- Block ---
+.upload-field {
+  // Base container styles from the outer div
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem; // gap-1.5
+
+  // Specific styles for the 'download' type container if needed
+  // Example:
+  // &.upload-field--type-download { ... }
+}
+
+// --- Elements ---
+.upload-field__button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1rem 2.5rem 1rem 1.5rem; // p-4 pr-10 pl-6
+  border-radius: 9999px; // rounded-full
+  background-color: rgba($primary-blue, 0.2); // bg-primaryBlue/20
+  color: $title-primary-blue;
+  font-family: 'Poppins', sans-serif; // font-poppins (assuming Poppins is globally available)
+  text-align: center;
+  transition: background-color 0.15s ease-in-out; // transition-colors (default duration)
+  cursor: pointer;
+  border: none; // Buttons have default borders
+
+  &:hover {
+    background-color: rgba($primary-blue, 0.3); // hover:bg-primaryBlue/30
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba($primary-blue, 0.5); // focus:ring-2 focus:ring-primaryBlue/50
+  }
+}
+
+.upload-field__content-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; // gap-2
+}
+
+.upload-field__icon {
+  width: 1.25rem; // w-5
+  height: 1.25rem; // h-5
+}
+
+.upload-field__remove-button {
+  display: inline-flex; // To contain the icon correctly
+  padding: 0.25rem; // p-1
+  border-radius: 9999px; // rounded-full
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+
+  &:hover {
+    background-color: rgba($primary-blue, 0.3); // hover:bg-primaryBlue/30
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba($primary-blue, 0.5); // focus:ring-2 focus:ring-primaryBlue/50
+  }
+}
+
+.upload-field__remove-icon {
+  width: 1rem; // w-4
+  height: 1rem; // h-4
+  color: $title-primary-blue;
+}
+
+.upload-field__required-indicator {
+  color: $text-red; // text-red-500
+}
+
+// --- Consider Modifiers if needed ---
+// Example:
+// .upload-field__button--disabled { ... }

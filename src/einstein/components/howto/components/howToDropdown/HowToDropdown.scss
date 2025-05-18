@@ -1,0 +1,17 @@
+.how-to-dropdown {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 11px;
+  align-items: left;
+
+  &-title {
+    color: #0f1214;
+    font-family: 'Rubik', sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 136%;
+    letter-spacing: 0.24px;
+  }
+}

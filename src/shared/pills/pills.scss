@@ -1,0 +1,44 @@
+.pill-container {
+  &__pill {
+    @include mx.e-flex(row, initial, initial);
+    gap: var(--e-sp-6);
+    border-radius: 9999px;
+    border: 1px solid var(--e-grayscale-800);
+    background-color: var(--e-grayscale-100);
+    padding: var(--e-sp-6) var(--e-sp-10) var(--e-sp-6) var(--e-sp-16);
+    justify-content: center;
+    align-items: center;
+    font-family: 'Rubik', sans-serif;
+    font-size: var(--e-fs-14);
+    font-weight: 400;
+    line-height: 144%;
+    color: var(--e-grayscale-950);
+
+    &:hover {
+      background-color: var(--e-grayscale-200);
+    }
+
+    &:focus {
+      background-color: var(--e-grayscale-200);
+      border: 2px solid var(--e-system-yellow-500);
+    }
+
+    img {
+      width: var(--e-sp-20);
+      height: var(--e-sp-20);
+      object-fit: cover;
+      cursor: pointer;
+    }
+  }
+
+  .disabled {
+    background-color: var(--e-grayscale-100);
+    border: 1px solid var(--e-grayscale-800);
+    color: var(--e-grayscale-500);
+    cursor: not-allowed;
+
+    img {
+      cursor: not-allowed;
+    }
+  }
+}

@@ -1,0 +1,221 @@
+:root {
+  // Static
+  --e-grayscale-black: #000000;
+  --e-grayscale-white: #ffffff;
+
+  // Grayscale
+  --e-grayscale-950: #0f1214;
+  --e-grayscale-900: #151b1f;
+  --e-grayscale-800: #232d33;
+  --e-grayscale-700: #303747;
+  --e-grayscale-600: #4d5c66;
+  --e-grayscale-500: #77868f;
+  --e-grayscale-400: #9ca8af;
+  --e-grayscale-400-rgb: 156, 168, 175; // RGB values for rgba usage
+  --e-grayscale-300: #d1d7db;
+  --e-grayscale-200: #e5e9eb;
+  --e-grayscale-100: #f3f5f6;
+  --e-grayscale-50: #f6f9fb;
+
+  // Primary
+  --e-primary-950: #113044;
+  --e-primary-900: #0b4266;
+  --e-primary-800: #0a629b;
+  --e-primary-700: #0b76bb;
+  --e-primary-600: #128cda;
+  --e-primary-500: #149ef6;
+  --e-primary-500-rgb: 20, 158, 246; // RGB values for rgba usage
+  --e-primary-400: #43b3fb;
+  --e-primary-300: #6cc4fd;
+  --e-primary-200: #90d3ff;
+  --e-primary-100: #c4e8ff;
+  --e-primary-50: #e4f5ff;
+
+  // System Blue
+  --e-system-blue-900: #233876;
+  --e-system-blue-800: #1e429f;
+  --e-system-blue-700: #1a56db;
+  --e-system-blue-600: #1c64f2;
+  --e-system-blue-500: #3f83f8;
+  --e-system-blue-400: #76a9fa;
+  --e-system-blue-300: #a4cafe;
+  --e-system-blue-200: #c3ddfd;
+  --e-system-blue-100: #e1effe;
+  --e-system-blue-50: #ebf5ff;
+
+  // System Red
+  --e-system-red-900: #771d1d;
+  --e-system-red-800: #9b1c1c;
+  --e-system-red-700: #c81e1e;
+  --e-system-red-600: #e02424;
+  --e-system-red-500: #f05252;
+  --e-system-red-400: #f98080;
+  --e-system-red-300: #f8b4b4;
+  --e-system-red-200: #fbd5d5;
+  --e-system-red-100: #fde8e8;
+  --e-system-red-50: #fdf2f2;
+
+  // System Green
+  --e-system-green-900: #014737;
+  --e-system-green-800: #03543f;
+  --e-system-green-700: #046c4e;
+  --e-system-green-600: #05875e;
+  --e-system-green-500: #0ba973;
+  --e-system-green-400: #31c48d;
+  --e-system-green-300: #84e1bc;
+  --e-system-green-200: #bcf0da;
+  --e-system-green-100: #def7ec;
+  --e-system-green-50: #f3faf7;
+
+  // System Yellow
+  --e-system-yellow-900: #4c3d1c;
+  --e-system-yellow-800: #5b4614;
+  --e-system-yellow-700: #755713;
+  --e-system-yellow-600: #9f720a;
+  --e-system-yellow-500: #c28903;
+  --e-system-yellow-400: #e3a008;
+  --e-system-yellow-300: #faca15;
+  --e-system-yellow-200: #fce96a;
+  --e-system-yellow-100: #fdf6b2;
+  --e-system-yellow-50: #fdfdea;
+
+  // Dataviz Primary
+  --e-dataviz-primary-1: #149ef6;
+  --e-dataviz-primary-2: #43b3fb;
+  --e-dataviz-primary-3: #6cc4fd;
+  --e-dataviz-primary-4: #90d3ff;
+  --e-dataviz-primary-5: #c4e8ff;
+  --e-dataviz-primary-6: #e4f5ff;
+
+  // Dataviz Purple
+  --e-dataviz-purple-1: #149ef6;
+  --e-dataviz-purple-2: #43b3fb;
+  --e-dataviz-purple-3: #6cc4fd;
+
+  // Dataviz Indigo
+  --e-dataviz-indigo-1: #90d3ff;
+  --e-dataviz-indigo-2: #c4e8ff;
+  --e-dataviz-indigo-3: #e4f5ff;
+
+  // Dataviz Cat
+  --e-dataviz-cat-1-dark: #7843cf;
+  --e-dataviz-cat-1: #a683e6;
+  --e-dataviz-cat-1-light: #d9d2f9;
+  --e-dataviz-cat-2-dark: #4f4dd0;
+  --e-dataviz-cat-2: #788fe8;
+  --e-dataviz-cat-2-light: #c7dafa;
+  --e-dataviz-cat-3-dark: #176689;
+  --e-dataviz-cat-3: #189ed6;
+  --e-dataviz-cat-3-light: #9bd9fd;
+  --e-dataviz-cat-4-dark: #006d55;
+  --e-dataviz-cat-4: #02a785;
+  --e-dataviz-cat-4-light: #ade6db;
+  --e-dataviz-cat-5-dark: #376c1f;
+  --e-dataviz-cat-5: #5fa250;
+  --e-dataviz-cat-5-light: #d2e3b6;
+  --e-dataviz-cat-6-dark: #6c5816;
+  --e-dataviz-cat-6: #a8923e;
+  --e-dataviz-cat-6-light: #ebdea0;
+  --e-dataviz-cat-7-dark: #984b15;
+  --e-dataviz-cat-7: #cf863a;
+  --e-dataviz-cat-7-light: #f3d998;
+  --e-dataviz-cat-8-dark: #c23642;
+  --e-dataviz-cat-8: #e87482;
+  --e-dataviz-cat-8-light: #f7d1d5;
+  --e-dataviz-cat-9-dark: #b436a1;
+  --e-dataviz-cat-9: #dc74cb;
+  --e-dataviz-cat-9-light: #f0cbf1;
+  --e-dataviz-cat-10-dark: #575667;
+  --e-dataviz-cat-10: #8792a4;
+  --e-dataviz-cat-10-light: #d8dce5;
+
+  // Box Shadows
+  --e-shadow-sm: 0px 4px 20px 0px rgba(0, 0, 0, 0.08);
+  --e-shadow-base: 0px 2px 20px -1px rgba(0, 0, 0, 0.08), 0px 2px 20px -2px rgba(0, 0, 0, 0.06);
+  --e-shadow-md: 0px 4px 20px 0px rgba(0, 0, 0, 0.1), 0px 4px 4px 20px rgba(0, 0, 0, 0.1);
+  --e-shadow-lg: 0px 4px 40px 0px rgba(0, 0, 0, 0.1), 0px 4px 32px -1px rgba(0, 0, 0, 0.1);
+  --e-shadow-xl: 0px 4px 40px 0px rgba(0, 0, 0, 0.12), 0px 6px 40px -1px rgba(0, 0, 0, 0.16);
+
+  // Headline Typography
+  --e-heading-1: 72px;
+  --e-heading-2: 64px;
+  --e-heading-3: 48px;
+  --e-heading-4: 36px;
+  --e-heading-5: 28px;
+  --e-heading-6: 24px;
+
+  // Body Typography
+  --e-body-1: 20px;
+  --e-body-2: 18px;
+  --e-body-3: 16px;
+  --e-body-4: 14px;
+  --e-body-5: 12px;
+
+  // Spacings
+  --e-sp-0: 0px;
+  --e-sp-1: 1px;
+  --e-sp-2: 2px;
+  --e-sp-4: 4px;
+  --e-sp-6: 6px;
+  --e-sp-8: 8px;
+  --e-sp-10: 10px;
+  --e-sp-12: 12px;
+  --e-sp-14: 14px;
+  --e-sp-16: 16px;
+  --e-sp-20: 20px;
+  --e-sp-24: 24px;
+  --e-sp-28: 28px;
+  --e-sp-32: 32px;
+  --e-sp-36: 36px;
+  --e-sp-40: 40px;
+  --e-sp-48: 48px;
+  --e-sp-56: 56px;
+  --e-sp-64: 64px;
+  --e-sp-80: 80px;
+  --e-sp-96: 96px;
+  --e-sp-112: 112px;
+  --e-sp-120: 120px;
+  --e-sp-128: 128px;
+  --e-sp-144: 144px;
+  --e-sp-160: 160px;
+  --e-sp-176: 176px;
+  --e-sp-192: 192px;
+  --e-sp-200: 200px;
+  --e-sp-208: 208px;
+  --e-sp-224: 224px;
+  --e-sp-240: 240px;
+  --e-sp-256: 256px;
+  --e-sp-288: 288px;
+  --e-sp-320: 320px;
+  --e-sp-384: 384px;
+
+  // Border Radius
+  --e-br-0: 0px;
+  --e-br-2: 2px;
+  --e-br-4: 4px;
+  --e-br-6: 6px;
+  --e-br-8: 8px;
+  --e-br-12: 12px;
+  --e-br-16: 16px;
+  --e-br-24: 24px;
+  --e-br-32: 32px;
+  --e-br-40: 40px;
+  --e-br-48: 48px;
+  --e-br-100: 100%;
+
+  // Misc
+  --e-header: 64px;
+  --e-max-width: 90%;
+
+  // Breakpoints
+  --e-bp-xs: 500px;
+  --e-bp-s: 768px;
+  --e-bp-m: 1024px;
+  --e-bp-l: 1280px;
+  --e-bp-xl: 1440px;
+
+  // Font Family
+  --e-font-family-rubik: 'Rubik', sans-serif;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');

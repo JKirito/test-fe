@@ -1,0 +1,186 @@
+.range-slider {
+  margin-bottom: var(--e-sp-16);
+
+  &--error {
+    border: 1px solid var(--e-error-300);
+    border-radius: var(--e-br-4);
+    padding: var(--e-sp-12);
+    background-color: var(--e-error-100);
+  }
+
+  &__error-message {
+    color: var(--e-error-700);
+    font-size: 14px;
+    margin-top: var(--e-sp-8);
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--e-sp-8);
+  }
+
+  &__label {
+    display: block;
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--e-grayscale-800);
+  }
+
+  &__clear {
+    font-size: 12px;
+    color: var(--e-grayscale-500);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+
+    &:hover {
+      color: var(--e-grayscale-700);
+      text-decoration: underline;
+    }
+  }
+
+  &__inputs {
+    display: flex;
+    align-items: center;
+    gap: var(--e-sp-8);
+    margin-bottom: var(--e-sp-12);
+  }
+
+  &__input-group {
+    display: flex;
+    align-items: center;
+    flex: 1;
+  }
+
+  &__input {
+    width: 100%;
+    padding: var(--e-sp-8);
+    border: 1px solid var(--e-grayscale-300);
+    border-radius: var(--e-br-4);
+    font-size: 14px;
+
+    &:focus {
+      outline: none;
+      border-color: var(--e-primary-500);
+    }
+  }
+
+  &__separator {
+    font-size: 14px;
+    color: var(--e-grayscale-600);
+  }
+
+  &__unit {
+    margin-left: var(--e-sp-4);
+    font-size: 14px;
+    color: var(--e-grayscale-600);
+  }
+
+  &__values {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--e-sp-8);
+  }
+
+  &__value {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--e-grayscale-800);
+  }
+
+  &__track-container {
+    position: relative;
+    width: 100%;
+    height: 40px;
+    margin-bottom: var(--e-sp-12);
+  }
+
+  &__track {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background-color: var(--e-grayscale-300);
+    border-radius: 2px;
+    transform: translateY(-50%);
+  }
+
+  &__track-fill {
+    position: absolute;
+    height: 100%;
+    background-color: var(--e-primary-500);
+    border-radius: 2px;
+  }
+
+  &__input-min,
+  &__input-max {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    height: 16px;
+    background: none;
+    pointer-events: none;
+    -webkit-appearance: none;
+    appearance: none;
+    transform: translateY(-50%);
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--e-primary-500);
+      cursor: pointer;
+      border: 2px solid white;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      pointer-events: auto;
+    }
+
+    &::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--e-primary-500);
+      cursor: pointer;
+      border: 2px solid white;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      pointer-events: auto;
+    }
+
+    &:focus {
+      outline: none;
+
+      &::-webkit-slider-thumb {
+        box-shadow: 0 0 0 3px rgba(var(--e-primary-500-rgb), 0.3);
+      }
+
+      &::-moz-range-thumb {
+        box-shadow: 0 0 0 3px rgba(var(--e-primary-500-rgb), 0.3);
+      }
+    }
+  }
+
+  /* Z-index to ensure the min thumb appears above the track but below the max thumb */
+  &__input-min {
+    z-index: 1;
+  }
+
+  /* Z-index to ensure the max thumb appears above everything */
+  &__input-max {
+    z-index: 2;
+  }
+
+  &__range-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--e-grayscale-500);
+    padding-top: var(--e-sp-4);
+    border-top: 1px solid var(--e-grayscale-200);
+  }
+}

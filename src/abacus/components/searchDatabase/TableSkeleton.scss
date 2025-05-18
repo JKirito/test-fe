@@ -1,0 +1,135 @@
+// TableSkeleton.scss
+// Using BEM notation for the table skeleton component
+
+.abacus-table-skeleton {
+  width: 100%;
+
+  &__wrapper {
+    overflow-x: auto;
+    border: 1px solid var(--e-grayscale-200);
+    background-color: var(--e-grayscale-white);
+    border-radius: var(--e-br-8);
+    min-height: 300px; // Smaller height on mobile
+
+    @include bp.xs {
+      border-radius: var(--e-br-12);
+      min-height: 350px;
+    }
+
+    @include bp.m {
+      min-height: 400px;
+      border-radius: var(--e-br-16);
+    }
+  }
+
+  &__header {
+    display: flex;
+    background-color: var(--e-grayscale-50);
+    padding: var(--e-sp-8) var(--e-sp-12);
+    border-bottom: 1px solid var(--e-grayscale-200);
+    min-width: 1200px; // Smaller width on mobile
+
+    @include bp.s {
+      padding: var(--e-sp-10) var(--e-sp-14);
+      min-width: 1500px;
+    }
+
+    @include bp.m {
+      padding: var(--e-sp-12) var(--e-sp-16);
+      min-width: 1800px;
+    }
+  }
+
+  &__header-cell {
+    flex: 1;
+    padding: 0 var(--e-sp-8);
+    min-width: 100px;
+    max-width: 300px;
+
+    &:first-child {
+      min-width: 120px;
+      max-width: 120px;
+    }
+
+    &:nth-child(2) {
+      min-width: 200px;
+      max-width: 200px;
+    }
+
+    &:nth-child(3) {
+      min-width: 300px;
+      max-width: 300px;
+    }
+  }
+
+  &__body {
+    min-width: 1200px; // Smaller width on mobile
+
+    @include bp.s {
+      min-width: 1500px;
+    }
+
+    @include bp.m {
+      min-width: 1800px;
+    }
+  }
+
+  &__row {
+    display: flex;
+    border-bottom: 1px solid var(--e-grayscale-200);
+    padding: var(--e-sp-8) var(--e-sp-12);
+
+    @include bp.s {
+      padding: var(--e-sp-10) var(--e-sp-14);
+    }
+
+    @include bp.m {
+      padding: var(--e-sp-12) var(--e-sp-16);
+    }
+  }
+
+  &__cell {
+    flex: 1;
+    padding: 0 var(--e-sp-8);
+    min-width: 100px;
+    max-width: 300px;
+
+    &:first-child {
+      min-width: 120px;
+      max-width: 120px;
+    }
+
+    &:nth-child(2) {
+      min-width: 200px;
+      max-width: 200px;
+    }
+
+    &:nth-child(3) {
+      min-width: 300px;
+      max-width: 300px;
+    }
+  }
+
+  &__pulse {
+    height: 16px;
+    width: 100%;
+    background: linear-gradient(
+      90deg,
+      var(--e-grayscale-100) 0%,
+      var(--e-grayscale-200) 50%,
+      var(--e-grayscale-100) 100%
+    );
+    background-size: 200% 100%;
+    animation: pulse 1.5s ease-in-out infinite;
+    border-radius: var(--e-br-4);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: -200% 0%;
+  }
+}

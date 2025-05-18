@@ -1,0 +1,143 @@
+@import '@/styles/utils/breakpoints.scss';
+
+$page-loading-duration: 600ms;
+
+.abacus-cost-home {
+  height: calc(100vh - var(--e-header) - 16px); // Adjust height to account for header and padding
+  width: 100%;
+  max-width: var(--e-max-width);
+  display: flex;
+  margin-top: calc(var(--e-header)); // Add margin to push down from header
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0;
+  animation-delay: $page-loading-duration;
+  animation-fill-mode: forwards;
+  animation-duration: 350ms;
+  animation-name: eFade;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  padding: var(--e-sp-40);
+
+  @include m {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  &__header {
+    padding-top: var(--e-sp-16);
+    padding-bottom: var(--e-sp-16);
+    margin-bottom: var(--e-sp-40);
+    margin-top: var(--e-sp-40);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    font-family: 'Rubik', sans-serif;
+    // font-weight: 400;
+
+    h1 {
+      margin: 0;
+    }
+
+    img {
+      width: var(--e-sp-56);
+      height: var(--e-sp-56);
+      object-fit: contain;
+    }
+
+    &__content {
+      display: flex;
+      flex-direction: column;
+      gap: var(--e-sp-8);
+      margin-left: var(--e-sp-16);
+      // text-transform: uppercase;
+    }
+
+    &__title {
+      font-size: var(--e-sp-28);
+      font-family: 'Rubik', sans-serif;
+      line-height: 114%;
+      font-weight: 600;
+      color: var(--e-grayscale-950);
+    }
+
+    &__subtitle {
+      font-size: var(--e-sp-16);
+      font-family: 'Rubik', sans-serif;
+      line-height: 114%;
+      font-weight: 400;
+      color: var(--e-grayscale-950);
+    }
+  }
+
+  &__cards-container {
+    display: flex;
+    flex-direction: column;
+    // justify-content: space-between;
+    align-items: center;
+    gap: var(--e-sp-32);
+
+    @include m {
+      flex-direction: row;
+      gap: var(--e-sp-32);
+      align-items: stretch;
+    }
+  }
+  &__card {
+    width: 100%;
+    background-color: var(--e-grayscale-100);
+    border-radius: var(--e-border-radius-md);
+    padding: var(--e-sp-24);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: var(--rounded-24, 24px);
+    background: var(--Grayscale-White, #fff);
+    /* Shadow/shadow-sm */
+    box-shadow: 0px var(--value-4, 4px) var(--value-20, 20px) 0px rgba(0, 0, 0, 0.02);
+    font-family: 'Rubik', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.32px;
+
+    @include m {
+      width: 30%;
+      max-width: 550px;
+    }
+
+    &:hover {
+      transform: translateY(-5px);
+      background-color: var(--e-primary-500);
+      color: #fff;
+
+      h2,
+      span {
+        color: #fff;
+      }
+    }
+
+    img {
+      width: 80px;
+      height: 80px;
+    }
+
+    h2 {
+      font-size: var(--e-sp-24);
+      color: var(--e-grayscale-950);
+      font-weight: 600;
+      margin: 0;
+      margin-top: var(--e-sp-24);
+      white-space: pre-line; /* This allows \n to create line breaks */
+    }
+
+    span {
+      font-size: var(--e-sp-16);
+      font-weight: 400;
+      color: var(--e-grayscale-500);
+      margin-top: var(--e-sp-16);
+    }
+  }
+}

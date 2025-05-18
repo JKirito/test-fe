@@ -1,0 +1,46 @@
+.reviewActions {
+  // flex justify-between mt-8
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem; // mt-8
+
+  &__button {
+    // Common button styles
+    padding: 0.75rem 1.5rem; // px-6 py-3
+    border-radius: 9999px; // rounded-full
+    border: none;
+    cursor: pointer;
+    font-weight: 500; // Typically medium for buttons
+    transition:
+      background-color 0.2s ease-in-out,
+      opacity 0.2s ease-in-out;
+    font-size: 1rem; // Default button font size
+
+    &:disabled {
+      // disabled:opacity-50 disabled:cursor-not-allowed
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    // Specific button types
+    &--back {
+      // bg-gray-200 text-gray-700 hover:bg-gray-300
+      background-color: var(--gray-200);
+      color: var(--gray-700);
+
+      &:hover {
+        background-color: var(--gray-300);
+      }
+    }
+
+    &--submit {
+      // bg-primaryBlue text-white hover:bg-primaryBlue/90
+      background-color: var(--primary-blue);
+      color: var(--white);
+
+      &:hover:not(:disabled) {
+        background-color: rgba(var(--primary-blue-rgb), 0.9); // hover:bg-primaryBlue/90
+      }
+    }
+  }
+}

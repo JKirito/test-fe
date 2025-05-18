@@ -1,0 +1,62 @@
+.attachedFilesSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-sp-16); // Use variable if available, otherwise keep 16px
+  font-family: 'Rubik', sans-serif;
+  margin-top: var(--e-sp-32); // Add some top margin to separate from previous section
+
+  .title {
+    font-size: var(--e-body-1); // Assuming 18px maps to body-1 or similar
+    font-weight: 600;
+    color: var(--e-grayscale-950); // Use variable for black/dark gray
+    margin: 0; // Reset default heading margin
+  }
+
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--e-sp-4); // Use variable if available, otherwise keep 4px
+  }
+
+  .button {
+    display: inline-flex; // Use inline-flex for better alignment with text
+    align-items: center;
+    gap: var(--e-sp-8); // Use variable if available, otherwise keep 10px
+    width: fit-content;
+    padding: var(--e-sp-4) var(--e-sp-8);
+    border-radius: var(--e-br-4);
+    transition: background-color 0.2s ease;
+    background: none; // Explicitly no background
+    border: none; // Explicitly no border
+    text-align: left;
+    cursor: pointer;
+
+    .icon {
+      width: 20px;
+      height: 20px;
+      color: var(--e-primary-500); // Use variable for primary color
+      flex-shrink: 0; // Prevent icon from shrinking
+    }
+
+    .label {
+      font-size: var(--e-body-4); // Assuming 14px maps to body-4 or similar
+      font-weight: 500;
+      color: var(--e-primary-500); // Use variable
+      text-decoration: underline;
+      line-height: 1.2; // Adjust line height for better alignment
+    }
+
+    &:hover {
+      background-color: var(--e-grayscale-100); // Use variable for light hover background
+
+      .label {
+        color: var(--e-primary-600); // Darken label color on hover
+      }
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px var(--e-primary-200); // Add focus ring
+    }
+  }
+}

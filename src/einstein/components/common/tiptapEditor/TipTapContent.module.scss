@@ -1,0 +1,16 @@
+/* TipTapContent.scss - Styles for rendered TipTap content */
+
+/* Additional styles for rendered content */
+.tiptap-content {
+  font-family: 'Rubik', sans-serif;
+
+  /* Import and apply base typography styles */
+  @import './typography-base';
+
+  /* Add any specific overrides for the content view *only* here if needed */
+  /* For example:
+  h1 {
+    color: blue; // Content-view specific H1 color
+  }
+  */
+}

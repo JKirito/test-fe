@@ -1,0 +1,33 @@
+.citrixNotification {
+  background-color: var(--e-system-yellow-100);
+  font-family: 'Rubik', sans-serif;
+  padding: var(--e-sp-6);
+  display: flex;
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 32px;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 2000;
+}
+
+.citrixNotification__title {
+  font-size: var(--e-sp-14);
+  width: 100%;
+  font-family: 'Rubik', sans-serif;
+  line-height: 114%;
+  font-weight: 400;
+  text-align: center;
+  color: var(--e-grayscale-950);
+  letter-spacing: 0.28px;
+  line-height: 144%;
+  margin: 0;
+}
+
+.citrixNotification__button {
+  border: none;
+  cursor: pointer;
+  color: var(--e-grayscale-950);
+}

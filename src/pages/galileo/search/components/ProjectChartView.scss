@@ -1,0 +1,141 @@
+@import '@/styles/utils/breakpoints.scss';
+
+.project-chart-view {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  &__empty {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: var(--e-sp-16);
+    height: 400px;
+    background-color: #fff;
+    border-radius: var(--e-br-24);
+    margin-top: var(--e-sp-16);
+    font-family: var(--e-font-family-rubik);
+    font-weight: 400;
+
+    p {
+      font-size: 16px;
+      color: var(--e-grayscale-600);
+    }
+  }
+
+  &__loading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 400px;
+    background-color: var(--e-grayscale-50);
+    border-radius: var(--e-br-8);
+    margin: var(--e-sp-16);
+
+    .e-loader {
+      margin-bottom: var(--e-sp-16);
+    }
+
+    p {
+      font-size: 16px;
+      color: var(--e-grayscale-600);
+    }
+  }
+
+  &__error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 400px;
+    background-color: var(--e-grayscale-50);
+    border-radius: var(--e-br-8);
+    margin: var(--e-sp-16);
+
+    p {
+      font-size: 16px;
+      color: var(--e-error-500);
+    }
+  }
+
+  &__charts {
+    display: flex;
+    flex-direction: row;
+    gap: var(--e-sp-24);
+    padding: var(--e-sp-16);
+    overflow-x: auto; /* Allow horizontal scrolling if needed */
+    min-height: 500px; /* Set a minimum height for the charts container */
+  }
+
+  &__chart {
+    flex: 1;
+    min-width: 350px; /* Minimum width for each chart */
+    border-radius: var(--e-br-24);
+    overflow: hidden;
+    background-color: var(--e-grayscale-white);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  &__chart-layout {
+    width: 100%;
+    height: 100%;
+  }
+
+  &__chart-content {
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+  }
+
+  &__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--e-sp-12);
+    padding: var(--e-sp-16);
+  }
+
+  &__legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--e-sp-8);
+    font-size: 14px;
+    color: var(--e-grayscale-800);
+  }
+
+  &__legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+  }
+
+  &__legend-line {
+    width: 24px;
+    height: 0;
+    display: inline-block;
+  }
+
+  &__chart-layout-container {
+    height: 100%;
+  }
+
+  /* Media query for smaller screens */
+  @media (max-width: 1200px) {
+    &__charts {
+      flex-direction: column;
+      min-height: auto;
+
+      [data-layout='row'] {
+        flex-direction: column;
+      }
+    }
+
+    &__chart {
+      width: 100%;
+      min-width: 100%;
+      margin-bottom: var(--e-sp-16);
+    }
+  }
+}

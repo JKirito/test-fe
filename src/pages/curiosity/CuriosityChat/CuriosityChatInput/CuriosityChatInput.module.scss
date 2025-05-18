@@ -1,0 +1,69 @@
+.chatInputContainer {
+  padding: var(--e-sp-16);
+  background-color: #fff;
+  border-radius: var(--e-br-24);
+}
+
+.chatInputWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--e-sp-16);
+  border-radius: var(--e-br-24);
+  border: 1px solid var(--e-grayscale-300);
+}
+
+.textInput {
+  flex-grow: 1;
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin-right: 10px;
+  font-size: 1rem;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.actionsContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px; /* Space between buttons */
+  width: 100%;
+}
+
+.actionButtonsContainer {
+  display: flex;
+  gap: 8px; /* Space between buttons */
+}
+
+.actionButton {
+  background: none;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  font-size: 1.2rem; /* Adjust size as needed */
+  color: #555;
+
+  &:hover {
+    color: #000;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+/* Style for the dedicated Send button */
+.sendButton {
+  /* Inherit or override styles from actionButton if desired */
+  composes: actionButton; /* Inherit styles from actionButton */
+  font-size: 1.5rem; /* Example: slightly larger */
+  color: #007bff; /* Example: primary color */
+
+  &:disabled {
+    color: #ccc; /* Example: disabled color */
+  }
+}

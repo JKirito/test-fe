@@ -1,0 +1,88 @@
+@import '@/styles/utils/mixins';
+
+// Map container styles
+.map-container {
+  height: calc(100vh - var(--e-header)); // Use variable
+  margin-top: var(--e-header);
+  width: 100%;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  background-color: var(--e-grayscale-white); // Use variable
+}
+
+// Map wrapper styles
+.map-wrapper {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  flex: 1;
+  border: none;
+  margin: 0;
+
+  // Loading overlay style (Keep this here as it belongs to the wrapper)
+  .loading-overlay {
+    position: absolute;
+    top: var(--e-sp-10);
+    right: var(--e-sp-10);
+    background-color: var(--e-grayscale-white);
+    padding: var(--e-sp-8) var(--e-sp-16);
+    border-radius: var(--e-br-6);
+    box-shadow: var(--e-shadow-base);
+    z-index: 10;
+    @include e-flex($align: center, $gap: var(--e-sp-8));
+    font-weight: 500;
+    color: var(--e-grayscale-700);
+    font-size: var(--e-body-4);
+
+    svg {
+      animation: spin 1s linear infinite;
+      width: var(--e-sp-20);
+      height: var(--e-sp-20);
+      circle { stroke: var(--e-grayscale-200); }
+      path { stroke: var(--e-primary-500); }
+    }
+  }
+}
+
+// Google Maps specific overrides (Keep these global within map context)
+.gm-style {
+  height: 100% !important;
+
+  .gm-style-iw {
+    border-radius: var(--e-br-8);
+    box-shadow: var(--e-shadow-base);
+    padding: var(--e-sp-12) !important; // Add some padding
+  }
+
+  // Optional: Style default marker shadow if needed
+  // img[src*='marker'] {
+  //   filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.3));
+  // }
+
+  // Default button styles (like zoom controls) - if not disabled
+  button {
+    background-color: var(--e-grayscale-white) !important;
+    border-radius: var(--e-br-4) !important;
+    box-shadow: var(--e-shadow-sm) !important;
+  }
+}
+
+// Global animations used by map components (Keep here or move to global scope)
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// Keyframes used by ClusterOverlay (keep global or ensure import)
+@keyframes fadeInOverlay {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+// Pulse animation if needed globally
+/*
+@keyframes pulse {
+  // ... pulse keyframes ...
+}
+*/

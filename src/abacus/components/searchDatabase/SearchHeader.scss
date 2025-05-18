@@ -1,0 +1,40 @@
+// SearchHeader.scss
+// Using BEM notation for the search header component
+
+.abacus-search-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--e-sp-16);
+  margin: var(--e-sp-40) 0;
+  font-family: 'Rubik', sans-serif;
+  line-height: 114%;
+  width: 100%;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--e-sp-8);
+  }
+
+  &__logo {
+    width: var(--e-sp-56);
+    place-self: start;
+  }
+
+  &__title {
+    font-size: 28px;
+    color: var(--e-grayscale-950);
+    font-weight: 600;
+    margin: 0;
+  }
+
+  &__subtitle {
+    font-size: 14px;
+    color: var(--e-grayscale-950);
+    font-weight: 400;
+    letter-spacing: 0.28px;
+    margin: 0;
+  }
+}

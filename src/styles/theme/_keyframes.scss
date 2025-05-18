@@ -1,0 +1,125 @@
+@keyframes eRotateX {
+	0% {
+		opacity: 0;
+		transform: rotateX(-90deg);
+	}
+
+	50% {
+		transform: rotateX(-20deg);
+	}
+
+	100% {
+		opacity: 1;
+		transform: rotateX(0deg);
+	}
+}
+
+@keyframes eFade {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes eFadeOut {
+	from {
+		opacity: 1;
+	}
+
+	to {
+		opacity: 0;
+	}
+}
+
+@keyframes eFadeBlur {
+	0% {
+		opacity: 0.4;
+		filter: blur(100px);
+	}
+
+	50% {
+		opacity: 0.8;
+		filter: blur(20px);
+	}
+
+	100% {
+		opacity: 1;
+		filter: blur(0);
+	}
+}
+
+.e-fade-blur {
+	animation: eFadeBlur 1.5s 500ms ease;
+}
+
+@keyframes eAccentTitle {
+	0% {
+		transform: translateY(-50px);
+		opacity: 0;
+		clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 80%);
+	}
+
+	50% {
+		transform: translateY(50px);
+		opacity: 0;
+		clip-path: polygon(100% 0, 100% -0%, 0 100%, 0 100%);
+	}
+
+	100% {
+		transform: translateY(0);
+		opacity: 1;
+		clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 15%);
+	}
+}
+
+.e-accent-title {
+	opacity: 1;
+	clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 15%);
+	animation: eAccentTitle 2s 300ms ease;
+}
+
+@keyframes eHeartbeat {
+	0% {
+		transform: scale(1);
+	}
+
+	25% {
+		transform: scale(1.2);
+	}
+
+	50% {
+		transform: scale(1);
+	}
+
+	75% {
+		transform: scale(1.2);
+	}
+
+	100% {
+		transform: scale(1);
+	}
+}
+
+@keyframes headingSlideZoom {
+	0% {
+		transform: translateY(-50%) scale(0.9);
+	}
+
+	50% {
+		transform: translateY(0) scale(0.9);
+	}
+
+	100% {
+		transform: scale(1);
+	}
+}
+
+.e-heading-title {
+	opacity: 0;
+	animation:
+		eFade 1.6s 800ms ease-out forwards,
+		headingSlideZoom 800ms 800ms cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}

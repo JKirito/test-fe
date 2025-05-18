@@ -1,0 +1,506 @@
+$page-loading-duration: 600ms;
+
+.benchmark-home {
+  height: calc(100vh - var(--e-header)); // Adjust height to account for header and padding
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0;
+  display: inline-block;
+  margin-top: calc(var(--e-header));
+  background-color: var(--e-grayscale-100) !important; // Match background with header
+  animation-delay: $page-loading-duration;
+  animation-fill-mode: forwards;
+  animation-duration: 350ms;
+  animation-name: eFade;
+
+  // Modifier class to apply max-width when NOT on the filters step
+  &--limitedWidth {
+    max-width: 90vw;
+  }
+}
+
+.benchmarkContent {
+  width: 100%;
+  font-family: 'Rubik', sans-serif;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  padding-top: 1px;
+
+  &__main {
+    max-width: 804px;
+    margin: 0 auto;
+    margin-top: 42px;
+    padding-bottom: 100px;
+
+    &--fullWidth {
+      max-width: none;
+    }
+  }
+}
+
+.filter__label {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.28px;
+}
+
+// Benchmark filters specific styles
+.benchmarkFilters {
+  width: 100%;
+  background-color: #fff;
+  padding: 16px;
+  border-radius: 24px;
+
+  &__section {
+    margin-top: 24px;
+    width: 100%;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  &__columnsContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 28px; // Replaces gap-7
+    width: 100%;
+  }
+
+  &__sectionTitle {
+    color: var(--e-grayscale-950);
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 0;
+    letter-spacing: 0.28px;
+
+    &-header {
+      font-size: 18px;
+      font-weight: 500;
+    }
+  }
+
+  // Filter layout styles (replaces Tailwind flex/gap)
+  &__filterLayout {
+    margin-top: 24px; // Replaces mt-6
+    display: flex;
+    flex-direction: column;
+    gap: 28px; // Replaces gap-7
+  }
+
+  &__filterRow {
+    display: flex;
+    flex-direction: row;
+    gap: 28px; // Replaces gap-7
+    width: 100%;
+  }
+
+  &__filterItem {
+    width: 50%; // Replaces w-1/2
+  }
+
+  // Question grid layout (replaces Tailwind grid/gap)
+  &__questionGrid {
+    margin-top: 24px; // Replaces mt-6
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); // 2 columns
+    gap: 28px; // Replaces gap-7
+    width: 100%;
+  }
+
+  &__questionItem {
+    // No specific styles needed here if InputField takes full width
+  }
+
+  &__sectionSeparator {
+    height: 1px;
+    background-color: var(--e-grayscale-300);
+    margin-top: 24px;
+  }
+
+  &__submitContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 32px; // Replaces mt-8
+  }
+
+  &__submitButton {
+    background-color: #149ef6; // bg-primaryBlue
+    color: #ffffff; // text-white
+    padding: 12px 40px; // px-10 py-3
+    border-radius: 9999px; // rounded-full
+    min-width: 300px;
+    border: none;
+    cursor: pointer;
+    transition:
+      background-color 0.2s ease-in-out,
+      opacity 0.2s ease-in-out;
+
+    &:hover {
+      background-color: #0e8ad8; // hover:bg-primaryBlue/90
+    }
+
+    &:disabled,
+    &--disabled {
+      opacity: 0.5; // disabled:opacity-50
+      cursor: not-allowed; // disabled:cursor-not-allowed
+      &:hover {
+        background-color: #149ef6; // Prevent hover effect when disabled
+      }
+    }
+  }
+
+  // --- Actions Container & Button (Mimic BaseFormStep) ---
+  &__actionsContainer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fff; // Use a variable if available, e.g., $white-color
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+  }
+
+  &__actionButtonsWrapper {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+    max-width: 700px; // Increased to ensure buttons grow and take equal width
+    justify-content: space-between; // Distribute space between buttons
+
+    & > button {
+      flex: 1; // Force all direct button children to have equal width
+      width: calc(50% - 0.5rem); // Calculate 50% width minus half the gap
+    }
+  }
+
+  &__button {
+    // Common button styles
+    padding: 0.75rem 1.5rem; // Adjust padding as needed
+    border-radius: 9999px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition:
+      background-color 0.2s,
+      opacity 0.2s;
+    font-size: 1rem;
+    flex: 1; // Allow buttons to grow and share space equally
+    min-width: 120px; // Minimum width for small screens
+
+    &:disabled,
+    &--disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    // Exit button styles
+    &--exit {
+      color: var(--e-grayscale-950);
+      border: 1.5px solid var(--e-grayscale-950);
+      background-color: transparent;
+      flex: 1; // Equal flex value for both buttons
+
+      &:hover:not(:disabled) {
+        background-color: var(--e-grayscale-100);
+      }
+
+      &:disabled {
+        opacity: 0.3;
+        border-color: var(--e-grayscale-400);
+        color: var(--e-grayscale-400);
+      }
+    }
+
+    // Specific styles for the submit button
+    &--submit {
+      background-color: #149ef6; // bg-primaryBlue
+      color: #ffffff; // text-white
+      flex: 1; // Equal flex value for both buttons
+
+      &:hover:not(:disabled) {
+        background-color: #0e8ad8; // hover:bg-primaryBlue/90
+      }
+
+      &:disabled,
+      &--disabled {
+        // Ensure hover effect is removed when disabled
+        &:hover {
+          background-color: #149ef6;
+        }
+      }
+    }
+  }
+}
+
+// Benchmark results specific styles
+.benchmarkResults {
+  &__container {
+    width: 100%;
+    padding-bottom: 6rem; // Adjust as needed
+  }
+
+  &__title {
+    color: var(--e-grayscale-950);
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+
+  &__section {
+    // Styles for the content section above the action bar
+  }
+
+  &__tableWrapper {
+    overflow-x: auto; // Allow horizontal scrolling for the table if needed
+    border-radius: var(--e-sp-24);
+  }
+
+  &__table {
+    min-width: 100%;
+    background-color: #fff;
+    border-collapse: collapse; // Better table borders
+    // Add any other table styles (e.g., border)
+  }
+
+  &__tableHead {
+    background-color: var(--e-grayscale-50); // Use a light gray for the header
+  }
+
+  &__th {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--e-grayscale-200);
+    text-align: left;
+    font-size: 12px;
+    color: var(--e-grayscale-600);
+    background-color: var(--e-grayscale-200);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 500;
+
+    &--checkbox {
+      width: 40px;
+      text-align: center;
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+
+    &--area {
+      min-width: 100px;
+      text-align: right;
+    }
+
+    // Add class for potentially shorter text columns
+    &--meta {
+      min-width: 120px; // Example width, adjust as needed
+    }
+  }
+
+  &__tableBody {
+    // Styles for the table body
+  }
+
+  &__tr {
+    &:hover {
+      background-color: var(--e-grayscale-50); // Hover effect for rows
+    }
+  }
+
+  &__td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--e-grayscale-200);
+    font-size: 14px;
+    color: var(--e-grayscale-950);
+    vertical-align: middle;
+    white-space: nowrap; // Prevent text wrapping
+    overflow: hidden;
+    text-overflow: ellipsis; // Add ellipsis for overflow
+    max-width: 200px; // Set a max-width for data cells
+
+    &--checkbox {
+      text-align: center;
+      padding-left: 8px;
+      padding-right: 8px;
+      max-width: none; // Remove max-width for checkbox
+    }
+
+    &--number {
+      text-align: right;
+      white-space: normal; // Allow numbers to wrap if needed
+      max-width: none; // Remove max-width for numbers
+    }
+
+    // Style for meta columns
+    &--meta {
+      // Potentially different styling, e.g., slightly lighter text
+      color: var(--e-grayscale-700);
+    }
+  }
+
+  &__checkbox {
+    height: 16px;
+    width: 16px;
+    cursor: pointer;
+  }
+
+  &__loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 0;
+    color: var(--e-grayscale-600);
+    gap: 1rem;
+  }
+
+  &__error {
+    background-color: var(--e-system-red-50);
+    border: 1px solid var(--e-system-red-200);
+    color: var(--e-system-red-700);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  &__errorButton {
+    color: var(--e-primary-500);
+    text-decoration: underline;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    font-weight: 500;
+
+    &:hover {
+      color: var(--e-primary-700);
+    }
+  }
+
+  &__empty {
+    text-align: center;
+    padding: 4rem 0;
+    color: var(--e-grayscale-600);
+
+    p {
+      margin-bottom: 1rem;
+    }
+  }
+
+  // --- Actions Container & Button (Copied & adapted from benchmarkFilters) ---
+  &__actionsContainer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+  }
+
+  &__actionButtonsWrapper {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+    max-width: 700px; // Increased to ensure buttons grow and take equal width
+    justify-content: space-between; // Distribute space between buttons
+
+    & > button {
+      flex: 1; // Force all direct button children to have equal width
+      width: calc(50% - 0.5rem); // Calculate 50% width minus half the gap
+    }
+
+    &--fullWidth {
+      max-width: 600px; // Wider container for full-width button
+      justify-content: center; // Center the single button
+
+      & > button {
+        width: 100%; // Full width for single button
+      }
+    }
+  }
+
+  &__button {
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 14px;
+    font-family: 'Rubik', sans-serif;
+    transition:
+      background-color 0.2s,
+      opacity 0.2s;
+    flex: 1; // Allow buttons to grow and share space equally
+    min-width: 120px; // Minimum width for small screens
+
+    &:disabled,
+    &--disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    &--back {
+      color: var(--e-grayscale-950);
+      border: 1.5px solid var(--e-grayscale-950);
+      background-color: transparent;
+
+      &:hover:not(:disabled) {
+        background-color: var(--e-grayscale-100);
+      }
+
+      &:disabled {
+        opacity: 0.3;
+        border-color: var(--e-grayscale-400);
+        color: var(--e-grayscale-400);
+      }
+    }
+
+    &--submit {
+      background-color: #149ef6;
+      color: #ffffff;
+
+      &:hover:not(:disabled) {
+        background-color: #0e8ad8;
+      }
+
+      &:disabled,
+      &--disabled {
+        &:hover {
+          background-color: #149ef6;
+        }
+      }
+    }
+
+    &--fullWidth {
+      flex: 1;
+      max-width: 500px; // Wider button for single button view
+    }
+  }
+}
+
+// Benchmark view specific styles
+.benchmarkView {
+  &__container {
+    width: 100%;
+  }
+
+  &__sectionTitle {
+    color: var(--e-grayscale-950);
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+}

@@ -1,0 +1,111 @@
+// ProjectFilter.scss
+// Using BEM notation for the project filter component
+
+@use '../../../styles/utils/mixins.scss' as mixins;
+
+// Block: project-filter
+.project-filter {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+
+  // Element: Input Wrapper
+  &__input-wrapper {
+    @include mixins.e-flex(column);
+    gap: var(--e-sp-8);
+    width: 100%;
+  }
+
+  // Element: Search Container (icon + input)
+  &__search-container {
+    display: flex;
+    align-items: center;
+    gap: var(--e-sp-6);
+    padding: var(--e-sp-6) var(--e-sp-12);
+    border-radius: 9999px;
+    border: 1px solid var(--e-grayscale-300);
+    background-color: var(--e-grayscale-white);
+  }
+
+  // Element: Search Icon
+  &__search-icon {
+    width: var(--e-sp-20);
+    height: var(--e-sp-20);
+    color: var(--e-grayscale-500);
+    flex-shrink: 0; // Prevent icon from shrinking
+  }
+
+  // Element: Input Field
+  &__input {
+    flex: 1 1 0%;
+    border: none;
+    outline: none;
+    font-size: var(--e-body-4);
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+    color: var(--e-grayscale-900);
+
+    &::placeholder {
+      text-transform: capitalize;
+      font-size: var(--e-body-4);
+      color: var(--e-grayscale-400);
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  // Element: Tags Container
+  &__tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--e-sp-8);
+    margin-top: var(--e-sp-8);
+    max-height: 120px;
+    overflow-y: auto;
+    padding: var(--e-sp-4);
+  }
+
+  // Element: Dropdown List
+  &__dropdown {
+    position: absolute;
+    z-index: 100; // Higher z-index to ensure it's above the table
+    background-color: var(--e-grayscale-white);
+    border: 1px solid var(--e-grayscale-200);
+    width: 100%;
+    border-radius: var(--e-br-24);
+    box-shadow: var(--e-shadow-base);
+    max-height: 250px;
+    padding: var(--e-sp-8) 0;
+    margin-top: var(--e-sp-4);
+    overflow-y: auto;
+  }
+
+  // Element: Dropdown Item
+  &__dropdown-item {
+    padding: var(--e-sp-8) var(--e-sp-16);
+    cursor: pointer;
+    font-family: 'Rubik', sans-serif;
+
+    &:hover {
+      background-color: var(--e-grayscale-100);
+    }
+
+    // Modifier: Loading state
+    &--loading {
+      color: var(--e-grayscale-500);
+      cursor: default;
+      &:hover {
+        background-color: transparent;
+      }
+    }
+  }
+
+  // Element: Dropdown Item Text
+  &__dropdown-item-text {
+    font-size: var(--e-body-3);
+    text-transform: capitalize;
+    color: var(--e-grayscale-900);
+  }
+}

@@ -1,0 +1,124 @@
+.select {
+  // Container for the whole component
+
+  // Style label and trigger border when error class is present
+  &.e-error {
+    .select__label {
+      color: var(--e-system-red-500);
+    }
+    .select__dropdownTrigger {
+      border-color: var(--e-system-red-500);
+    }
+  }
+}
+
+.select__label {
+  display: block;
+  font-size: var(--e-body-3);
+  font-weight: 500;
+  color: var(--e-grayscale-950);
+  margin-bottom: var(--e-sp-6);
+  text-transform: capitalize;
+  font-family: 'Rubik', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 136%;
+  letter-spacing: 0.24px;
+  user-select: none;
+}
+
+.select__dropdownWrapper {
+  position: relative;
+}
+
+.select__dropdownTrigger {
+  width: 100%;
+  padding: var(--e-sp-8) var(--e-sp-12);
+  border-radius: 9999px;
+  border: 1px solid var(--e-grayscale-300);
+  background-color: var(--e-grayscale-white);
+  cursor: pointer;
+  @include mx.e-flex($justify: space-between, $align: center);
+  font-size: var(--e-body-4);
+  color: var(--e-grayscale-800);
+  transition:
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+
+  &:focus {
+    outline: none;
+    border-color: var(--e-primary-500);
+    box-shadow: 0 0 0 3px var(--e-primary-200);
+  }
+}
+
+.select__dropdownSummary {
+  text-transform: capitalize;
+}
+
+.select__dropdownIcon {
+  height: 1.25rem;
+  width: 1.25rem;
+  color: var(--e-grayscale-500);
+}
+
+.select__dropdownContent {
+  position: absolute;
+  z-index: 10;
+  margin-top: var(--e-sp-4);
+  width: 100%;
+  background-color: var(--e-grayscale-white);
+  border: 1px solid var(--e-grayscale-300);
+  border-radius: var(--e-br-16);
+  box-shadow:
+    0px var(--value-2, 2px) var(--value-20, 20px) -1px rgba(0, 0, 0, 0.08),
+    0px var(--value-2, 2px) var(--value-20, 20px) -2px rgba(0, 0, 0, 0.06);
+  max-height: 12rem;
+  font-size: var(--e-body-4);
+  overflow-y: auto;
+  // @include scroll.custom-scrollbar;
+}
+
+.select__option {
+  padding: var(--e-sp-8) var(--e-sp-12);
+  cursor: pointer;
+  border-radius: var(--e-br-4);
+  @include mx.e-flex($align: center);
+
+  &:hover {
+    background-color: var(--e-grayscale-50);
+  }
+
+  &--selected {
+    background-color: var(--e-primary-50);
+  }
+}
+
+.select__optionLabel {
+  text-transform: capitalize;
+  flex-grow: 1;
+  user-select: none;
+}
+
+// Optional error message styling
+.select__errorMessage {
+  display: block;
+  font-size: var(--e-caption-1); // Example size
+  color: var(--e-system-red-500);
+  margin-top: var(--e-sp-4);
+  padding-left: var(--e-sp-12); // Align with dropdown text start
+}
+
+.select__option--disabled {
+  color: var(--neutral-color-400, #a3a3a3); // Use a neutral gray color for disabled text
+  cursor: not-allowed;
+  background-color: var(--neutral-color-100, #f5f5f5); // Slightly different background
+
+  &:hover {
+    background-color: var(--neutral-color-100, #f5f5f5); // No hover effect
+    color: var(--neutral-color-400, #a3a3a3); // Keep text color the same on hover
+  }
+
+  // Ensure no pointer events interfere if needed, though cursor should suffice
+  // pointer-events: none;
+}

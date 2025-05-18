@@ -1,0 +1,25 @@
+// @use '@/styles/utils/mixins' as mx;
+// @use '@/styles/utils/breakpoints' as bp;
+
+.sign-in {
+	@include mx.e-flex(row, initial, initial);
+	height: 100vh;
+	overflow: hidden;
+
+	&-form {
+		@include mx.e-flex(column, center, center);
+		width: 100%;
+	}
+
+	&-mask {
+		display: none;
+	}
+
+	&-form,
+	&-mask {
+		@include bp.l {
+			@include mx.e-flex(column, center, center);
+			width: 50%;
+		}
+	}
+}

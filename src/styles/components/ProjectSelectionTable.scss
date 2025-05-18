@@ -1,0 +1,162 @@
+// ProjectSelectionTable.scss
+// Using BEM notation for the project selection table
+
+@use '../utils/mixins.scss' as mixins;
+
+// Z-index variables
+$z-index-project-header: 10;
+
+// Container class for setting height in parent components
+.project-selection-container {
+  height: 100%;
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.project-selection {
+  &__table-wrapper {
+    position: relative;
+    border: 1px solid var(--e-grayscale-200);
+    border-radius: var(--e-br-24);
+    overflow: auto;
+    height: 100%; // Take up full available height
+    max-height: 100vh; // Don't exceed viewport height
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__table {
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: separate;
+    flex: 1; // Allow table to grow and fill the wrapper
+  }
+
+  // Table Header
+  &__thead {
+    position: sticky;
+    top: 0;
+    z-index: $z-index-project-header;
+    background-color: var(--e-grayscale-white);
+  }
+
+  &__th {
+    padding: var(--e-sp-8) var(--e-sp-16); // 8px 16px
+    text-align: left;
+    font-size: var(--e-body-4); // 12px
+    font-weight: 500; // medium
+    color: var(--e-grayscale-950, #9ca8af);
+    font-family: var(--Font-family, Rubik);
+    line-height: 136%; // 16.32px
+    letter-spacing: 0.24px;
+    border-bottom: 1px solid var(--e-grayscale-200);
+    background-color: var(--e-grayscale-white);
+    white-space: nowrap;
+    text-transform: capitalize;
+
+    &--checkbox {
+      width: 48px;
+      text-align: center;
+    }
+
+    &--meta {
+      color: var(--e-grayscale-950);
+    }
+
+    &--area,
+    &--number {
+      text-align: right;
+    }
+
+    &--description {
+      min-width: 200px;
+      max-width: 300px;
+      width: 300px;
+    }
+  }
+
+  // Table Body
+  &__tbody {
+    background-color: var(--e-grayscale-white);
+  }
+
+  &__tr {
+    &:hover {
+      background-color: var(--e-grayscale-50);
+    }
+  }
+
+  &__td {
+    padding: var(--e-sp-12) var(--e-sp-16); // 12px 16px
+    font-size: var(--e-body-4); // 14px
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+    color: var(--e-grayscale-900);
+    border-bottom: 1px solid var(--e-grayscale-200);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+
+    // Description column specific styling
+    &--description {
+      white-space: normal; // Allow text to wrap
+      max-width: 300px; // Wider column for description
+      min-width: 200px; // Ensure minimum width
+      word-wrap: break-word; // Break long words if needed
+      line-height: 1.4; // Increase line height for readability
+    }
+
+    &--checkbox {
+      width: 48px;
+      text-align: center;
+    }
+
+    &--meta {
+      color: var(--e-grayscale-950);
+      font-size: var(--e-body-4); // 12px
+    }
+
+    &--number {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+  }
+
+  // Checkbox styling
+  &__checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--e-grayscale-300);
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    background-color: var(--e-grayscale-white);
+
+    &:checked {
+      background-color: var(--e-primary-500); // Use primary blue color
+      border-color: var(--e-primary-500);
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 5px;
+        top: 2px;
+        width: 5px;
+        height: 9px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+      }
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
