@@ -5,7 +5,7 @@ import TableCell from '@tiptap/extension-table-cell';
 import TableRow from '@tiptap/extension-table-row';
 import TableHeader from '@tiptap/extension-table-header';
 import Image from '@tiptap/extension-image';
-import { Editor, EditorContent, useEditor } from '@tiptap/react';
+import { BubbleMenu, Editor, EditorContent, useEditor } from '@tiptap/react';
 import apiClient from '@/lib/config/axiosConfig';
 import StarterKit from '@tiptap/starter-kit';
 
@@ -63,59 +63,6 @@ const Menubar = ({ editor }: { editor: Editor | null }) => {
         Merge/Split Cells
       </button>
       <ImageUpload editor={editor} />
-      <button
-        onClick={() => {
-          const width = prompt('Image width in %', '100');
-          if (width && editor) {
-            editor
-              .chain()
-              .focus()
-              .updateAttributes('image', { style: `width: ${width}%;` })
-              .run();
-          }
-        }}
-      >
-        Set Image Width
-      </button>
-      <button
-        onClick={() =>
-          editor
-            ?.chain()
-            .focus()
-            .updateAttributes('image', {
-              style: 'float: left; margin-right: 1em;',
-            })
-            .run()
-        }
-      >
-        Align Left
-      </button>
-      <button
-        onClick={() =>
-          editor
-            ?.chain()
-            .focus()
-            .updateAttributes('image', {
-              style: 'display: block; margin-left: auto; margin-right: auto;',
-            })
-            .run()
-        }
-      >
-        Align Center
-      </button>
-      <button
-        onClick={() =>
-          editor
-            ?.chain()
-            .focus()
-            .updateAttributes('image', {
-              style: 'float: right; margin-left: 1em;',
-            })
-            .run()
-        }
-      >
-        Align Right
-      </button>
     </div>
   );
 };
@@ -130,36 +77,22 @@ export const ImageUpload = ({ editor }: { editor: Editor | null }) => {
     fileInput.onchange = async () => {
       if (fileInput.files && fileInput.files[0]) {
         const file = fileInput.files[0];
-        const reader = new FileReader();
-
-        reader.onload = async (e) => {
-          if (e.target?.result) {
-            const localUrl = e.target.result as string;
-            let finalUrl = localUrl;
-
-            try {
-              const formData = new FormData();
-              formData.append('file', file);
-              // Placeholder endpoint for image upload
-              const response = await apiClient.post('/how-to/upload-image', formData, {
-                headers: { 'Content-Type': 'multipart/form-data' },
-              });
-              if (response.data?.url) {
-                finalUrl = response.data.url;
-              }
-            } catch (err) {
-              console.error('Image upload failed, using local preview', err);
-            }
-
+        try {
+          const formData = new FormData();
+          formData.append('file', file);
+          const response = await apiClient.post('/how-to/upload-image', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+          });
+          if (response.data?.url) {
             editor
               .chain()
               .focus()
-              .setImage({ src: finalUrl, style: 'max-width: 100%;' })
+              .setImage({ src: response.data.url, style: 'max-width: 100%;' })
               .run();
           }
-        };
-
-        reader.readAsDataURL(file);
+        } catch (err) {
+          console.error('Image upload failed', err);
+        }
       }
     };
 
@@ -167,6 +100,54 @@ export const ImageUpload = ({ editor }: { editor: Editor | null }) => {
   };
 
   return <button onClick={handleImageUpload}>Upload Image</button>;
+};
+
+const ImageContextMenu = ({ editor }: { editor: Editor | null }) => {
+  if (!editor) return null;
+
+  const setAlignment = (align: 'left' | 'center' | 'right') => {
+    let style = '';
+    if (align === 'left') style = 'float: left; margin-right: 1em;';
+    if (align === 'center') style = 'display: block; margin-left: auto; margin-right: auto;';
+    if (align === 'right') style = 'float: right; margin-left: 1em;';
+    editor.chain().focus().updateAttributes('image', { style }).run();
+  };
+
+  const setWidth = (width: string) => {
+    editor
+      .chain()
+      .focus()
+      .updateAttributes('image', { style: `width: ${width};` })
+      .run();
+  };
+
+  return (
+    <BubbleMenu
+      editor={editor}
+      tippyOptions={{ duration: 100 }}
+      shouldShow={({ editor }) => editor.isActive('image')}
+    >
+      <div className={styles['tiptap-context-menu']}>
+        <div className={styles['context-menu-section']}>
+          <h3>Alignment</h3>
+          <div className={styles['context-menu-buttons']}>
+            <button onClick={() => setAlignment('left')}>Left</button>
+            <button onClick={() => setAlignment('center')}>Center</button>
+            <button onClick={() => setAlignment('right')}>Right</button>
+          </div>
+        </div>
+        <div className={styles['context-menu-section']}>
+          <h3>Width</h3>
+          <div className={styles['context-menu-buttons']}>
+            <button onClick={() => setWidth('25%')}>25%</button>
+            <button onClick={() => setWidth('50%')}>50%</button>
+            <button onClick={() => setWidth('75%')}>75%</button>
+            <button onClick={() => setWidth('100%')}>100%</button>
+          </div>
+        </div>
+      </div>
+    </BubbleMenu>
+  );
 };
 
 interface TipTapEditorProps {
@@ -206,6 +187,7 @@ const TipTapEditor: React.FC<TipTapEditorProps> = ({ value, onChange, className 
         className={`${styles['tiptap-editor']} ${className || ''}`}
         style={{ fontFamily: "'Rubik', sans-serif" }}
       />
+      <ImageContextMenu editor={editor} />
     </div>
   );
 };
