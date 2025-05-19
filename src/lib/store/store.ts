@@ -2,6 +2,8 @@ import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './features/auth/authSlice';
 import howtoReducer from './features/howto/howtoSlice';
 import methodologiesReducer from './methodologies/methodologiesSlice';
+import benchmarkReducer from './features/galileo/benchmarkSlice';
+import searchReducer from './features/galileo/searchSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { TypedUseSelectorHook } from 'react-redux';
 
@@ -10,6 +12,8 @@ const store = configureStore({
     auth: authReducer,
     howto: howtoReducer,
     methodologies: methodologiesReducer,
+    benchmark: benchmarkReducer,
+    search: searchReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
