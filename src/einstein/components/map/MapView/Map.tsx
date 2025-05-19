@@ -160,17 +160,17 @@ const MapComponent = () => {
 
   // --- Interaction Handlers ---
 
+  const OVERLAY_OFFSET = 20;
+
   const handleMarkerClick = useCallback((e: google.maps.MapMouseEvent, item: PinData) => {
     if (!e.domEvent) return;
     const mouseEvent = e.domEvent as MouseEvent;
     const target = mouseEvent.target as HTMLElement;
     if (!target) return;
 
-    // console.log('(MapComp) Marker clicked, item:', item);
-
     const overlayPosition = {
-      x: mouseEvent.clientX - 150, // Center the overlay horizontally
-      y: mouseEvent.clientY - 200, // Position above the marker
+      x: mouseEvent.clientX + OVERLAY_OFFSET,
+      y: mouseEvent.clientY + OVERLAY_OFFSET,
     };
 
     setSelectedPins((prev) => {
@@ -201,8 +201,8 @@ const MapComponent = () => {
         return;
       }
 
-      const clickX = mouseEvent.clientX;
-      const clickY = mouseEvent.clientY;
+      const clickX = mouseEvent.clientX + OVERLAY_OFFSET;
+      const clickY = mouseEvent.clientY + OVERLAY_OFFSET;
 
       setClusterPosition({ x: clickX, y: clickY });
       setSelectedCluster(cluster);
