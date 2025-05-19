@@ -79,7 +79,8 @@
     "sass": "1.86.0",
     "tailwindcss": "3.3.2",
     "typescript": "5.6.2",
-    "typescript-eslint": "^8.0.0"
+    "typescript-eslint": "^8.0.0",
+    "@playwright/test": "^1.43.1"
   },
   "scripts": {
     "start": "craco start",
@@ -91,7 +92,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "serve": "serve -s build",
     "start:prod": "npm run serve",
-    "build:prod": "npm run build && npm run start:prod"
+    "build:prod": "npm run build && npm run start:prod",
+    "test:e2e": "playwright test"
   },
   "eslintConfig": {
     "extends": [
