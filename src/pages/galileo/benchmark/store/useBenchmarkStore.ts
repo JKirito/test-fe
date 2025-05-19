@@ -12,6 +12,7 @@ import {
   setCurrentView,
   setShowChartsWithoutFilters,
   setHasAppliedFilters,
+  setSelectAll,
   ViewType,
 } from '@/lib/store/features/galileo/benchmarkSlice';
 
@@ -56,8 +57,13 @@ export const useBenchmarkStore = () => {
   );
 
   const isProjectSelected = useCallback(
-    (projectId: string) => !state.deselectedProjectIds.includes(projectId),
-    [state.deselectedProjectIds]
+    (projectId: string) => {
+      if (state.isAllSelected) {
+        return !state.deselectedProjectIds.includes(projectId);
+      }
+      return state.selectedProjectIds.includes(projectId);
+    },
+    [state.deselectedProjectIds, state.selectedProjectIds, state.isAllSelected]
   );
 
   return {
@@ -69,6 +75,7 @@ export const useBenchmarkStore = () => {
     toggleProjectSelection: toggleProjectSelectionAction,
     isProjectSelected,
     resetSelection: () => dispatch(resetSelection()),
+    setSelectAll: (val: boolean) => dispatch(setSelectAll(val)),
     setCurrentView: (view: ViewType) => dispatch(setCurrentView(view)),
     setShowChartsWithoutFilters: (show: boolean) => dispatch(setShowChartsWithoutFilters(show)),
     initializeFromURL,
