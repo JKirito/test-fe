@@ -1,9 +1,6 @@
 import { useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from '@/lib/store/store';
-import {
-  ActiveFilters,
-  FilterOptions,
-} from '../filters';
+import { ActiveFilters, FilterOptions } from '../filters';
 import {
   applyFilters,
   fetchFilterOptions,
@@ -23,11 +20,7 @@ export const useBenchmarkStore = () => {
   const state = useAppSelector((s) => s.benchmark);
 
   const initializeFromURL = useCallback(
-    async (
-      urlFilters: ActiveFilters,
-      urlDeselected: string[],
-      view: ViewType = 'table'
-    ) => {
+    async (urlFilters: ActiveFilters, urlDeselected: string[], view: ViewType = 'table') => {
       dispatch(setActiveFilters(Object.keys(urlFilters).length > 0 ? urlFilters : {}));
       dispatch(setCurrentView(view));
       dispatch(setHasAppliedFilters(Object.keys(urlFilters).length > 0));
@@ -82,7 +75,8 @@ export const useBenchmarkStore = () => {
   };
 };
 
-export type { ViewType, FilterOptions } from '../filters';
+export type { ViewType } from '@/lib/store/features/galileo/benchmarkSlice';
+export type { FilterOptions } from '../filters';
 export type { TableData } from '@/lib/store/features/galileo/benchmarkSlice';
 
 export default useBenchmarkStore;
