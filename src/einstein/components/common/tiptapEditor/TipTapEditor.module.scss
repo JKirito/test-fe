@@ -1,10 +1,12 @@
 .tiptap-editor-container {
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   position: relative;
+  background-color: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 
 .tiptap-menu {
@@ -28,12 +30,14 @@
   flex-wrap: wrap;
 }
 
+
 .menu-bar {
   display: flex;
-  gap: 4px;
+  gap: 0.5rem;
   flex-wrap: wrap;
-  background-color: #f8f8f8;
-  padding: 8px;
+  background-color: #f8f9fa;
+  padding: 0.5rem;
+  border-bottom: 1px solid #e2e8f0;
 
   button {
     @extend .menu-button;
@@ -41,26 +45,25 @@
 }
 
 .menu-button {
-  background: rgba(61, 37, 20, 0.08);
-  border-radius: 2rem;
-  border: none;
+  background: transparent;
+  border-radius: 0.375rem;
+  border: 1px solid #cbd5e0;
   color: #2e2b29;
   font-family: 'Rubik', sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
   line-height: 1.15;
-  padding: 0.375rem 0.625rem;
-  transition: all 0.2s cubic-bezier(0.65, 0.05, 0.36, 1);
+  padding: 0.25rem 0.5rem;
+  transition: background-color 0.2s ease;
 }
 
 .menu-button:hover {
-  background-color: #60d2fb;
-  color: #fff;
+  background-color: #e2e8f0;
 }
 
 .menu-button.is-active {
-  background-color: #00b7ff;
-  border-color: #91d5ff;
+  background-color: #149ef6;
+  border-color: #149ef6;
   color: #fff;
 }
 
@@ -70,13 +73,14 @@
 }
 
 .tiptap-editor {
-  padding: 16px;
-  min-height: 600px;
+  padding: 1rem;
+  min-height: 300px;
   max-height: 1200px;
   overflow-y: auto;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
   font-family: 'Rubik', sans-serif;
+  background-color: #fff;
 
   & > div {
     outline: none;
