@@ -219,13 +219,17 @@ export const CustomScatterChart: React.FC<ScatterplotChartProps> = ({
       const plannedRegression = calculateLinearRegression(plannedPoints);
       const actualRegression = calculateLinearRegression(actualPoints);
 
+      const domainSpan = paddedMaxX - paddedMinX;
+      const extendedMinX = paddedMinX - domainSpan * 10;
+      const extendedMaxX = paddedMaxX + domainSpan * 10;
+
       const plannedLinePoints = getLinePoints(plannedRegression, {
-        min: paddedMinX,
-        max: paddedMaxX,
+        min: extendedMinX,
+        max: extendedMaxX,
       });
       const actualLinePoints = getLinePoints(actualRegression, {
-        min: paddedMinX,
-        max: paddedMaxX,
+        min: extendedMinX,
+        max: extendedMaxX,
       });
 
       // Add regression line for planned (dashed)
@@ -466,7 +470,7 @@ export const CustomScatterChart: React.FC<ScatterplotChartProps> = ({
       // Apply tooltip events to points
       addTooltipEvents(plotArea.selectAll('.planned-point, .actual-point'));
 
-      // Add zoom behavior for x-axis panning and zooming
+      // Add zoom behavior for panning and zooming on both axes
       const zoom = d3
         .zoom()
         .scaleExtent([0.2, 8])
@@ -476,6 +480,7 @@ export const CustomScatterChart: React.FC<ScatterplotChartProps> = ({
         ])
         .on('zoom', (event) => {
           const newXScale = event.transform.rescaleX(xScale);
+          const newYScale = event.transform.rescaleY(yScale);
 
           // Update x-axis with smooth transition
           xAxis
@@ -489,19 +494,39 @@ export const CustomScatterChart: React.FC<ScatterplotChartProps> = ({
               applyAxisLabelStyles(xAxis.selectAll('text'), true);
             });
 
+          // Update y-axis
+          yAxis
+            .transition()
+            .duration(100)
+            .ease(d3.easeLinear)
+            .call(d3.axisLeft(newYScale).ticks(5) as any)
+            .on('end', () => {
+              applyAxisLabelStyles(yAxis.selectAll('text'), false);
+            });
+
           // Update point positions
-          plotArea.selectAll('.planned-point').attr('cx', (d: any) => newXScale(d.planned));
-          plotArea.selectAll('.actual-point').attr('cx', (d: any) => newXScale(d.actual));
+          plotArea
+            .selectAll('.planned-point')
+            .attr('cx', (d: any) => newXScale(d.planned))
+            .attr('cy', (d: any) => newYScale(d.gfa));
+          plotArea
+            .selectAll('.actual-point')
+            .attr('cx', (d: any) => newXScale(d.actual))
+            .attr('cy', (d: any) => newYScale(d.gfa));
 
           // Update regression lines
           plotArea
             .select('.regression-line.planned')
             .attr('x1', newXScale(plannedLinePoints[0].x))
-            .attr('x2', newXScale(plannedLinePoints[1].x));
+            .attr('y1', newYScale(plannedLinePoints[0].y))
+            .attr('x2', newXScale(plannedLinePoints[1].x))
+            .attr('y2', newYScale(plannedLinePoints[1].y));
           plotArea
             .select('.regression-line.actual')
             .attr('x1', newXScale(actualLinePoints[0].x))
-            .attr('x2', newXScale(actualLinePoints[1].x));
+            .attr('y1', newYScale(actualLinePoints[0].y))
+            .attr('x2', newXScale(actualLinePoints[1].x))
+            .attr('y2', newYScale(actualLinePoints[1].y));
 
           // Update grid lines
           g.selectAll('.grid line.x-grid')
@@ -510,6 +535,12 @@ export const CustomScatterChart: React.FC<ScatterplotChartProps> = ({
             .ease(d3.easeLinear)
             .attr('x1', (d: any) => newXScale(d))
             .attr('x2', (d: any) => newXScale(d));
+          g.selectAll('.grid line.y-grid')
+            .transition()
+            .duration(100)
+            .ease(d3.easeLinear)
+            .attr('y1', (d: any) => newYScale(d))
+            .attr('y2', (d: any) => newYScale(d));
         });
 
       // Apply zoom behavior to the zoom rect
@@ -525,6 +556,7 @@ export const CustomScatterChart: React.FC<ScatterplotChartProps> = ({
           .on('end', () => {
             // Ensure consistent font styling after zoom reset
             applyAxisLabelStyles(xAxis.selectAll('text'), true);
+            applyAxisLabelStyles(yAxis.selectAll('text'), false);
           });
       });
 
