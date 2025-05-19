@@ -6,6 +6,7 @@ import { CustomBarChartWithPhases } from './CustomBarChartWithPhases';
 import { CustomGanttChart } from './CustomGanttChart';
 import { CustomTimelineGanttChart } from './CustomTimelineGanttChart';
 import { NoDataMessage } from './NoDataMessage';
+import { ScatterDisplayMode } from './ScatterChartControls';
 
 interface BarChartWrapperProps {
   data: any[];
@@ -120,9 +121,10 @@ export const BarChartWrapper: React.FC<BarChartWrapperProps> = ({
 interface ScatterChartWrapperProps {
   data: any[];
   className?: string;
+  displayMode?: ScatterDisplayMode;
 }
 
-export const ScatterChartWrapper: React.FC<ScatterChartWrapperProps> = ({ data, className }) => {
+export const ScatterChartWrapper: React.FC<ScatterChartWrapperProps> = ({ data, className, displayMode = 'both' }) => {
   const { isFullscreen } = useFullscreen();
   const wrapperRef = React.useRef<HTMLDivElement>(null);
   const [key, setKey] = React.useState(0);
@@ -203,6 +205,7 @@ export const ScatterChartWrapper: React.FC<ScatterChartWrapperProps> = ({ data, 
         <CustomScatterChart
           data={data}
           isPreview={!isFullscreen}
+          displayMode={displayMode}
           key={`scatter-chart-${isFullscreen ? 'fullscreen' : 'preview'}-${key}`} // Force remount on fullscreen toggle and key change
         />
       </div>

@@ -16,6 +16,7 @@ interface ScatterplotData {
 interface ScatterplotChartProps {
   data: ScatterplotData[] | null;
   isPreview?: boolean;
+  displayMode?: 'both' | 'planned' | 'actual';
 }
 
 // Define point colors
@@ -27,6 +28,7 @@ const POINT_COLORS = {
 export const CustomScatterChart: React.FC<ScatterplotChartProps> = ({
   data,
   isPreview = false,
+  displayMode = 'both',
 }) => {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -233,58 +235,66 @@ export const CustomScatterChart: React.FC<ScatterplotChartProps> = ({
       });
 
       // Add regression line for planned (dashed)
-      plotArea
-        .append('line')
-        .attr('class', 'regression-line planned')
-        .attr('x1', xScale(plannedLinePoints[0].x))
-        .attr('y1', yScale(plannedLinePoints[0].y))
-        .attr('x2', xScale(plannedLinePoints[1].x))
-        .attr('y2', yScale(plannedLinePoints[1].y))
-        .attr('stroke', POINT_COLORS.planned)
-        .attr('stroke-width', 2)
-        .attr('stroke-dasharray', '5,5')
-        .style('opacity', 0.7);
+      if (displayMode !== 'actual') {
+        plotArea
+          .append('line')
+          .attr('class', 'regression-line planned')
+          .attr('x1', xScale(plannedLinePoints[0].x))
+          .attr('y1', yScale(plannedLinePoints[0].y))
+          .attr('x2', xScale(plannedLinePoints[1].x))
+          .attr('y2', yScale(plannedLinePoints[1].y))
+          .attr('stroke', POINT_COLORS.planned)
+          .attr('stroke-width', 2)
+          .attr('stroke-dasharray', '5,5')
+          .style('opacity', 0.7);
+      }
 
       // Add regression line for actual (dashed)
-      plotArea
-        .append('line')
-        .attr('class', 'regression-line actual')
-        .attr('x1', xScale(actualLinePoints[0].x))
-        .attr('y1', yScale(actualLinePoints[0].y))
-        .attr('x2', xScale(actualLinePoints[1].x))
-        .attr('y2', yScale(actualLinePoints[1].y))
-        .attr('stroke', POINT_COLORS.actual)
-        .attr('stroke-width', 2)
-        .attr('stroke-dasharray', '5,5')
-        .style('opacity', 0.7);
+      if (displayMode !== 'planned') {
+        plotArea
+          .append('line')
+          .attr('class', 'regression-line actual')
+          .attr('x1', xScale(actualLinePoints[0].x))
+          .attr('y1', yScale(actualLinePoints[0].y))
+          .attr('x2', xScale(actualLinePoints[1].x))
+          .attr('y2', yScale(actualLinePoints[1].y))
+          .attr('stroke', POINT_COLORS.actual)
+          .attr('stroke-width', 2)
+          .attr('stroke-dasharray', '5,5')
+          .style('opacity', 0.7);
+      }
 
       // Add scatter points for planned duration
-      plotArea
-        .selectAll('.planned-point')
-        .data(data)
-        .enter()
-        .append('circle')
-        .attr('class', 'planned-point')
-        .attr('cx', (d) => xScale(d.planned))
-        .attr('cy', (d) => yScale(d.gfa))
-        .attr('r', isPreview ? 6 : 8)
-        .attr('fill', POINT_COLORS.planned)
-        .attr('stroke', 'white')
-        .attr('stroke-width', 2);
+      if (displayMode !== 'actual') {
+        plotArea
+          .selectAll('.planned-point')
+          .data(data)
+          .enter()
+          .append('circle')
+          .attr('class', 'planned-point')
+          .attr('cx', (d) => xScale(d.planned))
+          .attr('cy', (d) => yScale(d.gfa))
+          .attr('r', isPreview ? 6 : 8)
+          .attr('fill', POINT_COLORS.planned)
+          .attr('stroke', 'white')
+          .attr('stroke-width', 2);
+      }
 
       // Add scatter points for actual duration
-      plotArea
-        .selectAll('.actual-point')
-        .data(data)
-        .enter()
-        .append('circle')
-        .attr('class', 'actual-point')
-        .attr('cx', (d) => xScale(d.actual))
-        .attr('cy', (d) => yScale(d.gfa))
-        .attr('r', isPreview ? 6 : 8)
-        .attr('fill', POINT_COLORS.actual)
-        .attr('stroke', 'white')
-        .attr('stroke-width', 2);
+      if (displayMode !== 'planned') {
+        plotArea
+          .selectAll('.actual-point')
+          .data(data)
+          .enter()
+          .append('circle')
+          .attr('class', 'actual-point')
+          .attr('cx', (d) => xScale(d.actual))
+          .attr('cy', (d) => yScale(d.gfa))
+          .attr('r', isPreview ? 6 : 8)
+          .attr('fill', POINT_COLORS.actual)
+          .attr('stroke', 'white')
+          .attr('stroke-width', 2);
+      }
 
       // Add X axis with better positioning
       const xAxis = g
@@ -505,28 +515,36 @@ export const CustomScatterChart: React.FC<ScatterplotChartProps> = ({
             });
 
           // Update point positions
-          plotArea
-            .selectAll('.planned-point')
-            .attr('cx', (d: any) => newXScale(d.planned))
-            .attr('cy', (d: any) => newYScale(d.gfa));
-          plotArea
-            .selectAll('.actual-point')
-            .attr('cx', (d: any) => newXScale(d.actual))
-            .attr('cy', (d: any) => newYScale(d.gfa));
+          if (displayMode !== 'actual') {
+            plotArea
+              .selectAll('.planned-point')
+              .attr('cx', (d: any) => newXScale(d.planned))
+              .attr('cy', (d: any) => newYScale(d.gfa));
+          }
+          if (displayMode !== 'planned') {
+            plotArea
+              .selectAll('.actual-point')
+              .attr('cx', (d: any) => newXScale(d.actual))
+              .attr('cy', (d: any) => newYScale(d.gfa));
+          }
 
           // Update regression lines
-          plotArea
-            .select('.regression-line.planned')
-            .attr('x1', newXScale(plannedLinePoints[0].x))
-            .attr('y1', newYScale(plannedLinePoints[0].y))
-            .attr('x2', newXScale(plannedLinePoints[1].x))
-            .attr('y2', newYScale(plannedLinePoints[1].y));
-          plotArea
-            .select('.regression-line.actual')
-            .attr('x1', newXScale(actualLinePoints[0].x))
-            .attr('y1', newYScale(actualLinePoints[0].y))
-            .attr('x2', newXScale(actualLinePoints[1].x))
-            .attr('y2', newYScale(actualLinePoints[1].y));
+          if (displayMode !== 'actual') {
+            plotArea
+              .select('.regression-line.planned')
+              .attr('x1', newXScale(plannedLinePoints[0].x))
+              .attr('y1', newYScale(plannedLinePoints[0].y))
+              .attr('x2', newXScale(plannedLinePoints[1].x))
+              .attr('y2', newYScale(plannedLinePoints[1].y));
+          }
+          if (displayMode !== 'planned') {
+            plotArea
+              .select('.regression-line.actual')
+              .attr('x1', newXScale(actualLinePoints[0].x))
+              .attr('y1', newYScale(actualLinePoints[0].y))
+              .attr('x2', newXScale(actualLinePoints[1].x))
+              .attr('y2', newYScale(actualLinePoints[1].y));
+          }
 
           // Update grid lines
           g.selectAll('.grid line.x-grid')
@@ -561,10 +579,18 @@ export const CustomScatterChart: React.FC<ScatterplotChartProps> = ({
       });
 
       // Make scatter points pointer-events visible
-      plotArea
-        .selectAll('.planned-point, .actual-point')
-        .style('pointer-events', 'visible')
-        .style('cursor', 'pointer');
+      const pointSelector = [
+        displayMode !== 'actual' ? '.planned-point' : null,
+        displayMode !== 'planned' ? '.actual-point' : null,
+      ]
+        .filter(Boolean)
+        .join(', ');
+      if (pointSelector) {
+        plotArea
+          .selectAll(pointSelector)
+          .style('pointer-events', 'visible')
+          .style('cursor', 'pointer');
+      }
     };
 
     updateChart();
@@ -617,7 +643,7 @@ export const CustomScatterChart: React.FC<ScatterplotChartProps> = ({
         }
       }, 50);
     };
-  }, [data, isPreview]);
+  }, [data, isPreview, displayMode]);
 
   // If there's no data, show the NoDataMessage component
   if (!data || data.length === 0) {

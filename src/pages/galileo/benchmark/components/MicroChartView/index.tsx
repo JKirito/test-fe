@@ -6,7 +6,9 @@ import { FullscreenProvider } from '@/components/toggle-fullscreen/ToggleFullscr
 import ChartHeader from '../chart/ChartHeader';
 import { ToggleFullscreen } from '@/components/toggle-fullscreen';
 import { BarChartWrapper, ScatterChartWrapper, GanttChartWrapper } from './ChartWrapper';
+import ScatterChartControls, { ScatterDisplayMode } from './ScatterChartControls';
 import ChartToolbar from './ChartToolbar';
+import BaseChartToolbar from '../chart/ChartToolbar';
 import { SegmentedControlItem } from '@/components/segmented-menu/SegmentedMenu';
 import '../chart/ChartLayout.scss';
 import './ChartOverrides.scss'; // Import custom styles for all chart types
@@ -41,6 +43,7 @@ const MicroChartView: React.FC = () => {
   const [ganttChartData, setGanttChartData] = useState<any[]>([]);
   const [error, setError] = useState<Error | null>(null);
   const [barChartType, setBarChartType] = useState<string>('bar'); // Default to spike chart
+  const [scatterDisplayMode, setScatterDisplayMode] = useState<ScatterDisplayMode>('both');
 
   useEffect(() => {
     const fetchChartData = async () => {
@@ -106,6 +109,10 @@ const MicroChartView: React.FC = () => {
   // Handle bar chart type change
   const handleBarChartTypeChange = (item: SegmentedControlItem) => {
     setBarChartType(item.id);
+  };
+
+  const handleScatterDisplayModeChange = (mode: ScatterDisplayMode) => {
+    setScatterDisplayMode(mode);
   };
 
   // Get legend data (same for both chart types now)
@@ -203,9 +210,22 @@ const MicroChartView: React.FC = () => {
                       description="Analysing the relationship between project duration and GFA"
                     />
                   }
+                  toolbar={
+                    <BaseChartToolbar
+                      tools={
+                        <ScatterChartControls
+                          value={scatterDisplayMode}
+                          onChange={handleScatterDisplayModeChange}
+                        />
+                      }
+                    />
+                  }
                   chart={
                     <div className="micro-chart-view__chart-content">
-                      <ScatterChartWrapper data={scatterChartData} />
+                      <ScatterChartWrapper
+                        data={scatterChartData}
+                        displayMode={scatterDisplayMode}
+                      />
                     </div>
                   }
                   legend={
