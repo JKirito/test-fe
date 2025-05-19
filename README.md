@@ -88,6 +88,25 @@ npm start
 - `npm run lint` - Runs ESLint
 - `npm run format` - Formats code with Prettier
 
+## End-to-End Testing
+
+The project uses **Playwright** for e2e tests. Before running the tests, install
+the Playwright browsers:
+
+```bash
+npx playwright install
+```
+
+Authentication is disabled during tests via the `REACT_APP_ENABLE_AUTH=false`
+environment variable. Run the test suite with:
+
+```bash
+npm run test:e2e
+```
+
+This starts the dev server with auth disabled and executes the Playwright test
+suite.
+
 ## Architecture
 
 The application follows a modern React architecture with:
