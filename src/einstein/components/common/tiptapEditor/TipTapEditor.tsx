@@ -6,6 +6,7 @@ import TableRow from '@tiptap/extension-table-row';
 import TableHeader from '@tiptap/extension-table-header';
 import Image from '@tiptap/extension-image';
 import { Editor, EditorContent, useEditor } from '@tiptap/react';
+import apiClient from '@/lib/config/axiosConfig';
 import StarterKit from '@tiptap/starter-kit';
 
 const Menubar = ({ editor }: { editor: Editor | null }) => {
@@ -62,6 +63,59 @@ const Menubar = ({ editor }: { editor: Editor | null }) => {
         Merge/Split Cells
       </button>
       <ImageUpload editor={editor} />
+      <button
+        onClick={() => {
+          const width = prompt('Image width in %', '100');
+          if (width && editor) {
+            editor
+              .chain()
+              .focus()
+              .updateAttributes('image', { style: `width: ${width}%;` })
+              .run();
+          }
+        }}
+      >
+        Set Image Width
+      </button>
+      <button
+        onClick={() =>
+          editor
+            ?.chain()
+            .focus()
+            .updateAttributes('image', {
+              style: 'float: left; margin-right: 1em;',
+            })
+            .run()
+        }
+      >
+        Align Left
+      </button>
+      <button
+        onClick={() =>
+          editor
+            ?.chain()
+            .focus()
+            .updateAttributes('image', {
+              style: 'display: block; margin-left: auto; margin-right: auto;',
+            })
+            .run()
+        }
+      >
+        Align Center
+      </button>
+      <button
+        onClick={() =>
+          editor
+            ?.chain()
+            .focus()
+            .updateAttributes('image', {
+              style: 'float: right; margin-left: 1em;',
+            })
+            .run()
+        }
+      >
+        Align Right
+      </button>
     </div>
   );
 };
@@ -80,9 +134,28 @@ export const ImageUpload = ({ editor }: { editor: Editor | null }) => {
 
         reader.onload = async (e) => {
           if (e.target?.result) {
-            const imageUrl = e.target.result as string;
+            const localUrl = e.target.result as string;
+            let finalUrl = localUrl;
 
-            editor.chain().focus().setImage({ src: imageUrl }).run();
+            try {
+              const formData = new FormData();
+              formData.append('file', file);
+              // Placeholder endpoint for image upload
+              const response = await apiClient.post('/how-to/upload-image', formData, {
+                headers: { 'Content-Type': 'multipart/form-data' },
+              });
+              if (response.data?.url) {
+                finalUrl = response.data.url;
+              }
+            } catch (err) {
+              console.error('Image upload failed, using local preview', err);
+            }
+
+            editor
+              .chain()
+              .focus()
+              .setImage({ src: finalUrl, style: 'max-width: 100%;' })
+              .run();
           }
         };
 
