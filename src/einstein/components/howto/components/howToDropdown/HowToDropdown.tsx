@@ -20,12 +20,17 @@ const HowToDropdown = ({
   // Initialize with empty string instead of defaulting to first option
   const [selectedValue, setSelectedValue] = useState(externalSelectedValue || '');
 
-  // Update internal state when external value changes
+  // Keep internal state in sync with external value
   useEffect(() => {
-    if (externalSelectedValue !== undefined) {
-      setSelectedValue(externalSelectedValue);
-    }
+    setSelectedValue(externalSelectedValue || '');
   }, [externalSelectedValue]);
+
+  // Reset selection if current value no longer exists in options
+  useEffect(() => {
+    if (selectedValue && !options.some((option) => option.value === selectedValue)) {
+      setSelectedValue('');
+    }
+  }, [options, selectedValue]);
 
   const handleValueChange = (value: string) => {
     // Check if the selected option is disabled
