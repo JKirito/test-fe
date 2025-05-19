@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  @keyframes methodsSlideFromLeft {
+    0% { transform: translateX(-100%) scale(0.9); }
+    50% { transform: translateX(0) scale(0.9); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+
+  .methods {
+    height: calc(100vh - var(--e-header) - var(--e-sp-80));
+    max-width: var(--e-max-width);
+    @apply pt-[104px] mx-auto font-rubik;
+  }
+
+  .methods-list__container {
+    @apply flex flex-wrap gap-2;
+  }
+
+  .methods-list__container-item {
+    @apply relative mb-1 w-[calc(100%-12px)];
+  }
+
+  .methods-list__container-item:last-child {
+    margin-bottom: 0;
+  }
+
+  @media (min-width: 768px) {
+    .methods-list__container-item {
+      width: calc(50% - 12px);
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .methods-list__container-item {
+      width: calc(33% - 7px);
+    }
+  }
+
+  .methods-list__container-item--selected {
+    @apply flex flex-wrap gap-4 w-full max-w-full basis-full;
+  }
+
+  .methods-list__item {
+    @apply flex flex-col gap-4;
+  }
+}
