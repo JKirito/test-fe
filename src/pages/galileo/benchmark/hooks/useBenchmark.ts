@@ -12,6 +12,8 @@ export const useBenchmark = () => {
     error,
     hasAppliedFilters,
     deselectedProjectIds,
+    selectedProjectIds,
+    isAllSelected,
     currentView,
     showChartsWithoutFilters,
     
@@ -23,6 +25,7 @@ export const useBenchmark = () => {
     toggleProjectSelection,
     isProjectSelected,
     resetSelection,
+    setSelectAll,
     setCurrentView,
     setShowChartsWithoutFilters,
   } = useBenchmarkStore();
@@ -61,6 +64,8 @@ export const useBenchmark = () => {
     error,
     hasAppliedFilters,
     deselectedProjectIds,
+    selectedProjectIds,
+    isAllSelected,
     currentView,
     showChartsWithoutFilters,
     
@@ -72,6 +77,7 @@ export const useBenchmark = () => {
     toggleProjectSelection: toggleProjectSelectionHandler,
     isProjectSelected: isProjectSelectedHandler,
     resetSelection,
+    setSelectAll,
     setCurrentView,
     setShowChartsWithoutFilters,
   };

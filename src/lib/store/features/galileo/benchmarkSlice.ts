@@ -22,6 +22,8 @@ export interface BenchmarkState {
   error: string | null;
   hasAppliedFilters: boolean;
   deselectedProjectIds: string[];
+  selectedProjectIds: string[];
+  isAllSelected: boolean;
   currentView: ViewType;
   showChartsWithoutFilters: boolean;
 }
@@ -37,6 +39,8 @@ const initialState: BenchmarkState = {
   error: null,
   hasAppliedFilters: false,
   deselectedProjectIds: [],
+  selectedProjectIds: [],
+  isAllSelected: true,
   currentView: 'table',
   showChartsWithoutFilters: false,
 };
@@ -79,21 +83,38 @@ const benchmarkSlice = createSlice({
       state.activeFilters = {};
       state.hasAppliedFilters = false;
       state.deselectedProjectIds = [];
+      state.selectedProjectIds = [];
+      state.isAllSelected = true;
       state.currentView = 'table';
       localStorage.removeItem('galileoBenchmarkActiveFilters');
     },
     toggleProjectSelection(state, action: PayloadAction<{ projectId: string; selected: boolean }>) {
       const { projectId, selected } = action.payload;
-      if (selected) {
-        state.deselectedProjectIds = state.deselectedProjectIds.filter((id) => id !== projectId);
-      } else {
-        if (!state.deselectedProjectIds.includes(projectId)) {
+      if (state.isAllSelected) {
+        if (selected) {
+          state.deselectedProjectIds = state.deselectedProjectIds.filter((id) => id !== projectId);
+        } else if (!state.deselectedProjectIds.includes(projectId)) {
           state.deselectedProjectIds.push(projectId);
+        }
+      } else {
+        if (selected) {
+          if (!state.selectedProjectIds.includes(projectId)) {
+            state.selectedProjectIds.push(projectId);
+          }
+        } else {
+          state.selectedProjectIds = state.selectedProjectIds.filter((id) => id !== projectId);
         }
       }
     },
     resetSelection(state) {
       state.deselectedProjectIds = [];
+      state.selectedProjectIds = [];
+      state.isAllSelected = true;
+    },
+    setSelectAll(state, action: PayloadAction<boolean>) {
+      state.isAllSelected = action.payload;
+      state.deselectedProjectIds = [];
+      state.selectedProjectIds = [];
     },
     setCurrentView(state, action: PayloadAction<ViewType>) {
       state.currentView = action.payload;
@@ -146,6 +167,7 @@ export const {
   clearFilters,
   toggleProjectSelection,
   resetSelection,
+  setSelectAll,
   setCurrentView,
   setShowChartsWithoutFilters,
   setHasAppliedFilters,
