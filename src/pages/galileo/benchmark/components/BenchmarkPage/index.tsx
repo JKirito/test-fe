@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { BenchmarkStoreProvider } from '../../store';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { BenchmarkFiltersProvider } from '../../context/BenchmarkFiltersContext';
 import FilterSidebar from '../FilterSidebar';
 import ViewManager from '../ViewManager';
 import GalileoHeader from './GalileoHeader';
@@ -7,9 +8,19 @@ import './BenchmarkPage.scss';
 
 const BenchmarkPage: React.FC = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    if (searchParams.toString()) {
+      // console.log('URL parameters detected:', {
+      //   filters: searchParams.get('filters'),
+      //   deselected: searchParams.get('deselected'),
+      // });
+    }
+  }, [searchParams]);
 
   return (
-    <BenchmarkStoreProvider>
+    <BenchmarkFiltersProvider>
       <div className="benchmark-page">
         <GalileoHeader />
         <div className="benchmark-page__content">
@@ -24,8 +35,8 @@ const BenchmarkPage: React.FC = () => {
           </div>
         </div>
       </div>
-    </BenchmarkStoreProvider>
+    </BenchmarkFiltersProvider>
   );
 };
 
-export default React.memo(BenchmarkPage);
+export default BenchmarkPage;

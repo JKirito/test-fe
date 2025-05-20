@@ -16,7 +16,7 @@ export const useBenchmark = () => {
     isAllSelected,
     currentView,
     showChartsWithoutFilters,
-    
+
     // Actions
     setActiveFilters,
     clearFilters,
@@ -68,7 +68,7 @@ export const useBenchmark = () => {
     isAllSelected,
     currentView,
     showChartsWithoutFilters,
-    
+
     // Actions
     setActiveFilters,
     clearFilters,

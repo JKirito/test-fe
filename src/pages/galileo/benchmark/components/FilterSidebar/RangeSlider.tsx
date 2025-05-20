@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useBenchmark } from '../../store';
+import { useBenchmarkFilters } from '../../context/BenchmarkFiltersContext';
 import './RangeSlider.scss';
 import type { FilterOptions } from '../../filters';
 
@@ -48,7 +48,7 @@ const RangeSlider: React.FC<RangeSliderProps> = ({
   showInputs = true, // Default to showing inputs
 }) => {
   // Hooks must be called at the top level
-  const { activeFilters, setActiveFilters } = useBenchmark();
+  const { activeFilters, setActiveFilters } = useBenchmarkFilters();
   const [localRange, setLocalRange] = useState<[number, number]>([min, max]);
   const [error, setError] = useState<Error | null>(null);
 

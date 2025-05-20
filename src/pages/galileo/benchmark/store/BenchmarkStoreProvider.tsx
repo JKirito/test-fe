@@ -14,13 +14,8 @@ const BenchmarkStoreProvider: React.FC<BenchmarkStoreProviderProps> = ({ childre
   const prevURLParamsRef = useRef<string>('');
 
   // Get store actions
-  const {
-    initializeFromURL,
-    activeFilters,
-    deselectedProjectIds,
-    currentView,
-    hasAppliedFilters,
-  } = useBenchmarkStore();
+  const { initializeFromURL, activeFilters, deselectedProjectIds, currentView, hasAppliedFilters } =
+    useBenchmarkStore();
 
   // Initialize from URL on mount
   useEffect(() => {

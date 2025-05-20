@@ -1,5 +1,5 @@
 import React from 'react';
-import { useBenchmark } from '../../store';
+import { useBenchmarkFilters } from '../../context/BenchmarkFiltersContext';
 import { FilterOptions } from '../../filters';
 import MultiSelectTag from '@/einstein/components/common/multiSelectTag/MultiSelectTag';
 
@@ -15,7 +15,7 @@ interface FilterOptionProps {
 }
 
 const FilterOption: React.FC<FilterOptionProps> = ({ filterKey, label, prefix }) => {
-  const { filterOptions, activeFilters, setActiveFilters } = useBenchmark();
+  const { filterOptions, activeFilters, setActiveFilters } = useBenchmarkFilters();
 
   if (!filterOptions || !filterOptions[filterKey]) {
     return <div>No filters named {filterKey}</div>;

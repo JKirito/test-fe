@@ -1,15 +1,14 @@
 import React, { useEffect } from 'react';
-import { useBenchmark } from '../../store';
+import { useBenchmarkFilters, Project } from '../../context/BenchmarkFiltersContext';
 import './BenchmarkTable.scss';
 import NoDataMessage from './NoDataMessage';
 import ProjectTable from './ProjectTable';
 import TableActions from './TableActions';
 import DataRequestNotification from '@/components/data-request-notification/DataRequestNotification';
-import { Project } from '../../types';
 
 const BenchmarkTable: React.FC = () => {
   const { tableData, isLoading, toggleProjectSelection, deselectedProjectIds, applyFilters } =
-    useBenchmark();
+    useBenchmarkFilters();
 
   // Fetch data when the component mounts, even if no filters are applied
   useEffect(() => {

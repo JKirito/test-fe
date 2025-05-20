@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Search } from 'lucide-react';
-import { useBenchmark } from '../../store';
+import { useBenchmarkFilters } from '../../context/BenchmarkFiltersContext';
 import { ActiveFilters } from '../../filters';
 import apiClient from '@/lib/config/axiosConfig';
 import Tag from '@/einstein/components/common/tag/Tag';
@@ -51,7 +51,7 @@ const ProjectItemFilter: React.FC<ProjectItemFilterProps> = ({
   const [searchText, setSearchText] = useState<string>('');
   const debouncedSearchText = useDebounce<string>(searchText, 300);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const { activeFilters, setActiveFilters } = useBenchmark();
+  const { activeFilters, setActiveFilters } = useBenchmarkFilters();
 
   // For customer and project name searches, we'll store the values in their respective fields
   // Use type assertion to handle the dynamic field name

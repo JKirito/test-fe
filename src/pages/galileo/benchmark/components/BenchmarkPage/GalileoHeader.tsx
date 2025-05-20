@@ -1,31 +1,43 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useBenchmark } from '../../store';
+import { useBenchmarkFilters } from '../../context/BenchmarkFiltersContext';
 import styles from './GalileoHeader.module.scss';
-import { RootState } from '@/lib/store/store';
+import { RootState, useAppSelector } from '@/lib/store/store';
 import { useSelector } from 'react-redux';
 
 const GalileoHeader: React.FC = () => {
   const navigate = useNavigate();
 
   const {
+    tableData,
     hasAppliedFilters,
+    deselectedProjectIds,
     currentView,
     setCurrentView,
     showChartsWithoutFilters,
     setShowChartsWithoutFilters,
-  } = useBenchmark();
+  } = useBenchmarkFilters();
 
   const user = useSelector((state: RootState) => state.auth.user);
 
+  // Always show the Generate Chart button
+
   const handleToggleView = () => {
+    // Format deselected project IDs as objects with index and projectId properties
+    // const formattedDeselectedRows = deselectedProjectIds.map((projectId, index) => ({
+    //   index: String(index),
+    //   projectId: projectId,
+    // }));
+
+    // Simply toggle between table and chart view in all cases
     if (currentView === 'table') {
       // If we're in table view, switch to chart view
-      setShowChartsWithoutFilters(!hasAppliedFilters);
+      setShowChartsWithoutFilters(!hasAppliedFilters); // Set this flag if no filters are applied
       setCurrentView('chart');
     } else {
       // If we're in chart view, switch to table view
       setCurrentView('table');
+      // Keep showChartsWithoutFilters as is, so we remember the state when switching back to chart view
     }
   };
 
