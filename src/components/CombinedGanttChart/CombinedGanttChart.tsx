@@ -232,26 +232,24 @@ export const CombinedGanttChart: React.FC<CombinedGanttChartProps> = ({
       const paddedMaxTime = maxEndTime + timeRange * 0.05;
 
       // Create a time-based scale for the x-axis
-      const xScale = d3.scaleTime()
+      const xScale = d3
+        .scaleTime()
         .domain([new Date(paddedMinTime), new Date(paddedMaxTime)])
         .range([0, width])
         .nice();
 
       // Get unique legend values from valid data
-      const uniqueLegends = Array.from(new Set(validData.map(d => d.gantt_chart_legend)));
+      const uniqueLegends = Array.from(new Set(validData.map((d) => d.gantt_chart_legend)));
 
       // Create an expanded domain for y-axis that includes both planned and actual for each legend
       const expandedDomain: string[] = [];
-      uniqueLegends.forEach(legend => {
+      uniqueLegends.forEach((legend) => {
         expandedDomain.push(`${legend} (Planned)`);
         expandedDomain.push(`${legend} (Actual)`);
       });
 
       // Create a band scale for the y-axis with the expanded domain
-      const yScale = d3.scaleBand()
-        .domain(expandedDomain)
-        .range([0, height])
-        .padding(0.15);
+      const yScale = d3.scaleBand().domain(expandedDomain).range([0, height]).padding(0.15);
 
       // Function to format y-axis labels with line breaks
       const formatYAxisLabel = (text: string) => {
@@ -300,8 +298,11 @@ export const CombinedGanttChart: React.FC<CombinedGanttChartProps> = ({
       // Add horizontal grid lines between each category
       expandedDomain.forEach((_, i) => {
         if (i > 0) {
-          const yPos = (yScale(expandedDomain[i-1])! + yScale.bandwidth()) +
-                      (yScale(expandedDomain[i])! - (yScale(expandedDomain[i-1])! + yScale.bandwidth())) / 2;
+          const yPos =
+            yScale(expandedDomain[i - 1])! +
+            yScale.bandwidth() +
+            (yScale(expandedDomain[i])! - (yScale(expandedDomain[i - 1])! + yScale.bandwidth())) /
+              2;
 
           g.append('line')
             .attr('class', 'y-grid')
@@ -316,19 +317,27 @@ export const CombinedGanttChart: React.FC<CombinedGanttChartProps> = ({
       });
 
       // Color scale for different phases
-      const colorScale = d3.scaleOrdinal<string>()
+      const colorScale = d3
+        .scaleOrdinal<string>()
         .domain(uniqueLegends)
         .range([
-          '#4e79a7', '#f28e2c', '#e15759', '#76b7b2',
-          '#59a14f', '#edc949', '#af7aa1', '#ff9da7',
-          '#9c755f', '#bab0ab'
+          '#4e79a7',
+          '#f28e2c',
+          '#e15759',
+          '#76b7b2',
+          '#59a14f',
+          '#edc949',
+          '#af7aa1',
+          '#ff9da7',
+          '#9c755f',
+          '#bab0ab',
         ]);
 
       // Create a separate layer for interactive elements that will capture mouse events
-      // but still allow zoom/pan to work
-      const interactionLayer = chartContent
-        .append('g')
-        .attr('class', 'interaction-layer');
+      // but still allow zoom/pan to work. This layer will be raised above the
+      // bars after they are rendered so tooltips are not blocked by the zoom
+      // overlay or the bars themselves.
+      const interactionLayer = chartContent.append('g').attr('class', 'interaction-layer');
 
       // Add planned bars
       chartContent
@@ -337,20 +346,24 @@ export const CombinedGanttChart: React.FC<CombinedGanttChartProps> = ({
         .enter()
         .append('rect')
         .attr('class', 'planned-bar')
-        .attr('x', d => xScale(new Date(d.planned_start_date)))
-        .attr('y', d => yScale(`${d.gantt_chart_legend} (Planned)`)!)
-        .attr('width', d => {
+        .attr('x', (d) => xScale(new Date(d.planned_start_date)))
+        .attr('y', (d) => yScale(`${d.gantt_chart_legend} (Planned)`)!)
+        .attr('width', (d) => {
           const start = xScale(new Date(d.planned_start_date));
           const end = xScale(new Date(d.planned_finish_date));
           return Math.max(0, end - start);
         })
         .attr('height', yScale.bandwidth())
-        .attr('fill', d => colorScale(d.gantt_chart_legend))
+        .attr('fill', (d) => colorScale(d.gantt_chart_legend))
         .attr('opacity', 0.7)
         .attr('rx', 4)
         .attr('ry', 4)
-        .attr('stroke', d => d3.color(colorScale(d.gantt_chart_legend))!.darker(0.5).toString())
-        .attr('stroke-width', 1);
+        .attr('stroke', (d) => d3.color(colorScale(d.gantt_chart_legend))!.darker(0.5).toString())
+        .attr('stroke-width', 1)
+        // Disable pointer events on the actual bar shapes so panning/zooming
+        // still works even when the mouse is over a bar. Interaction rectangles
+        // added later will handle hover events.
+        .style('pointer-events', 'none');
 
       // Add invisible interactive rectangles for planned bars
       interactionLayer
@@ -359,9 +372,9 @@ export const CombinedGanttChart: React.FC<CombinedGanttChartProps> = ({
         .enter()
         .append('rect')
         .attr('class', 'planned-bar-interaction')
-        .attr('x', d => xScale(new Date(d.planned_start_date)))
-        .attr('y', d => yScale(`${d.gantt_chart_legend} (Planned)`)!)
-        .attr('width', d => {
+        .attr('x', (d) => xScale(new Date(d.planned_start_date)))
+        .attr('y', (d) => yScale(`${d.gantt_chart_legend} (Planned)`)!)
+        .attr('width', (d) => {
           const start = xScale(new Date(d.planned_start_date));
           const end = xScale(new Date(d.planned_finish_date));
           return Math.max(0, end - start);
@@ -458,23 +471,27 @@ export const CombinedGanttChart: React.FC<CombinedGanttChartProps> = ({
         .enter()
         .append('rect')
         .attr('class', 'actual-bar')
-        .attr('x', d => xScale(new Date(d.actual_start_date)))
-        .attr('y', d => yScale(`${d.gantt_chart_legend} (Actual)`)!)
-        .attr('width', d => {
+        .attr('x', (d) => xScale(new Date(d.actual_start_date)))
+        .attr('y', (d) => yScale(`${d.gantt_chart_legend} (Actual)`)!)
+        .attr('width', (d) => {
           const start = xScale(new Date(d.actual_start_date));
           const end = xScale(new Date(d.actual_finish_date));
           return Math.max(0, end - start);
         })
         .attr('height', yScale.bandwidth())
-        .attr('fill', d => {
+        .attr('fill', (d) => {
           const baseColor = d3.color(colorScale(d.gantt_chart_legend))!;
           return baseColor.darker(0.3).toString();
         })
         .attr('opacity', 0.8)
         .attr('rx', 4)
         .attr('ry', 4)
-        .attr('stroke', d => d3.color(colorScale(d.gantt_chart_legend))!.darker(0.8).toString())
-        .attr('stroke-width', 1);
+        .attr('stroke', (d) => d3.color(colorScale(d.gantt_chart_legend))!.darker(0.8).toString())
+        .attr('stroke-width', 1)
+        // Allow zoom/pan to work when dragging on bars by disabling pointer
+        // events on the visible rectangles. Hover events are handled by the
+        // transparent interaction layer.
+        .style('pointer-events', 'none');
 
       // Add invisible interactive rectangles for actual bars
       interactionLayer
@@ -483,9 +500,9 @@ export const CombinedGanttChart: React.FC<CombinedGanttChartProps> = ({
         .enter()
         .append('rect')
         .attr('class', 'actual-bar-interaction')
-        .attr('x', d => xScale(new Date(d.actual_start_date)))
-        .attr('y', d => yScale(`${d.gantt_chart_legend} (Actual)`)!)
-        .attr('width', d => {
+        .attr('x', (d) => xScale(new Date(d.actual_start_date)))
+        .attr('y', (d) => yScale(`${d.gantt_chart_legend} (Actual)`)!)
+        .attr('width', (d) => {
           const start = xScale(new Date(d.actual_start_date));
           const end = xScale(new Date(d.actual_finish_date));
           return Math.max(0, end - start);
@@ -588,7 +605,7 @@ export const CombinedGanttChart: React.FC<CombinedGanttChartProps> = ({
         });
 
       // Add indicators between planned and actual (without vertical connection lines)
-      validData.forEach(d => {
+      validData.forEach((d) => {
         const plannedStart = new Date(d.planned_start_date).getTime();
         const plannedEnd = new Date(d.planned_finish_date).getTime();
         const actualStart = new Date(d.actual_start_date).getTime();
@@ -630,7 +647,9 @@ export const CombinedGanttChart: React.FC<CombinedGanttChartProps> = ({
               .attr('fill', '#4caf50')
               .attr('opacity', 0.6)
               .attr('rx', 2)
-              .attr('ry', 2);
+              .attr('ry', 2)
+              // Decorative element only; don't block underlying zoom handlers.
+              .style('pointer-events', 'none');
 
             // Add invisible interactive rectangle for the overlap indicator
             interactionLayer
@@ -644,7 +663,7 @@ export const CombinedGanttChart: React.FC<CombinedGanttChartProps> = ({
               .attr('fill', 'transparent')
               .style('pointer-events', 'all')
               .style('cursor', 'pointer')
-              .on('mouseover', function(event) {
+              .on('mouseover', function (event) {
                 d3.select(this).attr('opacity', 0.8);
                 const overlap = overlapEnd - overlapStart;
                 const overlapDays = Math.round(overlap / (1000 * 60 * 60 * 24));
@@ -686,11 +705,11 @@ export const CombinedGanttChart: React.FC<CombinedGanttChartProps> = ({
                      </div>`
                   );
               })
-              .on('mouseout', function() {
+              .on('mouseout', function () {
                 d3.select(this).attr('opacity', 0.6);
                 tooltip.style('opacity', '0');
               })
-              .on('mousemove', function(event) {
+              .on('mousemove', function (event) {
                 // Smart positioning for the tooltip during mouse movement
                 const mouseX = event.pageX;
                 const mouseY = event.pageY;
@@ -710,8 +729,14 @@ export const CombinedGanttChart: React.FC<CombinedGanttChartProps> = ({
                 const showAbove = spaceOnBottom < tooltipHeight + 20;
 
                 tooltip
-                  .style('left', showOnLeft ? `${mouseX - tooltipWidth - 10}px` : `${mouseX + 10}px`)
-                  .style('top', showAbove ? `${mouseY - tooltipHeight - 10}px` : `${mouseY + 10}px`);
+                  .style(
+                    'left',
+                    showOnLeft ? `${mouseX - tooltipWidth - 10}px` : `${mouseX + 10}px`
+                  )
+                  .style(
+                    'top',
+                    showAbove ? `${mouseY - tooltipHeight - 10}px` : `${mouseY + 10}px`
+                  );
               });
           }
         }
@@ -736,7 +761,9 @@ export const CombinedGanttChart: React.FC<CombinedGanttChartProps> = ({
             .attr('fill', '#ffb414')
             .attr('opacity', 0.6)
             .attr('rx', 2)
-            .attr('ry', 2);
+            .attr('ry', 2)
+            // These decorative rectangles should not block zoom/pan behaviour.
+            .style('pointer-events', 'none');
 
           // Add invisible interactive rectangle for the gap indicator
           interactionLayer
@@ -750,11 +777,13 @@ export const CombinedGanttChart: React.FC<CombinedGanttChartProps> = ({
             .attr('fill', 'transparent')
             .style('pointer-events', 'all')
             .style('cursor', 'pointer')
-            .on('mouseover', function(event) {
+            .on('mouseover', function (event) {
               d3.select(this).attr('opacity', 0.8);
 
               // Calculate the total gap duration from planned start to actual start
-              const totalGapDays = Math.round((actualStart - new Date(d.planned_start_date).getTime()) / (1000 * 60 * 60 * 24));
+              const totalGapDays = Math.round(
+                (actualStart - new Date(d.planned_start_date).getTime()) / (1000 * 60 * 60 * 24)
+              );
 
               tooltip
                 .style('opacity', '1')
@@ -790,11 +819,11 @@ export const CombinedGanttChart: React.FC<CombinedGanttChartProps> = ({
                    </div>`
                 );
             })
-            .on('mouseout', function() {
+            .on('mouseout', function () {
               d3.select(this).attr('opacity', 0.6);
               tooltip.style('opacity', '0');
             })
-            .on('mousemove', function(event) {
+            .on('mousemove', function (event) {
               // Smart positioning for the tooltip during mouse movement
               const mouseX = event.pageX;
               const mouseY = event.pageY;
@@ -820,6 +849,11 @@ export const CombinedGanttChart: React.FC<CombinedGanttChartProps> = ({
         }
       });
 
+      // Ensure the interaction layer sits above all bars so hover rectangles
+      // receive pointer events. This fixes tooltip visibility issues when the
+      // zoom rectangle would otherwise intercept events.
+      interactionLayer.raise();
+
       // Add x-axis
       const xAxis = g
         .append('g')
@@ -831,36 +865,32 @@ export const CombinedGanttChart: React.FC<CombinedGanttChartProps> = ({
       applyAxisStyles(xAxis, true);
 
       // Add y-axis with wrapped text
-      const yAxis = g
-        .append('g')
-        .attr('class', 'y-axis')
-        .call(d3.axisLeft(yScale));
+      const yAxis = g.append('g').attr('class', 'y-axis').call(d3.axisLeft(yScale));
 
       // Style y-axis and apply text wrapping
       applyAxisStyles(yAxis, false);
 
       // Apply text wrapping to y-axis labels
-      yAxis.selectAll('.tick text')
-        .call(function(text) {
-          text.each(function(d: any) {
-            const textElement = d3.select(this);
-            const words = formatYAxisLabel(d).split('\n');
+      yAxis.selectAll('.tick text').call(function (text) {
+        text.each(function (d: any) {
+          const textElement = d3.select(this);
+          const words = formatYAxisLabel(d).split('\n');
 
-            textElement.text(''); // Clear existing text
+          textElement.text(''); // Clear existing text
 
-            // Add each line as a separate tspan element
-            words.forEach((word, i) => {
-              textElement.append('tspan')
-                .attr('x', -9) // Adjust x position for alignment
-                .attr('dy', i === 0 ? 0 : '1.2em') // Add line spacing for subsequent lines
-                .text(word);
-            });
+          // Add each line as a separate tspan element
+          words.forEach((word, i) => {
+            textElement
+              .append('tspan')
+              .attr('x', -9) // Adjust x position for alignment
+              .attr('dy', i === 0 ? 0 : '1.2em') // Add line spacing for subsequent lines
+              .text(word);
           });
         });
+      });
 
       // Adjust the left margin based on the new multiline labels
-      yAxis.selectAll('.tick text')
-        .attr('transform', 'translate(-8,0)');
+      yAxis.selectAll('.tick text').attr('transform', 'translate(-8,0)');
 
       // Add x-axis label
       xAxis
@@ -954,8 +984,6 @@ export const CombinedGanttChart: React.FC<CombinedGanttChartProps> = ({
           .style('font-family', 'var(--e-font-family-rubik)')
           .style('font-size', '12px')
           .style('fill', '#77868F');
-
-
       }
 
       // Add zoom helper text if not in preview mode
@@ -990,7 +1018,7 @@ export const CombinedGanttChart: React.FC<CombinedGanttChartProps> = ({
           [0, 0],
           [width, height],
         ])
-        .filter(event => {
+        .filter((event) => {
           // Always allow zoom for mouse wheel events
           if (event.type === 'wheel') return true;
 
@@ -1005,7 +1033,8 @@ export const CombinedGanttChart: React.FC<CombinedGanttChartProps> = ({
           const newXScale = transform.rescaleX(xScale);
 
           // Calculate the new y-scale with proper bandwidth based on the transform
-          const newYScale = d3.scaleBand()
+          const newYScale = d3
+            .scaleBand()
             .domain(yScale.domain())
             .range([transform.applyY(0), transform.applyY(height)])
             .padding(0.15);
@@ -1014,17 +1043,16 @@ export const CombinedGanttChart: React.FC<CombinedGanttChartProps> = ({
           const scaledBandwidth = newYScale.bandwidth();
 
           // Update axes with smooth transitions
-          xAxis
-            .call(d3.axisBottom(newXScale).ticks(isPreview ? 5 : 10) as any);
+          xAxis.call(d3.axisBottom(newXScale).ticks(isPreview ? 5 : 10) as any);
 
           // Update y-axis
-          yAxis
-            .call(d3.axisLeft(newYScale) as any);
+          yAxis.call(d3.axisLeft(newYScale) as any);
 
           // Re-apply text wrapping to y-axis labels after update
-          yAxis.selectAll('.tick text')
-            .call(function(text) {
-              text.each(function(d: any) {
+          yAxis
+            .selectAll('.tick text')
+            .call(function (text) {
+              text.each(function (d: any) {
                 const textElement = d3.select(this);
                 const words = formatYAxisLabel(d).split('\n');
 
@@ -1032,7 +1060,8 @@ export const CombinedGanttChart: React.FC<CombinedGanttChartProps> = ({
 
                 // Add each line as a separate tspan element
                 words.forEach((word, i) => {
-                  textElement.append('tspan')
+                  textElement
+                    .append('tspan')
                     .attr('x', -9) // Adjust x position for alignment
                     .attr('dy', i === 0 ? 0 : '1.2em') // Add line spacing for subsequent lines
                     .text(word);
@@ -1118,7 +1147,9 @@ export const CombinedGanttChart: React.FC<CombinedGanttChartProps> = ({
             })
             .attr('height', (d: any) => {
               // Calculate the distance between the centers of the two bands and add one bandwidth
-              const plannedY = transform.applyY(yScale(`${d.gantt_chart_legend} (Planned)`)! + yScale.bandwidth());
+              const plannedY = transform.applyY(
+                yScale(`${d.gantt_chart_legend} (Planned)`)! + yScale.bandwidth()
+              );
               const actualY = transform.applyY(yScale(`${d.gantt_chart_legend} (Actual)`)!);
               return Math.abs(actualY - plannedY);
             });
@@ -1143,7 +1174,9 @@ export const CombinedGanttChart: React.FC<CombinedGanttChartProps> = ({
             })
             .attr('height', (d: any) => {
               // Calculate the distance between the centers of the two bands and add one bandwidth
-              const plannedY = transform.applyY(yScale(`${d.gantt_chart_legend} (Planned)`)! + yScale.bandwidth());
+              const plannedY = transform.applyY(
+                yScale(`${d.gantt_chart_legend} (Planned)`)! + yScale.bandwidth()
+              );
               const actualY = transform.applyY(yScale(`${d.gantt_chart_legend} (Actual)`)!);
               return Math.abs(actualY - plannedY);
             });
@@ -1175,11 +1208,16 @@ export const CombinedGanttChart: React.FC<CombinedGanttChartProps> = ({
               const overlapEnd = Math.min(plannedEnd, actualEnd);
 
               // Only return a positive width if there's a valid overlap
-              return Math.max(0, newXScale(new Date(overlapEnd)) - newXScale(new Date(overlapStart)));
+              return Math.max(
+                0,
+                newXScale(new Date(overlapEnd)) - newXScale(new Date(overlapStart))
+              );
             })
             .attr('height', (d: any) => {
               // Calculate the distance between the centers of the two bands and add one bandwidth
-              const plannedY = transform.applyY(yScale(`${d.gantt_chart_legend} (Planned)`)! + yScale.bandwidth());
+              const plannedY = transform.applyY(
+                yScale(`${d.gantt_chart_legend} (Planned)`)! + yScale.bandwidth()
+              );
               const actualY = transform.applyY(yScale(`${d.gantt_chart_legend} (Actual)`)!);
               return Math.abs(actualY - plannedY);
             });
@@ -1211,11 +1249,16 @@ export const CombinedGanttChart: React.FC<CombinedGanttChartProps> = ({
               const overlapEnd = Math.min(plannedEnd, actualEnd);
 
               // Only return a positive width if there's a valid overlap
-              return Math.max(0, newXScale(new Date(overlapEnd)) - newXScale(new Date(overlapStart)));
+              return Math.max(
+                0,
+                newXScale(new Date(overlapEnd)) - newXScale(new Date(overlapStart))
+              );
             })
             .attr('height', (d: any) => {
               // Calculate the distance between the centers of the two bands and add one bandwidth
-              const plannedY = transform.applyY(yScale(`${d.gantt_chart_legend} (Planned)`)! + yScale.bandwidth());
+              const plannedY = transform.applyY(
+                yScale(`${d.gantt_chart_legend} (Planned)`)! + yScale.bandwidth()
+              );
               const actualY = transform.applyY(yScale(`${d.gantt_chart_legend} (Actual)`)!);
               return Math.abs(actualY - plannedY);
             });
