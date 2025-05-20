@@ -27,12 +27,12 @@ const chartLegendData = [
 ];
 
 // Define colors for different phases
-const phaseColors = {
-  design: '#E5BE27',
-  planningApproval: '#4F4DD0',
-  procurement: '#DC74CB',
-  construction: '#02A785',
-};
+// const phaseColors = {
+//   design: '#E5BE27',
+//   planningApproval: '#4F4DD0',
+//   procurement: '#DC74CB',
+//   construction: '#02A785',
+// };
 
 const MicroChartView: React.FC = () => {
   const { activeFilters, deselectedProjectIds } = useBenchmark();
@@ -52,7 +52,7 @@ const MicroChartView: React.FC = () => {
 
       try {
         // Format deselected project IDs as objects with index and projectId properties
-        const deselectedRows = deselectedProjectIds.map((projectId, index) => ({
+        const deselectedRows = deselectedProjectIds.map((projectId: string, index: number) => ({
           index: String(index),
           projectId: projectId,
         }));

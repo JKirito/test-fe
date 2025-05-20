@@ -124,7 +124,11 @@ interface ScatterChartWrapperProps {
   displayMode?: ScatterDisplayMode;
 }
 
-export const ScatterChartWrapper: React.FC<ScatterChartWrapperProps> = ({ data, className, displayMode = 'both' }) => {
+export const ScatterChartWrapper: React.FC<ScatterChartWrapperProps> = ({
+  data,
+  className,
+  displayMode = 'both',
+}) => {
   const { isFullscreen } = useFullscreen();
   const wrapperRef = React.useRef<HTMLDivElement>(null);
   const [key, setKey] = React.useState(0);

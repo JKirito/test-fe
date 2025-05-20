@@ -1,5 +1,5 @@
 import React from 'react';
-import { useBenchmark } from '../../store';
+import { useBenchmarkFilters } from '../../context/BenchmarkFiltersContext';
 
 interface TableActionsProps {
   currentPage: number;
@@ -14,7 +14,7 @@ const TableActions: React.FC<TableActionsProps> = ({
   totalRecords,
   pageLimit,
 }) => {
-  const { applyFilters } = useBenchmark();
+  const { applyFilters } = useBenchmarkFilters();
 
   // Function to handle page change
   const handlePageChange = (page: number) => {

@@ -1,6 +1,5 @@
 import React from 'react';
-import { useBenchmark } from '../../store';
-import { Project } from '../../types';
+import { Project, useBenchmarkFilters } from '../../context/BenchmarkFiltersContext';
 
 interface ProjectTableProps {
   projects: Project[];
@@ -18,14 +17,7 @@ const TableHeaderNamesMapConfig: Record<string, string> = {
 };
 
 const ProjectTable: React.FC<ProjectTableProps> = ({ projects, onSelectionChange }) => {
-  const {
-    isProjectSelected,
-    resetSelection,
-    deselectedProjectIds,
-    selectedProjectIds,
-    isAllSelected,
-    setSelectAll,
-  } = useBenchmark();
+  const { isProjectSelected, resetSelection, deselectedProjectIds } = useBenchmarkFilters();
   // Get all unique column keys from the projects
   const columnKeys = React.useMemo(() => {
     const keys = new Set<string>();
@@ -106,19 +98,30 @@ const ProjectTable: React.FC<ProjectTableProps> = ({ projects, onSelectionChange
               <input
                 type="checkbox"
                 className="project-selection__checkbox"
-                checked={isAllSelected}
+                checked={projects.length > 0 && deselectedProjectIds.length === 0}
                 ref={(el) => {
                   if (el) {
-                    el.indeterminate = isAllSelected
-                      ? deselectedProjectIds.length > 0
-                      : selectedProjectIds.length > 0;
+                    // Indeterminate state when some projects are deselected but not all
+                    el.indeterminate =
+                      deselectedProjectIds.length > 0 &&
+                      deselectedProjectIds.length < projects.length;
                   }
                 }}
                 onChange={(e) => {
+                  // Handle select all / deselect all
                   const isChecked = e.target.checked;
-                  setSelectAll(isChecked);
+                  // console.log('Select all:', isChecked);
+
                   if (isChecked) {
+                    // Select all projects (clear deselected list)
                     resetSelection();
+                    // console.log('Selected all projects');
+                  } else {
+                    // Deselect all projects (add all to deselected list)
+                    projects.forEach((project) => {
+                      onSelectionChange(project, false);
+                    });
+                    // console.log('Deselected all projects');
                   }
                 }}
                 aria-label="Select all projects"

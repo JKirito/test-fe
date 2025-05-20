@@ -1,5 +1,9 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { FilterOptions, ActiveFilters, ApplyFiltersParams } from '@/pages/galileo/benchmark/filters';
+import {
+  FilterOptions,
+  ActiveFilters,
+  ApplyFiltersParams,
+} from '@/pages/galileo/benchmark/filters';
 import { filterApi } from '@/pages/galileo/benchmark/filterApi';
 import { INITIAL_FILTER_OPTIONS } from '@/pages/galileo/benchmark/constants';
 
@@ -53,16 +57,13 @@ export const applyFilters = createAsyncThunk(
   }
 );
 
-export const fetchFilterOptions = createAsyncThunk(
-  'benchmark/fetchFilterOptions',
-  async () => {
-    const options = await filterApi.getFilterOptions();
-    if (!options.gfa) {
-      options.gfa = [];
-    }
-    return options;
+export const fetchFilterOptions = createAsyncThunk('benchmark/fetchFilterOptions', async () => {
+  const options = await filterApi.getFilterOptions();
+  if (!options.gfa) {
+    options.gfa = [];
   }
-);
+  return options;
+});
 
 export const downloadFilteredData = createAsyncThunk(
   'benchmark/downloadFilteredData',
@@ -174,4 +175,3 @@ export const {
 } = benchmarkSlice.actions;
 
 export default benchmarkSlice.reducer;
-export type { TableData };

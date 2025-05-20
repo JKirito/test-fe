@@ -5,7 +5,7 @@ import TableCell from '@tiptap/extension-table-cell';
 import TableRow from '@tiptap/extension-table-row';
 import TableHeader from '@tiptap/extension-table-header';
 import Image from '@tiptap/extension-image';
-import { BubbleMenu, Editor, EditorContent, useEditor } from '@tiptap/react';
+import { Editor, EditorContent, useEditor } from '@tiptap/react';
 import apiClient from '@/lib/config/axiosConfig';
 import StarterKit from '@tiptap/starter-kit';
 
@@ -25,6 +25,8 @@ const Menubar = ({ editor }: { editor: Editor | null }) => {
       <button onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3 }).run()}>
         Insert Table
       </button>
+
+      <button onClick={() => editor.chain().focus().deleteTable().run()}>Delete Table</button>
       <button
         onClick={() => editor.chain().focus().addRowAfter().run()}
         disabled={!editor.can().addRowAfter()}
@@ -83,12 +85,9 @@ export const ImageUpload = ({ editor }: { editor: Editor | null }) => {
           const response = await apiClient.post('/how-to/upload-image', formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
           });
-          if (response.data?.url) {
-            editor
-              .chain()
-              .focus()
-              .setImage({ src: response.data.url, style: 'max-width: 100%;' })
-              .run();
+          console.log(response.data);
+          if (response.data?.data?.url) {
+            editor.chain().focus().setImage({ src: response.data.data.url }).run();
           }
         } catch (err) {
           console.error('Image upload failed', err);
@@ -102,54 +101,6 @@ export const ImageUpload = ({ editor }: { editor: Editor | null }) => {
   return <button onClick={handleImageUpload}>Upload Image</button>;
 };
 
-const ImageContextMenu = ({ editor }: { editor: Editor | null }) => {
-  if (!editor) return null;
-
-  const setAlignment = (align: 'left' | 'center' | 'right') => {
-    let style = '';
-    if (align === 'left') style = 'float: left; margin-right: 1em;';
-    if (align === 'center') style = 'display: block; margin-left: auto; margin-right: auto;';
-    if (align === 'right') style = 'float: right; margin-left: 1em;';
-    editor.chain().focus().updateAttributes('image', { style }).run();
-  };
-
-  const setWidth = (width: string) => {
-    editor
-      .chain()
-      .focus()
-      .updateAttributes('image', { style: `width: ${width};` })
-      .run();
-  };
-
-  return (
-    <BubbleMenu
-      editor={editor}
-      tippyOptions={{ duration: 100 }}
-      shouldShow={({ editor }) => editor.isActive('image')}
-    >
-      <div className={styles['tiptap-context-menu']}>
-        <div className={styles['context-menu-section']}>
-          <h3>Alignment</h3>
-          <div className={styles['context-menu-buttons']}>
-            <button onClick={() => setAlignment('left')}>Left</button>
-            <button onClick={() => setAlignment('center')}>Center</button>
-            <button onClick={() => setAlignment('right')}>Right</button>
-          </div>
-        </div>
-        <div className={styles['context-menu-section']}>
-          <h3>Width</h3>
-          <div className={styles['context-menu-buttons']}>
-            <button onClick={() => setWidth('25%')}>25%</button>
-            <button onClick={() => setWidth('50%')}>50%</button>
-            <button onClick={() => setWidth('75%')}>75%</button>
-            <button onClick={() => setWidth('100%')}>100%</button>
-          </div>
-        </div>
-      </div>
-    </BubbleMenu>
-  );
-};
-
 interface TipTapEditorProps {
   value: string;
   onChange: (value: string) => void;
@@ -161,7 +112,11 @@ const TipTapEditor: React.FC<TipTapEditorProps> = ({ value, onChange, className 
   const editor = useEditor({
     extensions: [
       StarterKit,
-      Image,
+      Image.configure({
+        HTMLAttributes: {
+          style: 'max-width: 100%;',
+        },
+      }),
       Table.configure({
         resizable: true,
         HTMLAttributes: {
@@ -187,7 +142,6 @@ const TipTapEditor: React.FC<TipTapEditorProps> = ({ value, onChange, className 
         className={`${styles['tiptap-editor']} ${className || ''}`}
         style={{ fontFamily: "'Rubik', sans-serif" }}
       />
-      <ImageContextMenu editor={editor} />
     </div>
   );
 };

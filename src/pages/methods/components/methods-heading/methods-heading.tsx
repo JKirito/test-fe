@@ -1,4 +1,4 @@
-import './methods-heading.css';
+import './methods-heading.scss';
 import { MockMethodTitles } from '../../methods.mock';
 
 export interface IMethodsHeading {
@@ -10,8 +10,8 @@ export interface IMethodsHeading {
 
 export function MethodsHeading({ depth, maxDepth, selectedOptions, onEdit }: IMethodsHeading) {
   return (
-    <div className="methods-list__heading">
-      <h4 className="methods-list__heading-title text-[20px] font-semibold">{MockMethodTitles[depth]}</h4>
+    <div className="methods-list__heading e-mg-b-12 e-mg-t-16">
+      <h4 className="methods-list__heading-title e-body-1 e-600">{MockMethodTitles[depth]}</h4>
       {selectedOptions?.[depth] && (
         <div className="methods-list__heading-actions">
           {/* <button className="methods-list__heading-actions__complete e-btn e-btn-ghost">
@@ -20,7 +20,14 @@ export function MethodsHeading({ depth, maxDepth, selectedOptions, onEdit }: IMe
           {depth !== maxDepth - 1 && (
             <button
               onClick={() => onEdit(depth)}
-              className="methods-list__heading-actions__edit e-btn e-btn-ghost mt-[-4px] flex-row bg-primary-500 text-white px-2 py-1"
+              className="methods-list__heading-actions__edit e-btn e-btn-ghost"
+              style={{
+                marginTop: '-4px',
+                flexDirection: 'row',
+                background: '#149Ef6',
+                color: '#fff',
+                padding: '4px 8px',
+              }}
             >
               <img src="/icons/back.svg" alt="" />
             </button>

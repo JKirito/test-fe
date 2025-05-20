@@ -45,7 +45,7 @@ export const MethodsContent = ({ onProgressChange, onMaxDepthChange }: MethodsCo
 
   if (isLoadingTopLevel || reduxLoading) {
     return (
-      <div className="methods-list mt-8">
+      <div className="methods-list e-mg-t-32">
         <Loader />
       </div>
     );
@@ -53,14 +53,14 @@ export const MethodsContent = ({ onProgressChange, onMaxDepthChange }: MethodsCo
 
   if (topLevelError) {
     return (
-      <div className="methods-list mt-8">
+      <div className="methods-list e-mg-t-32">
         Error loading methodologies: {(topLevelError as Error).message}
       </div>
     );
   }
 
   return (
-    <div className="methods-list mt-8">
+    <div className="methods-list e-mg-t-32">
       <MethodsHeading
         maxDepth={maxDepth}
         depth={0}

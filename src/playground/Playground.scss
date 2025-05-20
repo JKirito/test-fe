@@ -4,6 +4,7 @@
   width: 100vw;
   background-color: var(--e-grayscale-100);
   overflow: hidden;
+  padding: 2rem;
 }
 
 .playground__layout {
@@ -39,11 +40,35 @@
 .playground__container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   width: 100%;
   padding: var(--e-sp-16);
   background-color: var(--e-grayscale-white);
   border-radius: var(--e-br-8);
   box-shadow: 0px var(--value-2, 2px) var(--value-20, 20px) -1px rgba(0, 0, 0, 0.08);
+
+  // Center content when no project is selected
+  &:empty,
+  &:only-child {
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.chart-container {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 1rem;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.data-table-container {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+  @media (max-width: 1023px) {
+    margin-top: 1rem;
+  }
 }

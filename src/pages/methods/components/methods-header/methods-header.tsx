@@ -8,21 +8,22 @@ interface MethodsHeaderProps {
 
 export const MethodsHeader = ({ firstName, maxDepth, currentProgress }: MethodsHeaderProps) => {
   return (
-    <div className="flex flex-wrap items-center justify-between gap-6">
-      <div className="flex flex-wrap items-center gap-6">
+    <div className="page-heading">
+      <div className="page-heading__container">
         <img
-          className="w-14 h-14 object-cover e-heading-title"
+          className="page-heading__container-icon e-heading-title"
           src="/icons/methods.svg"
           alt=""
         />
-        <div className="flex flex-col gap-2 e-heading-title">
-          <h1 className="text-[28px] font-semibold select-none">
+        <div className="page-heading__container-title e-heading-title">
+          <h1 className="e-heading-5 e-600 e-no-selection">
             Let's Get Started,{' '}
-            <span className="text-[28px] font-semibold text-primary-500 e-accent-title">
+            <span className="e-heading-5 e-600 e-brand-title e-accent-title">
               {firstName || 'User'}
             </span>
+            {/* <span className="e-heading-5 e-600 e-accent-title"> 📑</span> */}
           </h1>
-          <p className="text-[14px] select-none">Select From The Options Below</p>
+          <p className="e-body-4 e-left e-no-selection">Select From The Options Below</p>
         </div>
       </div>
 

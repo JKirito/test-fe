@@ -1,12 +1,12 @@
 import React from 'react';
-import { useBenchmark } from '../../store';
+import { useBenchmarkFilters } from '../../context/BenchmarkFiltersContext';
 import './FilterList.scss';
 import FilterOption from './FilterOption';
 import ProjectItemFilter from './ProjectItemFilter';
 import RangeSlider from './RangeSlider';
 
 export const FilterList: React.FC = () => {
-  const { filterOptions } = useBenchmark();
+  const { filterOptions } = useBenchmarkFilters();
 
   // Log filter options to debug
   // // console.log('FilterList - filterOptions:', filterOptions);

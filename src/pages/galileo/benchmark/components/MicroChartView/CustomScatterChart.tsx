@@ -2,7 +2,7 @@
 
 import { getLinePoints, Point, calculateLinearRegression } from '@/lib/utils/regression';
 import * as d3 from 'd3';
-import { useEffect, useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import { NoDataMessage } from './NoDataMessage';
 
 interface ScatterplotData {
@@ -221,18 +221,19 @@ export const CustomScatterChart: React.FC<ScatterplotChartProps> = ({
       const plannedRegression = calculateLinearRegression(plannedPoints);
       const actualRegression = calculateLinearRegression(actualPoints);
 
-      const domainSpan = paddedMaxX - paddedMinX;
-      const extendedMinX = paddedMinX - domainSpan * 10;
-      const extendedMaxX = paddedMaxX + domainSpan * 10;
+      // Use the visible x-scale domain for the regression line endpoints
+      const xDomain = xScale.domain();
+      const minX = xDomain[0];
+      const maxX = xDomain[1];
 
-      const plannedLinePoints = getLinePoints(plannedRegression, {
-        min: extendedMinX,
-        max: extendedMaxX,
-      });
-      const actualLinePoints = getLinePoints(actualRegression, {
-        min: extendedMinX,
-        max: extendedMaxX,
-      });
+      const plannedLinePoints = [
+        { x: minX, y: plannedRegression.slope * minX + plannedRegression.intercept },
+        { x: maxX, y: plannedRegression.slope * maxX + plannedRegression.intercept },
+      ];
+      const actualLinePoints = [
+        { x: minX, y: actualRegression.slope * minX + actualRegression.intercept },
+        { x: maxX, y: actualRegression.slope * maxX + actualRegression.intercept },
+      ];
 
       // Add regression line for planned (dashed)
       if (displayMode !== 'actual') {
@@ -530,20 +531,35 @@ export const CustomScatterChart: React.FC<ScatterplotChartProps> = ({
 
           // Update regression lines
           if (displayMode !== 'actual') {
+            // Recompute endpoints for the new x domain after zoom
+            const newXDomain = newXScale.domain();
+            const newMinX = newXDomain[0];
+            const newMaxX = newXDomain[1];
+            const newPlannedLinePoints = [
+              { x: newMinX, y: plannedRegression.slope * newMinX + plannedRegression.intercept },
+              { x: newMaxX, y: plannedRegression.slope * newMaxX + plannedRegression.intercept },
+            ];
             plotArea
               .select('.regression-line.planned')
-              .attr('x1', newXScale(plannedLinePoints[0].x))
-              .attr('y1', newYScale(plannedLinePoints[0].y))
-              .attr('x2', newXScale(plannedLinePoints[1].x))
-              .attr('y2', newYScale(plannedLinePoints[1].y));
+              .attr('x1', newXScale(newPlannedLinePoints[0].x))
+              .attr('y1', newYScale(newPlannedLinePoints[0].y))
+              .attr('x2', newXScale(newPlannedLinePoints[1].x))
+              .attr('y2', newYScale(newPlannedLinePoints[1].y));
           }
           if (displayMode !== 'planned') {
+            const newXDomain = newXScale.domain();
+            const newMinX = newXDomain[0];
+            const newMaxX = newXDomain[1];
+            const newActualLinePoints = [
+              { x: newMinX, y: actualRegression.slope * newMinX + actualRegression.intercept },
+              { x: newMaxX, y: actualRegression.slope * newMaxX + actualRegression.intercept },
+            ];
             plotArea
               .select('.regression-line.actual')
-              .attr('x1', newXScale(actualLinePoints[0].x))
-              .attr('y1', newYScale(actualLinePoints[0].y))
-              .attr('x2', newXScale(actualLinePoints[1].x))
-              .attr('y2', newYScale(actualLinePoints[1].y));
+              .attr('x1', newXScale(newActualLinePoints[0].x))
+              .attr('y1', newYScale(newActualLinePoints[0].y))
+              .attr('x2', newXScale(newActualLinePoints[1].x))
+              .attr('y2', newYScale(newActualLinePoints[1].y));
           }
 
           // Update grid lines

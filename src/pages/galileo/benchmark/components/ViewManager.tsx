@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { useBenchmark } from '../store';
+import { useBenchmarkFilters } from '../context/BenchmarkFiltersContext';
 import BenchmarkTable from './BenchmarkTable';
 import MicroChartView from './MicroChartView';
 import InitialChartView from './InitialChartView';
@@ -12,7 +12,7 @@ import InitialChartView from './InitialChartView';
  */
 const ViewManager: React.FC = () => {
   const { hasAppliedFilters, tableData, isLoading, currentView, showChartsWithoutFilters } =
-    useBenchmark();
+    useBenchmarkFilters();
 
   // Log the current state for debugging - but only when it changes
   const prevStateRef = useRef({

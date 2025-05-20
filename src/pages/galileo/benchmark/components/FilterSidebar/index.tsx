@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useBenchmark } from '../../store';
+import { useBenchmarkFilters } from '../../context/BenchmarkFiltersContext';
 import FilterList from './FilterList';
 import './FilterSidebar.scss';
 
@@ -15,7 +15,7 @@ const FilterSidebarContent: React.FC = () => {
     isLoading,
     downloadFilteredData,
     isDownloading,
-  } = useBenchmark();
+  } = useBenchmarkFilters();
 
   const handleResetFilters = () => {
     clearFilters();
@@ -76,7 +76,7 @@ const FilterSidebarContent: React.FC = () => {
 
 const FilterSidebar: React.FC<FilterSidebarProps> = ({ onCollapseChange }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const { activeFilters } = useBenchmark();
+  const { activeFilters } = useBenchmarkFilters();
 
   const toggleCollapse = () => {
     setIsCollapsed(!isCollapsed);

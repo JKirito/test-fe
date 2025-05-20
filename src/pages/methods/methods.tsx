@@ -1,4 +1,4 @@
-import './methods.css';
+import './methods.scss';
 import { useState } from 'react';
 import { useAppSelector } from '@/lib/store/store';
 import { MethodsHeader } from './components/methods-header/methods-header';
@@ -19,7 +19,7 @@ export default function Methods() {
   };
 
   return (
-    <div className="methods p-10 mx-auto">
+    <div className="methods e-pd-40 e-margin-centered">
       <MethodsHeader firstName={firstName} maxDepth={maxDepth} currentProgress={currentProgress} />
       <MethodsContent
         onProgressChange={handleProgressChange}
