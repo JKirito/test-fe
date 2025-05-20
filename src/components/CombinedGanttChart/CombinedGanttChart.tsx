@@ -128,6 +128,8 @@ export const CombinedGanttChart: React.FC<CombinedGanttChartProps> = ({
         .style('opacity', '0')
         .style('transition', 'opacity 0.15s');
     }
+    // Ensure tooltip is visible after chart re-renders
+    tooltip.style('display', 'block');
 
     // Helper function to apply consistent styling to axis labels
     const applyAxisStyles = (selection: d3.Selection<any, any, any, any>, isXAxis = true) => {
