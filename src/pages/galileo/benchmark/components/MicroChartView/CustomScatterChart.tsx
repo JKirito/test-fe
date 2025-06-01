@@ -19,13 +19,13 @@ interface ScatterplotChartProps {
   displayMode?: 'both' | 'planned' | 'actual';
 }
 
-// Define point colors
+// Define point colors outside the component
 const POINT_COLORS = {
   planned: '#00aeef',
   actual: '#ff6b6b',
 } as const;
 
-export const CustomScatterChart: React.FC<ScatterplotChartProps> = ({
+const CustomScatterChartComponent: React.FC<ScatterplotChartProps> = ({
   data,
   isPreview = false,
   displayMode = 'both',
@@ -55,27 +55,39 @@ export const CustomScatterChart: React.FC<ScatterplotChartProps> = ({
     }
 
     // Get or create the tooltip
-    let tooltip = d3.select('body').select<HTMLDivElement>('.scatter-chart-tooltip');
+    let tooltip = d3.select('body').select<HTMLDivElement>('.custom-scatter-tooltip');
     if (tooltip.empty()) {
       tooltip = d3
         .select('body')
         .append('div')
-        .attr('class', 'scatter-chart-tooltip')
+        .attr('class', 'custom-scatter-tooltip') // Use consistent class name
         .style('position', 'absolute')
-        .style('z-index', '999999')
-        .style('background-color', 'white')
-        .style('border', '1px solid #ddd')
-        .style('padding', '16px')
-        .style('border-radius', '24px')
-        .style('font-size', isPreview ? '12px' : '14px')
         .style('pointer-events', 'none')
-        .style('min-width', '250px')
-        .style('max-width', '300px')
-        .style('box-shadow', '0 4px 6px rgba(0,0,0,0.1)')
-        .style('font-family', 'var(--e-font-family-rubik)')
-        .style('opacity', '0') // Start with opacity 0 instead of display none
-        .style('transition', 'opacity 0.15s'); // Add smooth transition
+        .style('opacity', '0') // Controlled by D3
+        .style('transition', 'opacity 0.15s'); // Smooth transition for opacity
+      // z-index will be handled by the CSS class
     }
+
+    /* Suggested SCSS for .custom-scatter-tooltip (to be placed in a relevant .scss file):
+    .custom-scatter-tooltip {
+      @apply absolute bg-white border border-gray-300 p-4 rounded-2xl shadow-lg text-sm;
+      // Or using CSS variables:
+      // position: absolute; // Already handled by inline style for D3 positioning
+      // background-color: var(--e-grayscale-white);
+      // border: 1px solid var(--e-grayscale-300);
+      // padding: var(--e-sp-16);
+      // border-radius: var(--e-br-24);
+      // box-shadow: var(--e-shadow-lg);
+      // font-size: var(--e-body-5);
+      font-family: var(--e-font-family-rubik);
+      // pointer-events: none; // Already handled by inline style
+      // opacity: 0; // Controlled by D3 for show/hide
+      // transition: opacity 0.15s; // Already handled by inline style
+      min-width: 250px;
+      max-width: 300px;
+      z-index: 50; // Or Tailwind z-50
+    }
+    */
 
     // Don't hide at start - we'll control visibility with opacity instead of display
 
@@ -87,58 +99,17 @@ export const CustomScatterChart: React.FC<ScatterplotChartProps> = ({
         .style('fill', isXAxis ? '#77868F' : '#0F1214');
     };
 
-    const updateChart = () => {
-      // Clear previous content
-      d3.select(svgRef.current).selectAll('*').remove();
+    // D3 Helper Functions
+    // Helper to apply consistent font styling to axis labels
+    const applyAxisLabelStyles = (selection: d3.Selection<any, any, any, any>, isXAxis = true) => {
+      selection
+        .style('font-family', 'Rubik')
+        .style('font-size', isPreview ? '12px' : '14px')
+        .style('fill', isXAxis ? '#77868F' : '#0F1214');
+    };
 
-      // Get container dimensions and use actual container height
-      const containerRect = containerRef.current?.getBoundingClientRect();
-      if (!containerRect) return;
-      const baseWidth = containerRect.width;
-      const baseHeight = containerRect.height;
-      const margin = isPreview
-        ? { top: 20, right: 20, bottom: 40, left: 60 }
-        : { top: 40, right: 40, bottom: 60, left: 80 };
-
-      // Ensure we use the full width available
-      const width = Math.max(baseWidth - margin.left - margin.right, 300);
-
-      // Calculate height based on container and fullscreen state
-      let height;
-      if (isPreview) {
-        // In preview mode, use a fixed height
-        height = 300 - margin.top - margin.bottom;
-      } else {
-        // In fullscreen mode, use the full container height
-        // Use the actual container height without any minimum
-        height = baseHeight - margin.top - margin.bottom;
-      }
-
-      // Create SVG with responsive dimensions
-      const svg = d3
-        .select(svgRef.current)
-        .attr('width', '100%')
-        .attr('height', '100%')
-        .attr(
-          'viewBox',
-          `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`
-        )
-        .attr('preserveAspectRatio', 'xMidYMid meet');
-
-      // Create main group
-      const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
-
-      // Add zoom rect (for x-axis zoom and panning)
-      const zoomRect = g
-        .append('rect')
-        .attr('class', 'zoom-rect')
-        .attr('width', width)
-        .attr('height', height)
-        .style('fill', 'none')
-        .style('pointer-events', 'all')
-        .style('touch-action', 'pan-y pinch-zoom');
-
-      // Create scales with strict zero minimum
+    // Sets up the X and Y scales
+    const setupScales = (width: number, height: number) => {
       const yScale = d3
         .scaleLinear()
         .domain([0, d3.max(data as ScatterplotData[], (d) => d.gfa) || 0])
@@ -150,51 +121,6 @@ export const CustomScatterChart: React.FC<ScatterplotChartProps> = ({
         .domain([0, d3.max(data as ScatterplotData[], (d) => Math.max(d.planned, d.actual)) || 0])
         .range([0, width])
         .nice();
-
-      // Add clip path to constrain rendering within plot area
-      const clipId = `clip-${Math.random().toString(36).substring(2)}`;
-      svg
-        .append('defs')
-        .append('clipPath')
-        .attr('id', clipId)
-        .append('rect')
-        .attr('x', 0)
-        .attr('y', 0)
-        .attr('width', width)
-        .attr('height', height);
-
-      // Create a group for the plot area with clip path
-      const plotArea = g.append('g').attr('clip-path', `url(#${clipId})`);
-
-      // Add grid lines (Y grid)
-      g.append('g')
-        .attr('class', 'grid')
-        .selectAll('line')
-        .data(yScale.ticks(5))
-        .enter()
-        .append('line')
-        .attr('class', 'y-grid')
-        .attr('x1', 0)
-        .attr('x2', width)
-        .attr('y1', (d) => yScale(d))
-        .attr('y2', (d) => yScale(d))
-        .attr('stroke', '#e5e7eb')
-        .attr('stroke-dasharray', '5,5');
-
-      // Add grid lines (X grid)
-      g.append('g')
-        .attr('class', 'grid')
-        .selectAll('line')
-        .data(xScale.ticks(5))
-        .enter()
-        .append('line')
-        .attr('class', 'x-grid')
-        .attr('x1', (d) => xScale(d))
-        .attr('x2', (d) => xScale(d))
-        .attr('y1', 0)
-        .attr('y2', height)
-        .attr('stroke', '#e5e7eb')
-        .attr('stroke-dasharray', '5,5');
 
       // Update scales with padded domains for better view
       const minDuration =
@@ -214,29 +140,182 @@ export const CustomScatterChart: React.FC<ScatterplotChartProps> = ({
       xScale.domain([paddedMinX, paddedMaxX]);
       yScale.domain([0, paddedMaxY]);
 
-      // Calculate regression lines for planned and actual
-      const plannedPoints: Point[] = data.map((d) => ({ x: d.planned, y: d.gfa }));
-      const actualPoints: Point[] = data.map((d) => ({ x: d.actual, y: d.gfa }));
+      return { xScale, yScale };
+    };
 
-      const plannedRegression = calculateLinearRegression(plannedPoints);
-      const actualRegression = calculateLinearRegression(actualPoints);
+    // Draws the X and Y axes
+    const drawAxes = (
+      g: d3.Selection<SVGGElement, unknown, null, undefined>,
+      xScale: d3.ScaleLinear<number, number>,
+      yScale: d3.ScaleLinear<number, number>,
+      width: number,
+      height: number,
+      margin: { top: number; right: number; bottom: number; left: number }
+    ) => {
+      const xAxis = g
+        .append('g')
+        .attr('class', 'x-axis')
+        .attr('transform', `translate(0,${height})`)
+        .call(d3.axisBottom(xScale).ticks(5));
+      applyAxisLabelStyles(xAxis.selectAll('text'), true);
 
-      // Use the visible x-scale domain for the regression line endpoints
+      g.append('text')
+        .attr('class', 'x-axis-label')
+        .attr('x', width / 2)
+        .attr('y', height + margin.bottom)
+        .attr('text-anchor', 'middle')
+        .style('font-family', 'Rubik')
+        .style('font-size', isPreview ? '12px' : '14px')
+        .style('fill', '#77868F')
+        .text('Duration (months)');
+
+      const yAxis = g.append('g').attr('class', 'y-axis').call(d3.axisLeft(yScale).ticks(5));
+      applyAxisLabelStyles(yAxis.selectAll('text'), false);
+
+      g.append('text')
+        .attr('class', 'y-axis-label')
+        .attr('transform', 'rotate(-90)')
+        .attr('x', -height / 2)
+        .attr('y', -margin.left + 10)
+        .attr('text-anchor', 'middle')
+        .style('font-family', 'Rubik')
+        .style('font-size', isPreview ? '12px' : '14px')
+        .style('fill', '#0F1214')
+        .text('GFA (sqm)');
+      return { xAxis, yAxis };
+    };
+
+    // Draws the grid lines
+    const drawGrid = (
+      g: d3.Selection<SVGGElement, unknown, null, undefined>,
+      xScale: d3.ScaleLinear<number, number>,
+      yScale: d3.ScaleLinear<number, number>,
+      width: number,
+      height: number
+    ) => {
+      g.append('g')
+        .attr('class', 'grid')
+        .selectAll('line')
+        .data(yScale.ticks(5))
+        .enter()
+        .append('line')
+        .attr('class', 'y-grid')
+        .attr('x1', 0)
+        .attr('x2', width)
+        .attr('y1', (d) => yScale(d))
+        .attr('y2', (d) => yScale(d))
+        .attr('stroke', '#e5e7eb')
+        .attr('stroke-dasharray', '5,5');
+
+      g.append('g')
+        .attr('class', 'grid')
+        .selectAll('line')
+        .data(xScale.ticks(5))
+        .enter()
+        .append('line')
+        .attr('class', 'x-grid')
+        .attr('x1', (d) => xScale(d))
+        .attr('x2', (d) => xScale(d))
+        .attr('y1', 0)
+        .attr('y2', height)
+        .attr('stroke', '#e5e7eb')
+        .attr('stroke-dasharray', '5,5');
+    };
+
+    // Main chart update function
+    const updateChart = () => {
+      d3.select(svgRef.current).selectAll('*').remove();
+      const containerRect = containerRef.current?.getBoundingClientRect();
+      if (!containerRect) return;
+
+      const baseWidth = containerRect.width;
+      const baseHeight = containerRect.height;
+      const margin = isPreview
+        ? { top: 20, right: 20, bottom: 40, left: 60 }
+        : { top: 40, right: 40, bottom: 60, left: 80 };
+
+      const width = Math.max(baseWidth - margin.left - margin.right, 300);
+      const height = isPreview
+        ? 300 - margin.top - margin.bottom
+        : baseHeight - margin.top - margin.bottom;
+
+      const svg = d3
+        .select(svgRef.current)
+        .attr('width', '100%')
+        .attr('height', '100%')
+        .attr('viewBox', `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
+        .attr('preserveAspectRatio', 'xMidYMid meet');
+
+      const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+
+      const zoomRect = g
+        .append('rect')
+        .attr('class', 'zoom-rect')
+        .attr('width', width)
+        .attr('height', height)
+        .style('fill', 'none')
+        .style('pointer-events', 'all')
+        .style('touch-action', 'pan-y pinch-zoom');
+
+      const { xScale, yScale } = setupScales(width, height);
+
+      const clipId = `clip-${Math.random().toString(36).substring(2)}`;
+      svg.append('defs').append('clipPath').attr('id', clipId)
+        .append('rect').attr('x', 0).attr('y', 0).attr('width', width).attr('height', height);
+      const plotArea = g.append('g').attr('clip-path', `url(#${clipId})`);
+
+      drawGrid(g, xScale, yScale, width, height);
+      const { xAxis, yAxis } = drawAxes(g, xScale, yScale, width, height, margin);
+
+      const { plannedRegression, actualRegression } = drawRegressionLines(
+        plotArea,
+        data,
+        xScale,
+        yScale,
+        displayMode
+      );
+      drawDataPoints(plotArea, data, xScale, yScale, displayMode, isPreview);
+      setupTooltipInteraction(plotArea, tooltip, isPreview, data); // Pass full data for tooltip content
+      setupZoom(
+        zoomRect,
+        g,
+        plotArea,
+        xAxis,
+        yAxis,
+        xScale,
+        yScale,
+        width,
+        height,
+        displayMode,
+        plannedRegression,
+        actualRegression,
+        applyAxisLabelStyles
+      );
+    };
+
+    // Draws regression lines
+    const drawRegressionLines = (
+      plotArea: d3.Selection<SVGGElement, unknown, null, undefined>,
+      plotData: ScatterplotData[],
+      xScale: d3.ScaleLinear<number, number>,
+      yScale: d3.ScaleLinear<number, number>,
+      currentDisplayMode: 'both' | 'planned' | 'actual'
+    ) => {
+      const plannedPoints: Point[] = plotData.map((d) => ({ x: d.planned, y: d.gfa }));
+      const actualPoints: Point[] = plotData.map((d) => ({ x: d.actual, y: d.gfa }));
+
+      const plannedReg = calculateLinearRegression(plannedPoints);
+      const actualReg = calculateLinearRegression(actualPoints);
+
       const xDomain = xScale.domain();
       const minX = xDomain[0];
       const maxX = xDomain[1];
 
-      const plannedLinePoints = [
-        { x: minX, y: plannedRegression.slope * minX + plannedRegression.intercept },
-        { x: maxX, y: plannedRegression.slope * maxX + plannedRegression.intercept },
-      ];
-      const actualLinePoints = [
-        { x: minX, y: actualRegression.slope * minX + actualRegression.intercept },
-        { x: maxX, y: actualRegression.slope * maxX + actualRegression.intercept },
-      ];
-
-      // Add regression line for planned (dashed)
-      if (displayMode !== 'actual') {
+      if (currentDisplayMode !== 'actual') {
+        const plannedLinePoints = [
+          { x: minX, y: plannedReg.slope * minX + plannedReg.intercept },
+          { x: maxX, y: plannedReg.slope * maxX + plannedReg.intercept },
+        ];
         plotArea
           .append('line')
           .attr('class', 'regression-line planned')
@@ -250,8 +329,11 @@ export const CustomScatterChart: React.FC<ScatterplotChartProps> = ({
           .style('opacity', 0.7);
       }
 
-      // Add regression line for actual (dashed)
-      if (displayMode !== 'planned') {
+      if (currentDisplayMode !== 'planned') {
+        const actualLinePoints = [
+          { x: minX, y: actualReg.slope * minX + actualReg.intercept },
+          { x: maxX, y: actualReg.slope * maxX + actualReg.intercept },
+        ];
         plotArea
           .append('line')
           .attr('class', 'regression-line actual')
@@ -264,349 +346,237 @@ export const CustomScatterChart: React.FC<ScatterplotChartProps> = ({
           .attr('stroke-dasharray', '5,5')
           .style('opacity', 0.7);
       }
+      return { plannedRegression: plannedReg, actualRegression: actualReg };
+    };
 
-      // Add scatter points for planned duration
-      if (displayMode !== 'actual') {
+    // Draws data points
+    const drawDataPoints = (
+      plotArea: d3.Selection<SVGGElement, unknown, null, undefined>,
+      plotData: ScatterplotData[],
+      xScale: d3.ScaleLinear<number, number>,
+      yScale: d3.ScaleLinear<number, number>,
+      currentDisplayMode: 'both' | 'planned' | 'actual',
+      isChartPreview: boolean
+    ) => {
+      if (currentDisplayMode !== 'actual') {
         plotArea
           .selectAll('.planned-point')
-          .data(data)
+          .data(plotData)
           .enter()
           .append('circle')
           .attr('class', 'planned-point')
           .attr('cx', (d) => xScale(d.planned))
           .attr('cy', (d) => yScale(d.gfa))
-          .attr('r', isPreview ? 6 : 8)
+          .attr('r', isChartPreview ? 6 : 8)
           .attr('fill', POINT_COLORS.planned)
           .attr('stroke', 'white')
           .attr('stroke-width', 2);
       }
 
-      // Add scatter points for actual duration
-      if (displayMode !== 'planned') {
+      if (currentDisplayMode !== 'planned') {
         plotArea
           .selectAll('.actual-point')
-          .data(data)
+          .data(plotData)
           .enter()
           .append('circle')
           .attr('class', 'actual-point')
           .attr('cx', (d) => xScale(d.actual))
           .attr('cy', (d) => yScale(d.gfa))
-          .attr('r', isPreview ? 6 : 8)
+          .attr('r', isChartPreview ? 6 : 8)
           .attr('fill', POINT_COLORS.actual)
           .attr('stroke', 'white')
           .attr('stroke-width', 2);
       }
+    };
 
-      // Add X axis with better positioning
-      const xAxis = g
-        .append('g')
-        .attr('class', 'x-axis')
-        .attr('transform', `translate(0,${height})`)
-        .call(d3.axisBottom(xScale).ticks(5));
+    // Sets up tooltip interactions
+    const setupTooltipInteraction = (
+      plotArea: d3.Selection<SVGGElement, unknown, null, undefined>,
+      tooltipInstance: d3.Selection<HTMLDivElement, unknown, HTMLElement, any>,
+      isChartPreview: boolean,
+      _plotData: ScatterplotData[] // _plotData is passed for context if needed for tooltip content based on all data
+    ) => {
+      const pointsSelector = '.planned-point, .actual-point';
+      const selection = plotArea.selectAll<SVGCircleElement, ScatterplotData>(pointsSelector);
 
-      // Style x-axis and its label
-      applyAxisLabelStyles(xAxis.selectAll('text'), true);
+      selection.on('mouseover', null).on('mousemove', null).on('mouseout', null); // Clear existing
 
-      // Add X axis label
-      g.append('text')
-        .attr('class', 'x-axis-label')
-        .attr('x', width / 2)
-        .attr('y', height + margin.bottom)
-        .attr('text-anchor', 'middle')
-        .style('font-family', 'Rubik')
-        .style('font-size', isPreview ? '12px' : '14px')
-        .style('fill', '#77868F')
-        .text('Duration (months)');
-
-      // Add Y axis
-      const yAxis = g.append('g').attr('class', 'y-axis').call(d3.axisLeft(yScale).ticks(5));
-
-      // Style y-axis and its label
-      applyAxisLabelStyles(yAxis.selectAll('text'), false);
-
-      // Add Y axis label
-      g.append('text')
-        .attr('class', 'y-axis-label')
-        .attr('transform', 'rotate(-90)')
-        .attr('x', -height / 2)
-        .attr('y', -margin.left + 10)
-        .attr('text-anchor', 'middle')
-        .style('font-family', 'Rubik')
-        .style('font-size', isPreview ? '12px' : '14px')
-        .style('fill', '#0F1214')
-        .text('GFA (sqm)');
-
-      // Define the tooltip event handler function
-      const addTooltipEvents = (selection: d3.Selection<any, any, any, any>) => {
-        // First remove any existing event listeners to prevent duplicates
-        selection.on('mouseover', null).on('mousemove', null).on('mouseout', null);
-
-        // Then add new event listeners
-        selection
-          .on('mouseover', function (event, d: any) {
-            // Stop event propagation to prevent parent elements from triggering mouseout
-            event.stopPropagation();
-
-            const point = d3.select(this);
-
-            // Calculate differences and percentages
-            const diff = d.actual - d.planned;
-            const percentDiff = ((diff / d.planned) * 100).toFixed(1);
-            const durationVariance = Math.abs(diff);
-            const efficiencyScore = (d.gfa / d.actual).toFixed(2);
-            const plannedEfficiency = (d.gfa / d.planned).toFixed(2);
-
-            // Format numbers for display
-            const formattedGFA = d.gfa.toLocaleString(undefined, {
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 0,
-            });
-            const formattedPlanned = d.planned.toLocaleString(undefined, {
-              minimumFractionDigits: 1,
-              maximumFractionDigits: 1,
-            });
-            const formattedActual = d.actual.toLocaleString(undefined, {
-              minimumFractionDigits: 1,
-              maximumFractionDigits: 1,
-            });
-
-            // Calculate tooltip position with smart positioning
-            const tooltipWidth = 250;
-            const tooltipHeight = 200;
-            const windowWidth = window.innerWidth;
-            const windowHeight = window.innerHeight;
-            const spaceOnRight = windowWidth - event.pageX;
-            const spaceOnBottom = windowHeight - event.pageY;
-
-            // Determine if tooltip should appear on left or right
-            const showOnLeft = spaceOnRight < tooltipWidth + 20;
-
-            // Determine if tooltip should appear above or below
-            const showAbove = spaceOnBottom < tooltipHeight + 20;
-
-            // Show tooltip with detailed metrics
-            tooltip
-              .style('opacity', '1') // Use opacity instead of display
-              .style(
-                'left',
-                showOnLeft ? `${event.pageX - tooltipWidth - 10}px` : `${event.pageX + 10}px`
-              )
-              .style(
-                'top',
-                showAbove ? `${event.pageY - tooltipHeight - 10}px` : `${event.pageY + 10}px`
-              )
-              .html(
-                `<div style="font-size: 16px; font-weight: 600; margin-bottom: 4px;">Project ID - ${d.projectId}</div>` +
-                  `<div style="font-size: 16px; font-weight: 600; margin-bottom: 4px;">Project Name - ${d.projectName}</div>` +
-                  `<div style="font-size: 14px; color: #6b7280; margin-bottom: 12px;">Project Metrics</div>` +
-                  `<div style="display: flex; flex-direction: column; gap: 8px;">` +
-                  `<div style="display: flex; justify-content: space-between;">` +
-                  `<span style="color: #4b5563;">GFA:</span>` +
-                  `<span style="font-weight: 500;">${formattedGFA} sqm</span>` +
-                  `</div>` +
-                  `<div style="display: flex; justify-content: space-between;">` +
-                  `<span style="color: #4b5563;">Planned Duration:</span>` +
-                  `<span style="font-weight: 500;">${formattedPlanned} ${d.metric}</span>` +
-                  `</div>` +
-                  `<div style="display: flex; justify-content: space-between;">` +
-                  `<span style="color: #4b5563;">Actual Duration:</span>` +
-                  `<span style="font-weight: 500;">${formattedActual} ${d.metric}</span>` +
-                  `</div>` +
-                  `<div style="display: flex; justify-content: space-between;">` +
-                  `<span style="color: #4b5563;">Variance:</span>` +
-                  `<span style="font-weight: 500; color: ${diff >= 0 ? '#ff6b6b' : '#4caf50'};">` +
-                  `${diff >= 0 ? '+' : ''}${durationVariance.toFixed(1)} ${d.metric} (${diff >= 0 ? '+' : ''}${percentDiff}%)` +
-                  `</span>` +
-                  `</div>` +
-                  `<div style="display: flex; justify-content: space-between;">` +
-                  `<span style="color: #4b5563;">Planned Efficiency:</span>` +
-                  `<span style="font-weight: 500;">${plannedEfficiency} sqm/day</span>` +
-                  `</div>` +
-                  `<div style="display: flex; justify-content: space-between;">` +
-                  `<span style="color: #4b5563;">Actual Efficiency:</span>` +
-                  `<span style="font-weight: 500;">${efficiencyScore} sqm/day</span>` +
-                  `</div>` +
-                  `</div>`
-              );
-
-            // Increase point size on hover
-            point
-              .attr('r', isPreview ? 9 : 12)
-              .attr('stroke-width', 3)
-              .style('filter', 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))');
-          })
-          .on('mousemove', function (event) {
-            // Stop event propagation
-            event.stopPropagation();
-
-            // Calculate tooltip position with smart positioning
-            const tooltipWidth = 250;
-            const tooltipHeight = 200;
-            const windowWidth = window.innerWidth;
-            const windowHeight = window.innerHeight;
-            const spaceOnRight = windowWidth - event.pageX;
-            const spaceOnBottom = windowHeight - event.pageY;
-
-            // Determine if tooltip should appear on left or right
-            const showOnLeft = spaceOnRight < tooltipWidth + 20;
-
-            // Determine if tooltip should appear above or below
-            const showAbove = spaceOnBottom < tooltipHeight + 20;
-
-            // Position tooltip with smart positioning
-            tooltip
-              .style(
-                'left',
-                showOnLeft ? `${event.pageX - tooltipWidth - 10}px` : `${event.pageX + 10}px`
-              )
-              .style(
-                'top',
-                showAbove ? `${event.pageY - tooltipHeight - 10}px` : `${event.pageY + 10}px`
-              );
-          })
-          .on('mouseout', function (event) {
-            // Stop event propagation
-            event.stopPropagation();
-
-            // Use opacity instead of display none for smoother transitions
-            tooltip.style('opacity', '0');
-
-            d3.select(this)
-              .attr('r', isPreview ? 6 : 8)
-              .attr('stroke-width', 2)
-              .style('filter', null);
+      selection
+        .on('mouseover', function (event, d) {
+          event.stopPropagation();
+          const point = d3.select(this);
+          const diff = d.actual - d.planned;
+          const percentDiff = ((diff / d.planned) * 100).toFixed(1);
+          const durationVariance = Math.abs(diff);
+          const efficiencyScore = (d.gfa / d.actual).toFixed(2);
+          const plannedEfficiency = (d.gfa / d.planned).toFixed(2);
+          const formattedGFA = d.gfa.toLocaleString(undefined, {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
           });
-      };
+          const formattedPlanned = d.planned.toLocaleString(undefined, {
+            minimumFractionDigits: 1,
+            maximumFractionDigits: 1,
+          });
+          const formattedActual = d.actual.toLocaleString(undefined, {
+            minimumFractionDigits: 1,
+            maximumFractionDigits: 1,
+          });
 
-      // Apply tooltip events to points
-      addTooltipEvents(plotArea.selectAll('.planned-point, .actual-point'));
+          const tooltipWidth = 250; // Keep these or pass as params if they vary
+          const tooltipHeight = 200;
+          const { pageX, pageY } = event;
+          const windowWidth = window.innerWidth;
+          const windowHeight = window.innerHeight;
+          const showOnLeft = windowWidth - pageX < tooltipWidth + 20;
+          const showAbove = windowHeight - pageY < tooltipHeight + 20;
 
-      // Add zoom behavior for panning and zooming on both axes
-      const zoom = d3
+          tooltipInstance
+            .style('opacity', '1')
+            .style('left', showOnLeft ? `${pageX - tooltipWidth - 10}px` : `${pageX + 10}px`)
+            .style('top', showAbove ? `${pageY - tooltipHeight - 10}px` : `${pageY + 10}px`)
+            .html(
+              `<div style="font-size: 16px; font-weight: 600; margin-bottom: 4px;">Project ID - ${d.projectId}</div>` +
+                `<div style="font-size: 16px; font-weight: 600; margin-bottom: 4px;">Project Name - ${d.projectName}</div>` +
+                `<div style="font-size: 14px; color: #6b7280; margin-bottom: 12px;">Project Metrics</div>` +
+                `<div style="display: flex; flex-direction: column; gap: 8px;">` +
+                `<div style="display: flex; justify-content: space-between;">` +
+                `<span style="color: #4b5563;">GFA:</span><span style="font-weight: 500;">${formattedGFA} sqm</span>` +
+                `</div>` +
+                `<div style="display: flex; justify-content: space-between;">` +
+                `<span style="color: #4b5563;">Planned Duration:</span><span style="font-weight: 500;">${formattedPlanned} ${d.metric}</span>` +
+                `</div>` +
+                `<div style="display: flex; justify-content: space-between;">` +
+                `<span style="color: #4b5563;">Actual Duration:</span><span style="font-weight: 500;">${formattedActual} ${d.metric}</span>` +
+                `</div>` +
+                `<div style="display: flex; justify-content: space-between;">` +
+                `<span style="color: #4b5563;">Variance:</span><span style="font-weight: 500; color: ${diff >= 0 ? '#ff6b6b' : '#4caf50'};">` +
+                `${diff >= 0 ? '+' : ''}${durationVariance.toFixed(1)} ${d.metric} (${diff >= 0 ? '+' : ''}${percentDiff}%)</span>` +
+                `</div>` +
+                `<div style="display: flex; justify-content: space-between;">` +
+                `<span style="color: #4b5563;">Planned Efficiency:</span><span style="font-weight: 500;">${plannedEfficiency} sqm/day</span>` +
+                `</div>` +
+                `<div style="display: flex; justify-content: space-between;">` +
+                `<span style="color: #4b5563;">Actual Efficiency:</span><span style="font-weight: 500;">${efficiencyScore} sqm/day</span>` +
+                `</div></div>`
+            );
+          point
+            .attr('r', isChartPreview ? 9 : 12)
+            .attr('stroke-width', 3)
+            .style('filter', 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))');
+        })
+        .on('mousemove', function (event) {
+          event.stopPropagation();
+          const tooltipWidth = 250;
+          const tooltipHeight = 200;
+          const { pageX, pageY } = event;
+          const windowWidth = window.innerWidth;
+          const windowHeight = window.innerHeight;
+          const showOnLeft = windowWidth - pageX < tooltipWidth + 20;
+          const showAbove = windowHeight - pageY < tooltipHeight + 20;
+          tooltipInstance
+            .style('left', showOnLeft ? `${pageX - tooltipWidth - 10}px` : `${pageX + 10}px`)
+            .style('top', showAbove ? `${pageY - tooltipHeight - 10}px` : `${pageY + 10}px`);
+        })
+        .on('mouseout', function (event) {
+          event.stopPropagation();
+          tooltipInstance.style('opacity', '0');
+          d3.select(this)
+            .attr('r', isChartPreview ? 6 : 8)
+            .attr('stroke-width', 2)
+            .style('filter', null);
+        });
+
+        // Ensure points are interactive
+        plotArea.selectAll(pointsSelector).style('pointer-events', 'visible').style('cursor', 'pointer');
+    };
+
+    // Sets up zoom behavior
+    const setupZoom = (
+      zoomRectElement: d3.Selection<SVGRectElement, unknown, null, undefined>,
+      gElement: d3.Selection<SVGGElement, unknown, null, undefined>,
+      plotAreaElement: d3.Selection<SVGGElement, unknown, null, undefined>,
+      xAxisElement: d3.Selection<SVGGElement, unknown, null, undefined>,
+      yAxisElement: d3.Selection<SVGGElement, unknown, null, undefined>,
+      xScaleOriginal: d3.ScaleLinear<number, number>,
+      yScaleOriginal: d3.ScaleLinear<number, number>,
+      chartWidth: number,
+      chartHeight: number,
+      currentDisplayMode: 'both' | 'planned' | 'actual',
+      plannedReg: { slope: number; intercept: number },
+      actualReg: { slope: number; intercept: number },
+      axisLabelStyler: (selection: d3.Selection<any,any,any,any>, isX: boolean) => void
+    ) => {
+      const zoomBehavior = d3
         .zoom()
         .scaleExtent([0.2, 8])
-        .extent([
-          [0, 0],
-          [width, height],
-        ])
+        .extent([[0, 0],[chartWidth, chartHeight]])
         .on('zoom', (event) => {
-          const newXScale = event.transform.rescaleX(xScale);
-          const newYScale = event.transform.rescaleY(yScale);
+          const { transform } = event;
+          const newXScale = transform.rescaleX(xScaleOriginal);
+          const newYScale = transform.rescaleY(yScaleOriginal);
 
-          // Update x-axis with smooth transition
-          xAxis
-            .transition()
-            .duration(100)
-            .ease(d3.easeLinear)
+          xAxisElement.transition().duration(100).ease(d3.easeLinear)
             .call(d3.axisBottom(newXScale).ticks(5) as any)
-            // Apply consistent font styling to the updated tick labels
-            .on('end', () => {
-              // Apply the same font styling to ensure consistency
-              applyAxisLabelStyles(xAxis.selectAll('text'), true);
-            });
+            .on('end', () => axisLabelStyler(xAxisElement.selectAll('text'), true));
 
-          // Update y-axis
-          yAxis
-            .transition()
-            .duration(100)
-            .ease(d3.easeLinear)
+          yAxisElement.transition().duration(100).ease(d3.easeLinear)
             .call(d3.axisLeft(newYScale).ticks(5) as any)
-            .on('end', () => {
-              applyAxisLabelStyles(yAxis.selectAll('text'), false);
-            });
+            .on('end', () => axisLabelStyler(yAxisElement.selectAll('text'), false));
 
-          // Update point positions
-          if (displayMode !== 'actual') {
-            plotArea
-              .selectAll('.planned-point')
+          if (currentDisplayMode !== 'actual') {
+            plotAreaElement.selectAll('.planned-point')
               .attr('cx', (d: any) => newXScale(d.planned))
               .attr('cy', (d: any) => newYScale(d.gfa));
           }
-          if (displayMode !== 'planned') {
-            plotArea
-              .selectAll('.actual-point')
+          if (currentDisplayMode !== 'planned') {
+            plotAreaElement.selectAll('.actual-point')
               .attr('cx', (d: any) => newXScale(d.actual))
               .attr('cy', (d: any) => newYScale(d.gfa));
           }
 
-          // Update regression lines
-          if (displayMode !== 'actual') {
-            // Recompute endpoints for the new x domain after zoom
-            const newXDomain = newXScale.domain();
-            const newMinX = newXDomain[0];
-            const newMaxX = newXDomain[1];
+          const newXDomain = newXScale.domain();
+          const minX = newXDomain[0];
+          const maxX = newXDomain[1];
+
+          if (currentDisplayMode !== 'actual') {
             const newPlannedLinePoints = [
-              { x: newMinX, y: plannedRegression.slope * newMinX + plannedRegression.intercept },
-              { x: newMaxX, y: plannedRegression.slope * newMaxX + plannedRegression.intercept },
+              { x: minX, y: plannedReg.slope * minX + plannedReg.intercept },
+              { x: maxX, y: plannedReg.slope * maxX + plannedReg.intercept },
             ];
-            plotArea
-              .select('.regression-line.planned')
+            plotAreaElement.select('.regression-line.planned')
               .attr('x1', newXScale(newPlannedLinePoints[0].x))
               .attr('y1', newYScale(newPlannedLinePoints[0].y))
               .attr('x2', newXScale(newPlannedLinePoints[1].x))
               .attr('y2', newYScale(newPlannedLinePoints[1].y));
           }
-          if (displayMode !== 'planned') {
-            const newXDomain = newXScale.domain();
-            const newMinX = newXDomain[0];
-            const newMaxX = newXDomain[1];
+          if (currentDisplayMode !== 'planned') {
             const newActualLinePoints = [
-              { x: newMinX, y: actualRegression.slope * newMinX + actualRegression.intercept },
-              { x: newMaxX, y: actualRegression.slope * newMaxX + actualRegression.intercept },
+              { x: minX, y: actualReg.slope * minX + actualReg.intercept },
+              { x: maxX, y: actualReg.slope * maxX + actualReg.intercept },
             ];
-            plotArea
-              .select('.regression-line.actual')
+            plotAreaElement.select('.regression-line.actual')
               .attr('x1', newXScale(newActualLinePoints[0].x))
               .attr('y1', newYScale(newActualLinePoints[0].y))
               .attr('x2', newXScale(newActualLinePoints[1].x))
               .attr('y2', newYScale(newActualLinePoints[1].y));
           }
 
-          // Update grid lines
-          g.selectAll('.grid line.x-grid')
-            .transition()
-            .duration(100)
-            .ease(d3.easeLinear)
-            .attr('x1', (d: any) => newXScale(d))
-            .attr('x2', (d: any) => newXScale(d));
-          g.selectAll('.grid line.y-grid')
-            .transition()
-            .duration(100)
-            .ease(d3.easeLinear)
-            .attr('y1', (d: any) => newYScale(d))
-            .attr('y2', (d: any) => newYScale(d));
+          gElement.selectAll('.grid line.x-grid').transition().duration(100).ease(d3.easeLinear)
+            .attr('x1', (d: any) => newXScale(d)).attr('x2', (d: any) => newXScale(d));
+          gElement.selectAll('.grid line.y-grid').transition().duration(100).ease(d3.easeLinear)
+            .attr('y1', (d: any) => newYScale(d)).attr('y2', (d: any) => newYScale(d));
         });
 
-      // Apply zoom behavior to the zoom rect
-      zoomRect.call(zoom as any);
-
-      // Double-click to reset zoom
-      zoomRect.on('dblclick', () => {
-        zoomRect
-          .transition()
-          .duration(400)
-          .ease(d3.easeCubicInOut)
-          .call(zoom.transform as any, d3.zoomIdentity)
+      zoomRectElement.call(zoomBehavior as any);
+      zoomRectElement.on('dblclick.zoom', () => {
+        zoomRectElement.transition().duration(400).ease(d3.easeCubicInOut)
+          .call(zoomBehavior.transform as any, d3.zoomIdentity)
           .on('end', () => {
-            // Ensure consistent font styling after zoom reset
-            applyAxisLabelStyles(xAxis.selectAll('text'), true);
-            applyAxisLabelStyles(yAxis.selectAll('text'), false);
+            axisLabelStyler(xAxisElement.selectAll('text'), true);
+            axisLabelStyler(yAxisElement.selectAll('text'), false);
           });
       });
-
-      // Make scatter points pointer-events visible
-      const pointSelector = [
-        displayMode !== 'actual' ? '.planned-point' : null,
-        displayMode !== 'planned' ? '.actual-point' : null,
-      ]
-        .filter(Boolean)
-        .join(', ');
-      if (pointSelector) {
-        plotArea
-          .selectAll(pointSelector)
-          .style('pointer-events', 'visible')
-          .style('cursor', 'pointer');
-      }
     };
 
     updateChart();
@@ -614,22 +584,13 @@ export const CustomScatterChart: React.FC<ScatterplotChartProps> = ({
     // Add resize listener with ResizeObserver
     let resizeTimeout: NodeJS.Timeout | null = null;
     const resizeObserver = new ResizeObserver((entries) => {
-      // Clear previous timeout
-      if (resizeTimeout) {
-        clearTimeout(resizeTimeout);
-      }
-
-      // Get the new dimensions
+      if (resizeTimeout) clearTimeout(resizeTimeout);
       const entry = entries[0];
       const newWidth = entry.contentRect.width;
       const newHeight = entry.contentRect.height;
-
-      // Set new timeout to debounce the resize event
       resizeTimeout = setTimeout(() => {
-        // Only update if dimensions have actually changed
         if (newWidth > 0 && (isPreview || newHeight > 0)) {
-          // Don't remove the tooltip, just hide it temporarily during chart update
-          d3.select('.scatter-chart-tooltip').style('opacity', '0');
+          d3.select('.custom-scatter-tooltip').style('opacity', '0'); // Use updated class
           updateChart();
         }
       }, 100);
@@ -639,21 +600,12 @@ export const CustomScatterChart: React.FC<ScatterplotChartProps> = ({
       resizeObserver.observe(containerRef.current);
     }
 
-    // Create a more robust cleanup function
     return () => {
-      if (resizeTimeout) {
-        clearTimeout(resizeTimeout);
-      }
+      if (resizeTimeout) clearTimeout(resizeTimeout);
       resizeObserver.disconnect();
-
-      // Don't remove the tooltip on component unmount if it's being reused
-      // Just hide it with opacity to avoid flicker on remount
       tooltip.style('opacity', '0');
-
-      // Add a small delay before actually hiding it to prevent flicker during transitions
       setTimeout(() => {
-        // Only hide if component is truly unmounted (check if tooltip still exists)
-        const tooltipElement = document.querySelector('.scatter-chart-tooltip');
+        const tooltipElement = document.querySelector('.custom-scatter-tooltip'); // Use updated class
         if (tooltipElement && !document.contains(svgRef.current)) {
           tooltip.style('opacity', '0');
         }
@@ -669,20 +621,11 @@ export const CustomScatterChart: React.FC<ScatterplotChartProps> = ({
   return (
     <div
       ref={containerRef}
-      className={`w-full h-full flex items-center justify-center relative overflow-visible ${isPreview ? '' : 'fullscreen-chart'}`}
-      style={{
-        height: '100%', // Always take 100% of parent height
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        position: 'relative',
-        cursor: 'default',
-        minHeight: isPreview ? '350px' : '100%', // 100% in fullscreen mode
-        maxHeight: isPreview ? '350px' : 'none',
-        flex: 1, // Always use flex: 1 to take available space
-      }}
+      className={`w-full h-full flex flex-col items-center justify-center relative overflow-visible ${isPreview ? 'min-h-[350px] max-h-[350px]' : 'min-h-full'} flex-1 cursor-default`}
     >
       <svg ref={svgRef} className="w-full h-full" />
     </div>
   );
 };
+
+export const CustomScatterChart = React.memo(CustomScatterChartComponent);
